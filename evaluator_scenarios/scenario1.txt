@@ -1,0 +1,44 @@
+--- one dish that is on the menu
+
+Chatbot: Hello, Dear Customer!
+
+I am food order chat bot! My function is to help you choose and order food from various cafes and restaurants.
+
+What would you like to eat today?
+You: pasta
+
+Chatbot: Pasta is a great choice. Based on your preference, I would recommend the following restaurants that serve pasta:
+
+1. Roman Holiday (Italian restaurant)
+2. Sukhothai (Thai restaurant, they have a dish called Pad See Ew which is a stir-fried wide rice noodles with broccoli, egg, and your choice of protein in a sweet soy sauce)
+
+Would you like to choose one of these restaurants or would you like to explore other options?
+
+Also, please let me know if you have any specific type of pasta in mind (e.g. spaghetti, fettuccine, etc.) or any specific toppings you would like to have.
+
+You: What kinds of pasta do they have in Roman Holiday?
+
+Chatbot: Roman Holiday has a variety of pasta dishes on their menu. Here are some of the pasta dishes they have:
+
+1. **Spaghetti Carbonara**: Pasta dish with egg, pancetta, pecorino cheese, and black pepper
+2. **Gnocchi alla Sorrentina**: Potato dumplings with tomato sauce, mozzarella, and basil
+3. **Lasagna al Forno**: Layers of pasta, Bolognese sauce, bechamel, and melted cheese baked to perfection
+4. **Risotto ai Funghi**: Creamy risotto with mixed mushrooms, Parmesan cheese, and white wine
+5. **Caprese Salad** (not a traditional pasta dish, but a salad with fresh tomatoes, mozzarella cheese, basil, olive oil, and balsamic glaze)
+
+These are just a few examples of the pasta dishes they have on their menu. Would you like to order any of these dishes or would you like me to suggest something else?
+You: I want to order Spaghetti Carbonara from Roman Holiday
+
+Chatbot: Spaghetti Carbonara is a classic Italian dish. I'll add it to your order.
+
+So, to confirm:
+
+* Restaurant: Roman Holiday
+* Dish: Spaghetti Carbonara
+
+Now, let's talk about delivery time. When would you like to receive your order?
+You: This is correct. By 16:00.
+
+Chatbot: You have chosen to order Spaghetti Carbonara from Roman Holiday by 16:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+You: I confirm
+Chatbot: Great! Have a nice meal, our conversation is over.

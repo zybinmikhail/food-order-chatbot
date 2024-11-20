@@ -1,0 +1,57 @@
+Chatbot: Hello, Dear Customer!
+
+I am food order chat bot! My function is to help you choose and order food from various cafes and restaurants.
+
+What would you like to eat today?
+You: I want a big sushi set
+
+Chatbot: A big sushi set sounds delicious!
+
+For a big sushi set, I would recommend the following restaurants:
+
+1. **Nippon**: They have a variety of sushi sets, including a large selection of fresh raw fish and seafood.
+2. **Sukhothai**: Although they are a Thai restaurant, they also have a sushi menu that includes some unique and flavorful options.
+
+Would you like to order from one of these restaurants, or would you like me to suggest some other options?
+
+Also, would you like to know the menu options for these restaurants?
+You:  What are sushi set options in Nippon?
+
+Chatbot: Nippon has a variety of sushi sets to choose from. Here are some of their options:
+
+**Nippon Sushi Sets**
+
+* **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
+* **Chirashi Bowl**: A colorful bowl of sushi rice topped with an assortment of sashimi, vegetables, and tamago (sweet omelette) ($17.99)
+* **Sushi Combo**: A combination of sushi rolls, sashimi, and tempura bits, served with a side of miso soup ($19.99)
+
+They also have a variety of a la carte sushi options, including nigiri, maki rolls, and sashimi.
+
+Would you like to order one of these sushi sets, or would you like to customize your order with some additional items?
+
+Also, would you like to know the delivery time options for Nippon?
+You:  I want to order Chirashi Bowl
+
+Chatbot: The Chirashi Bowl is a popular and delicious option.
+
+So, to confirm, you would like to order the **Chirashi Bowl** from **Nippon**.
+
+Here is a summary of your order:
+
+* Restaurant: Nippon
+* Order: Chirashi Bowl ($17.99)
+
+Next, I need to know when you would like to receive your order. Would you like to choose a delivery time?
+
+Please select one of the following options:
+
+* **30 minutes**: We will deliver your order within 30 minutes.
+* **60 minutes**: We will deliver your order within 60 minutes.
+* **90 minutes**: We will deliver your order within 90 minutes.
+
+Please let me know your preferred delivery time.
+You: 
+ Oh no, I have changed my mind. I want to order Sushi (Assorted) from Nippon restaurant instead. Please deliver within 90 minutes.
+Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 90 minutes. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+You: I confirm
+Chatbot: Great! Have a nice meal, our conversation is over.
