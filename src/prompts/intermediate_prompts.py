@@ -47,7 +47,7 @@ Please review the conversation between the food ordering chatbot and the user.
 
 Carefully analyze the user's replies and the order summary made by the chatbot.
 
-Has the user already told the chatbot what didhes they have chosen to order?
+Has the user already told the chatbot what dishes they have chosen to order? All the dishes must come from the same restaurant.
 
 Keep in mind that the user can change their order. Newer information has higher priority.
 
@@ -57,16 +57,21 @@ Here is the conversation in the form of Python dictionary:
 {}
 </conversation>
 
+If the user has already told the chatbot what dishes they have chosen to order, then output the dishes the user ordered and the number of portions for each dish. If the user has not ordered anything yet, output the empty dictionary.
+
 Output format:
 ```json
 {{
-  "dishes": "List of dishes that the user has chosen during the conversation or empty if not chosen"
+  "dish_name_1": "the number of portions of dish_name_1 (if applicable)",
+  "dish_name_2": "the number of portions of dish_name_2 (if applicable)",
+  ...
+  "dish_name_n": "the number of portions of dish_name_n (if applicable, where n is the total numner of ordered dishes)",
 }}
 ```
 
 Carefully analyze the user's replies and the order summary made by the chatbot.
 
-Based on our conversation so far, has the user already provided chatbot with the exact information about what dishes they want to order?
+Based on our conversation so far, has the user already provided chatbot with the information about what dishes they want to order?  All the dishes must come from the same restaurant.
 
 Keep in mind that the user can change their order. Newer information has higher priority.
 

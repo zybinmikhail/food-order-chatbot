@@ -1,0 +1,37 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+User: I want a big dinner with a lot of meat
+
+Chatbot: A hearty dinner with a lot of meat sounds delicious!
+
+    To help you find the perfect restaurant, I'd like to know if you have any specific preferences. Do you have a preferred type of cuisine in mind, such as Italian, Mexican, or Asian?
+
+    Also, are there any specific types of meat you'd like to have in your dinner, such as beef, pork, chicken, or lamb?
+
+    Let me know, and I'll suggest some restaurants that fit your preferences!
+User: I want Italian dishes with beef 
+
+Chatbot: Italian dishes with beef sound perfect for a hearty dinner.
+
+    Based on your preference, I would recommend the following restaurant:
+
+    **Roman Holiday** - They have a variety of Italian dishes, including beef options like Lasagna al Forno (layers of pasta, Bolognese sauce, bechamel, and melted cheese baked to perfection).
+
+    Which of these restaurants sounds appealing to you?
+
+    Also, would you like to order any specific dishes from the menu?
+User:  Oh, yes, I want 4 portions of Lasagna!
+
+Chatbot: 4 portions of Lasagna would be a delicious meal!
+
+    Would you like to order anything else from this Roman Holiday restaurant? Also, when would you like your order received?
+
+User: Nothing else, tomorrow by 12:00
+
+Chatbot: You have chosen to order 4 portions of Lasagna from Roman Holiday by 12:00 tomorrow. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know.
+
+User: I confirm the order

@@ -16,7 +16,7 @@ def analyze_conversation(
     messages: list[dict[str, str]],
     model: str,
     client: openai.OpenAI,    
-    temperature: float = 0.2,
+    temperature: float = 0.1,
 ) -> str:
     generator = client.chat.completions.create(
         model=model,
@@ -36,7 +36,7 @@ def parse_llm_json(llm_response: str) -> str:
         llm_response = "}" + llm_response
     llm_response = llm_response[llm_response.find("{") : llm_response.find("}") + 1]
     llm_response = eval(llm_response)
-    return list(llm_response.values())[0]
+    return llm_response
 
 
 def order(restaurant_name: str, dishes_list: list[str], delivery_time: str) -> None:
@@ -53,7 +53,7 @@ def get_next_ai_message(
 
     logger.debug("Determining the chosen restaurant...")
     current_chosen_restaurant_json = analyze_conversation(ask_for_restaurant, messages, model, client)
-    current_chosen_restaurant = parse_llm_json(current_chosen_restaurant_json)
+    current_chosen_restaurant = parse_llm_json(current_chosen_restaurant_json)["restaurant_name"]
     logger.debug("Here is the determined chosen restaurant:", current_chosen_restaurant)
     
     logger.debug("Determining the chosen dishes...")
@@ -63,19 +63,14 @@ def get_next_ai_message(
     
     logger.debug("Determining the delivery time...")
     current_delivery_time_json = analyze_conversation(ask_for_delivery_time, messages, model, client)
-    current_delivery_time = parse_llm_json(current_delivery_time_json)
+    current_delivery_time = parse_llm_json(current_delivery_time_json)["delivery_time"]
     logger.debug("Here is the delivery time:", current_delivery_time)
 
     if current_chosen_restaurant and current_chosen_dishes and current_delivery_time:
-        ai_reply = "You have chosen to order {} from {} by {}. Is that correct? If so, please type 'I confirm' and our conversation will be over."
-        ai_reply = ai_reply.format(current_chosen_dishes, current_chosen_restaurant, current_delivery_time)
+        current_chosen_dishes_string = ", ".join([f"{value} portions of {key}" for key, value in current_chosen_dishes.items()]).strip()
+        ai_reply = "You have chosen to order {} from {} by {}. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know."
+        ai_reply = ai_reply.format(current_chosen_dishes_string, current_chosen_restaurant, current_delivery_time)
     else:
-        
-        # is_finished_flag = analyze_conversation(ask_is_finished, messages)
-        # if is_finished_flag == "Yes":
-        #     order(current_chosen_restaurant, current_chosen_dishes, current_delivery_time)
-        #     break
-    
         ai_reply_generator = client.chat.completions.create(
             model=model,
             messages=messages,
@@ -122,7 +117,7 @@ def make_conversation(messages: list[dict[str, str]], model: str, client) -> Non
     while True:
         print("You: ", end="")
         human_message = input()
-        if human_message == "I confirm":
+        if human_message == "I confirm the order":
             print("Chatbot: Great! Have a nice meal, our conversation is over.")
             break
         

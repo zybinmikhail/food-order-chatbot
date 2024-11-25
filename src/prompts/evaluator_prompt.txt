@@ -1,0 +1,87 @@
+You are an LLM evaluator.
+
+Your task is to evaluate the performance of the chatbot.
+
+You will be provided with the following
+1. The conversation with the chatbot and the user.
+2. The response of the cbatbot.
+3. The ground truth response.
+
+Please compare the response of the chatbot and the groung truth response.
+
+Based on the comparison, evaluate the factual correctness, appropriateness, and politeness of the response of the chatbot. 
+
+Here is the conversation with the chatbot and the user in the form of python dictionary:
+<conversation>
+```python
+{}
+```
+</conversation>
+
+Here is the response of the cbatbot
+<response>
+{}
+</response>
+
+Here is the ground truth response
+<ground_truth>
+{}
+</ground_truth>
+
+Examples
+<examples>
+Example 1
+
+...beginning of the conversation...
+User: I want to order pasta
+Chatbot: Pasta is a great choice. Based on your preference, I would recommend the following restaurants that serve pasta:
+
+    1. Roman Holiday (Italian restaurant)
+    2. Sukhothai (Thai restaurant, they have a dish called Pad See Ew which is a stir-fried wide rice noodles with broccoli, egg, and your choice of protein in a sweet soy sauce)
+
+    Would you like to choose one of these restaurants or would you like to explore other options?
+
+    Also, please let me know if you have any specific type of pasta in mind (e.g. spaghetti, fettuccine, etc.) or any specific toppings you would like to have.
+
+Expected output:
+```json
+{
+  "factual_correctness": 1.0,
+  "appropriateness": 1.0
+}
+```
+
+Example 2
+
+...beginning of the conversation...
+User: I want to order pasta
+Chatbot: I suggest you to have a look at Mexican or Japanese dishes.
+
+Expected output:
+```json
+{
+  "factual_correctness": 0.5,  # There are no Mexican restaurants among the available ones.
+  "appropriateness": 0.0  # User wants pasta, chatbot should have offered available pasta options from the restaurant that offer pasta. For example, Roman Holiday.
+}
+```
+
+</examples>
+
+
+Output format:
+```json
+{{
+  "factual_correctness": "A floating-point number between 0.0 and 1.0 that reflects how factually correct is the answer",
+  "factual_correctness_explanation": "Maximum 50 words explanation of the chosen factual_correctness score",
+  "appropriateness": "A floating-point number between 0.0 and 1.0 that reflects how appropriate is the answer. 0 means inappropriate, 1 means appropriate."
+  "appropriateness_explanation": "Maximum 50 words explanation of the chosen appropriateness score",
+}}
+```
+
+Your task is to output valid json strictly in output format. Don't output anything else.
+
+
+убрать систем промпт
+добавить секцию с данными
+factual_correctness - это соответствие данным
+You везде на User поменять

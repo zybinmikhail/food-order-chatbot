@@ -2,65 +2,70 @@
 -- cancel one item
 Chatbot: Hello, Dear Customer!
 
-I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
 
-What would you like to eat today?
-You:  I want sushi
+    What would you like to eat today?
+User:  I want sushi
 
 Chatbot: Sushi is a great choice. There are a few restaurants that serve sushi. Based on your choice, I would recommend the following restaurants:
 
-1. Nippon - They have a variety of sushi options, including Sushi (Assorted), which is a selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce.
+    1. Nippon - They have a variety of sushi options, including Sushi (Assorted), which is a selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce.
 
-Would you like to order from Nippon or would you like to explore other options?
+    Would you like to order from Nippon or would you like to explore other options?
 
-Also, please let me know if you have any other dishes in mind that you would like to order.
-You:  Yes, I want to orde susho from NIppon
+    Also, please let me know if you have any other dishes in mind that you would like to order.
+
+User:  Yes, I want to orde susho from NIppon
 
 Chatbot: You want to order Sushi (Assorted) from Nippon.
 
 Here is the menu for Nippon:
 
-**Nippon Menu**
+    **Nippon Menu**
 
-We have the following dishes available:
+    We have the following dishes available:
 
-1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
-2. **Tempura**: Lightly battered and fried shrimp and vegetables, served with a dipping sauce ($12.99)
-3. **Ramen**: A hearty noodle soup with broth, vegetables, and your choice of protein (chicken, pork, or tofu) ($10.99)
-4. **Teriyaki Chicken**: Grilled chicken marinated in a sweet and savory teriyaki sauce, served with steamed rice and vegetables ($14.99)
-5. **Gyoza**: Pan-fried dumplings filled with pork and vegetables, served with a tangy dipping sauce ($8.99)
-6. **Chirashi Bowl**: A colorful bowl of sushi rice topped with an assortment of sashimi, vegetables, and tamago (sweet omelette) ($17.99)
-7. **Yakitori**: Skewers of grilled chicken, vegetables, and tofu, glazed with a teriyaki sauce ($9.99)
-8. **Miso Soup**: A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions ($4.99)
-9. **Okonomiyaki**: A savory pancake made with cabbage, pork, and seafood, topped with a sweet and tangy sauce ($11.99)
-10. **Matcha Green Tea Ice Cream**: Creamy and refreshing ice cream infused with the earthy flavors of matcha green tea ($5.99)
+    1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
+    2. **Tempura**: Lightly battered and fried shrimp and vegetables, served with a dipping sauce ($12.99)
+    3. **Ramen**: A hearty noodle soup with broth, vegetables, and your choice of protein (chicken, pork, or tofu) ($10.99)
+    4. **Teriyaki Chicken**: Grilled chicken marinated in a sweet and savory teriyaki sauce, served with steamed rice and vegetables ($14.99)
+    5. **Gyoza**: Pan-fried dumplings filled with pork and vegetables, served with a tangy dipping sauce ($8.99)
+    6. **Chirashi Bowl**: A colorful bowl of sushi rice topped with an assortment of sashimi, vegetables, and tamago (sweet omelette) ($17.99)
+    7. **Yakitori**: Skewers of grilled chicken, vegetables, and tofu, glazed with a teriyaki sauce ($9.99)
+    8. **Miso Soup**: A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions ($4.99)
+    9. **Okonomiyaki**: A savory pancake made with cabbage, pork, and seafood, topped with a sweet and tangy sauce ($11.99)
+    10. **Matcha Green Tea Ice Cream**: Creamy and refreshing ice cream infused with the earthy flavors of matcha green tea ($5.99)
 
-Which dish would you like to add to your order?
+    Which dish would you like to add to your order?
 
-Also, please let me know what time you would like to have your order delivered.
-You: Sushi (Assorted) and Miso Soup
+    Also, please let me know what time you would like to have your order delivered.
+User: Sushi (Assorted) and Miso Soup
 
-Chatbot: You would like to order:
+    Chatbot: You would like to order:
 
-1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
-2. **Miso Soup**: A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions ($4.99)
+    1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
+    2. **Miso Soup**: A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions ($4.99)
 
-The total cost of your order is: $20.98
+    The total cost of your order is: $20.98
 
-Would you like to have your order delivered at a specific time? Please let me know the time you would like to have your order delivered.
-You: cancel Miso soup
+    Would you like to have your order delivered at a specific time? Please let me know the time you would like to have your order delivered.
+
+User: cancel Miso soup
 
 Chatbot: You would like to cancel the **Miso Soup** from your order.
 
-Your updated order is:
+    Your updated order is:
 
-1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
+    1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
 
-The total cost of your order is: $15.99
+    The total cost of your order is: $15.99
 
-Would you like to have your order delivered at a specific time? Please let me know the time you would like to have your order delivered.
-You:  By 12:00 please
+    Would you like to have your order delivered at a specific time? Please let me know the time you would like to have your order delivered.
+
+User:  By 12:00 please
 
 Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 12:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
-You:  I confirm
+
+User:  I confirm
+
 Chatbot: Great! Have a nice meal, our conversation is over.

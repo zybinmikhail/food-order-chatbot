@@ -2,46 +2,51 @@
 
 Chatbot: Hello, Dear Customer!
 
-I am food order chat bot! My function is to help you choose and order food from various cafes and restaurants.
+    I am food order chat bot! My function is to help you choose and order food from various cafes and restaurants.
 
-What would you like to eat today?
-You:  I want to have pasta and pizza
+    What would you like to eat today?
+
+User:  I want to have pasta and pizza
 
 Chatbot: Pasta and pizza sound delicious!
 
-Based on your preferences, I would recommend the following restaurants:
+    Based on your preferences, I would recommend the following restaurants:
 
-1. **Roman Holiday** - They have a variety of pasta dishes, such as Spaghetti Carbonara and Lasagna al Forno, and also offer classic pizzas like Margherita Pizza.
+    1. **Roman Holiday** - They have a variety of pasta dishes, such as Spaghetti Carbonara and Lasagna al Forno, and also offer classic pizzas like Margherita Pizza.
 
-Would you like to order from Roman Holiday?
+    Would you like to order from Roman Holiday?
 
-If you'd like to explore other options, I can also suggest:
+    If you'd like to explore other options, I can also suggest:
 
-2. **Burger Shef** - Although they specialize in burgers, they also have some pasta options, but not as extensive as Roman Holiday.
+    2. **Burger Shef** - Although they specialize in burgers, they also have some pasta options, but not as extensive as Roman Holiday.
 
-Please let me know if you'd like to proceed with Roman Holiday or explore other options.
+    Please let me know if you'd like to proceed with Roman Holiday or explore other options.
 
-Also, could you please tell me what time would you like the order to be delivered?
-You:  What options do they have in Roman Holiday?
+    Also, could you please tell me what time would you like the order to be delivered?
+
+User:  What options do they have in Roman Holiday?
 
 Chatbot: Roman Holiday has a wonderful menu. Here are some of their pasta and pizza options:
 
-**Pasta:**
+    **Pasta:**
 
-1. **Spaghetti Carbonara** - Pasta dish with egg, pancetta, pecorino cheese, and black pepper ($14.99)
-2. **Lasagna al Forno** - Layers of pasta, Bolognese sauce, bechamel, and melted cheese baked to perfection ($13.99)
-3. **Gnocchi alla Sorrentina** - Potato dumplings with tomato sauce, mozzarella, and basil ($11.99)
+    1. **Spaghetti Carbonara** - Pasta dish with egg, pancetta, pecorino cheese, and black pepper ($14.99)
+    2. **Lasagna al Forno** - Layers of pasta, Bolognese sauce, bechamel, and melted cheese baked to perfection ($13.99)
+    3. **Gnocchi alla Sorrentina** - Potato dumplings with tomato sauce, mozzarella, and basil ($11.99)
 
-**Pizza:**
+    **Pizza:**
 
-1. **Margherita Pizza** - Traditional pizza topped with tomato sauce, fresh mozzarella, basil, and olive oil ($12.99)
-2. **Caprese Salad** - Fresh tomatoes, mozzarella cheese, basil, olive oil, and balsamic glaze (Note: This is a salad, not a pizza, but it's a great option if you want a lighter meal!)
+    1. **Margherita Pizza** - Traditional pizza topped with tomato sauce, fresh mozzarella, basil, and olive oil ($12.99)
+    2. **Caprese Salad** - Fresh tomatoes, mozzarella cheese, basil, olive oil, and balsamic glaze (Note: This is a salad, not a pizza, but it's a great option if you want a lighter meal!)
 
-Please let me know which pasta or pizza option you'd like to order. If you'd like to order multiple items, just let me know and I'll be happy to help!
+    Please let me know which pasta or pizza option you'd like to order. If you'd like to order multiple items, just let me know and I'll be happy to help!
 
-Also, don't forget to tell me what time you'd like the order to be delivered.
-You:  I want Spaghetti Carbonara and Margherita Pizza from Roman Holiday by 16:00
+    Also, don't forget to tell me what time you'd like the order to be delivered.
+
+User:  I want Spaghetti Carbonara and Margherita Pizza from Roman Holiday by 16:00
 
 Chatbot: You have chosen to order Spaghetti Carbonara, Margherita Pizza from Roman Holiday by 16:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
-You:  I confirm
+
+User:  I confirm
+
 Chatbot: Great! Have a nice meal, our conversation is over.
