@@ -1,0 +1,83 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+User:  I want a small lunch. Can you recommend the restaurant? I want something spicy.
+
+Chatbot: A small lunch with something spicy sounds like a great idea!
+
+Considering your request for something spicy, I'd recommend checking out Sukhothai, a Thai restaurant. They have a variety of spicy dishes on their menu, such as Tom Yum Soup, Green Curry, and Som Tum (Papaya Salad).
+
+Would you like to order from Sukhothai?
+
+Here's a brief description of their menu:
+
+**Sukhothai Menu**
+
+* Pad Thai: Stir-fried rice noodles with shrimp, tofu, egg, bean sprouts, and peanuts in a tangy tamarind sauce ($12.99)
+* Tom Yum Soup: Spicy and sour soup with shrimp, mushrooms, lemongrass, and Thai herbs ($10.99)
+* Green Curry: Creamy coconut milk curry with chicken, eggplant, bamboo shoots, and basil ($13.99)
+* Som Tum (Papaya Salad): Shredded green papaya salad with tomatoes, green beans, peanuts, and a spicy lime dressing ($9.99)
+* And many more!
+
+Which dish catches your eye?
+
+User:  Green Curry is what I am looking for.
+
+Chatbot: Green Curry is a delicious and spicy dish.
+
+    To confirm, you'd like to order Green Curry from Sukhothai. Here are the details:
+
+    * Dish: Green Curry
+    * Restaurant: Sukhothai
+    * Quantity: How many portions would you like to order? (Please note that the maximum quantity is 15 portions.)
+
+    Also, would you like to specify any special requests or modifications for your order?
+
+    And, would you like to choose a delivery time? Sukhothai can deliver within the next hour or by a specific time today or tomorrow.
+
+User:  Oh, wait, sorry, I am allergic to mushrooms. Cancel Green Curry. List the dishes from Sukhothai without mushrooms.
+
+Chatbot: I've removed the Green Curry from the options since it contains mushrooms.
+
+    Here are the remaining dishes from Sukhothai that don't contain mushrooms:
+
+    **Sukhothai Menu (Mushroom-Free)**
+
+    * Pad Thai: Stir-fried rice noodles with shrimp, tofu, egg, bean sprouts, and peanuts in a tangy tamarind sauce ($12.99)
+    * Tom Yum Soup: Spicy and sour soup with shrimp, lemongrass, and Thai herbs ($10.99)
+    * Som Tum (Papaya Salad): Shredded green papaya salad with tomatoes, green beans, peanuts, and a spicy lime dressing ($9.99)
+    * Pad See Ew: Stir-fried wide rice noodles with broccoli, egg, and your choice of protein in a sweet soy sauce ($11.99)
+    * Massaman Curry: Rich and flavorful curry with beef, potatoes, onions, and peanuts in a fragrant sauce ($14.99)
+    * Thai Iced Tea: Sweet and creamy iced tea made with strong brewed black tea, condensed milk, and sugar ($4.99)
+    * Chicken Satay: Grilled marinated chicken skewers served with peanut sauce and cucumber salad ($8.99)
+    * Panang Curry: Thick and spicy curry with pork, bell peppers, kaffir lime leaves, and coconut milk ($12.99)
+
+    Which dish from this list would you like to order instead?
+
+User:
+    Then I want Massaman Curry
+
+    Chatbot: Massaman Curry is a rich and flavorful dish.
+
+    To confirm, you'd like to order Massaman Curry from Sukhothai. Here are the details:
+
+    * Dish: Massaman Curry
+    * Restaurant: Sukhothai
+    * Quantity: How many portions would you like to order? (Please note that the maximum quantity is 15 portions.)
+
+    Also, would you like to specify any special requests or modifications for your order?
+
+    And, would you like to choose a delivery time? Sukhothai can deliver within the next hour or by a specific time today or tomorrow.
+
+    Please let me know your quantity and delivery time, and I'll finalize your order!
+
+User:  1 portion, add Thai Iced Tea, by 14:00
+
+Chatbot: You have chosen to order 1 portion of Massaman Curry, 1 portion of Thai Iced Tea from Sukhothai by 14:00. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know.
+
+User:  I confirm the order
+
+Chatbot: Great! Have a nice meal, our conversation is over.

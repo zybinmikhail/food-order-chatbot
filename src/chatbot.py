@@ -7,7 +7,8 @@ from loguru import logger
 from prompts.intermediate_prompts import (
     ask_for_restaurant,
     ask_for_dishes,
-    ask_for_delivery_time, 
+    ask_for_delivery_time,
+    ask_for_end,
     greeting,
 )
 
@@ -66,9 +67,20 @@ def get_next_ai_message(
     current_delivery_time = parse_llm_json(current_delivery_time_json)["delivery_time"]
     logger.debug("Here is the delivery time:", current_delivery_time)
 
+    logger.debug("Determining if the order is made and confirmed")
+    is_finished_json = analyze_conversation(ask_for_end, messages, model, client)
+    is_finished = int(parse_llm_json(is_finished_json)["order_made"])
+    logger.debug("Is the conversation finished", is_finished) 
+
     if current_chosen_restaurant and current_chosen_dishes and current_delivery_time:
-        current_chosen_dishes_string = ", ".join([f"{value} portions of {key}" for key, value in current_chosen_dishes.items()]).strip()
-        ai_reply = "You have chosen to order {} from {} by {}. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know."
+        current_chosen_dishes_string = []
+        for i in range(len(current_chosen_dishes["dish_names"])):
+            num_portions = current_chosen_dishes["dish_quantities"][i]
+            dish_name = current_chosen_dishes["dish_names"][i]
+            portions_word = "portions" if num_portions > 1 else "portion"
+            current_chosen_dishes_string.append(f'{num_portions} {portions_word} of {dish_name}')
+        current_chosen_dishes_string = ", ".join(current_chosen_dishes_string)
+        ai_reply = "You have chosen to order {} from {} by {}. Is that correct?"
         ai_reply = ai_reply.format(current_chosen_dishes_string, current_chosen_restaurant, current_delivery_time)
     else:
         ai_reply_generator = client.chat.completions.create(
@@ -78,25 +90,30 @@ def get_next_ai_message(
             temperature=temperature,
         )
         ai_reply = ai_reply_generator.choices[0].message.content
-    return ai_reply
+    return ai_reply, is_finished
 
 
-def initialize_system_prompt() -> list[dict[str, str]]:
-    with open("prompts/system_prompt.txt") as fin:
-        system_prompt = fin.read()
+def initialize_menus_string() -> tuple[str, str]:
     descriptions = pd.read_csv("../data/restaurants.csv", sep=";")
     restaurant_names = set(descriptions.name)
-    system_prompt = system_prompt.format(descriptions.to_markdown())
     menus = []
     for name in restaurant_names:
         one_menu = f"""\n#### {name} menu table
-        Here are the only dishes that are available at {name}
-        <{name} menu table>
-        {pd.read_csv(f"../data/{name}.csv", sep=";").to_markdown()}
-        </{name} menu table>
-        """
+Here are the only dishes that are available at {name}
+<{name} menu table>
+{pd.read_csv(f"../data/{name}.csv", sep=";").to_markdown()}
+</{name} menu table>
+"""
         menus.append(one_menu)
     menus_string = "\n".join(menus)
+    return descriptions.to_markdown(), menus_string
+
+
+def initialize_system_prompt() -> str:
+    with open("prompts/system_prompt.txt") as fin:
+        system_prompt = fin.read()
+    descriptions, menus_string = initialize_menus_string()
+    system_prompt = system_prompt.format(descriptions)
     system_prompt = system_prompt.format(menus_string)
     return system_prompt
 
@@ -117,12 +134,10 @@ def make_conversation(messages: list[dict[str, str]], model: str, client) -> Non
     while True:
         print("You: ", end="")
         human_message = input()
-        if human_message == "I confirm the order":
-            print("Chatbot: Great! Have a nice meal, our conversation is over.")
-            break
-        
         messages.append({"role": "user", "content": human_message})
-        ai_reply = get_next_ai_message(messages, model, client)
+        ai_reply, is_finished = get_next_ai_message(messages, model, client)
         print("Chatbot: ", end="")
         print(ai_reply)
         messages.append({"role": "assistant", "content": ai_reply})
+        if is_finished:
+            break
