@@ -72,6 +72,7 @@ Output format:
 }}
 ```
 
+Your task is to output valid json strictly in output format. Don't output anything else.
 """
 
 ask_for_delivery_time = """You are conversation analyzer.
@@ -106,81 +107,80 @@ Keep in mind that the user can change their order.
 Your task is to output valid json strictly in output format. Don't output anything else.
 """
 
-ask_for_end = """
-You are conversation analyzer.
+ask_for_end = """You are language analyzing software.
 
-Please review the conversation between the food ordering chatbot and the user.
-
-Carefully analyze the user's replies and the order summary made by the chatbot.
-
-Has the user already fully provided chatbot with all the necessary information about their order and confirmed the order?
-
-Here is the conversation of the chatbot and the user:
-
-<conversation>
-{}
-</conversation>
+You are given the phrase. Determine whether its meaning is positive or negative.
 
 Examples
 <examples>
 Example 1
 
-...beginning of the conversation...
-Chatbot: You have chosen to order 1 portion of Chicken Parmigiana from Roman Holiday by right away. Is that correct?
-User: Yes! Totally correct
+Input:
+yes
 
 Expected output:
 ```json
 {{
-  "order_made": 1,
-  "order explanation": "User's replica indicates the confirmation of the order"
+  "meaning": 1
 }}
+```
 
 Example 2
 
-...beginning of the conversation...
-Chatbot: You have chosen to order 6 portions of Lobio, 6 portions of Chakapuli, 3 portions of Mtsvadi, 12 portions of Pkhali from Gagimarjos by 19:00. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know.
-User: Remove lobio please
+Input:
+no
 
 Expected output:
 ```json
 {{
-  "order_made": 0,
-  "order explanation": "user decided to change their order"
+  "meaning": 0
 }}
-
 ```
 
 Example 3
 
-...beginning of the conversation...
-Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 12:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
-User: confirm
+Input:
+I confirm
 
 Expected output:
 ```json
 {{
-  "order_made": 1,
-  "order explanation": "User's replica indicates the confirmation of the order"
+  "meaning": 1
 }}
-
 ```
 
+Example 4
+
+Input:
+I want to change the order
+
+Expected output:
+```json
+{{
+  "meaning": 0
+}}
+```
+
+Example 5
+
+Input:
+this is correct
+
+Expected output:
+```json
+{{
+  "meaning": 1
+}}
+```
 </examples>
 
 Output format:
 ```json
 {{
-  "order_made": "1 if all the order information was received by the chatbot from the user, and the order is created and confirmed by the user, 0 otherwise",
-  "order_explanation": "Maximum 50 words explanation of the chosen order_made value"
+  "meaning": "1 if the meaning of the phrase is positive, 0 otherwise",
 }}
 ```
 
-Please review the conversation between the food ordering chatbot and the user.
-
-Carefully analyze the user's replies and the order summary made by the chatbot. It is prohibited to suggest what the chatbot needs to do next.
-
-Has the user already fully provided chatbot with all the necessary information about their order and confirmed the order?
-
 Your task is to output only valid json strictly in output format.
+Don't output any python code. Output only the json dictionary.
 """

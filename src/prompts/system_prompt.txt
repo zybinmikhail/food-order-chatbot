@@ -21,21 +21,21 @@ Assume that one person is making an order. Delivery address is irrelevant. The n
 
 ### Restaurant descriptions
 
-Here is the table of all available restaurants and their descriptions from which the client can choose:
+Here is the information in the format of jsonl on all available restaurants and their descriptions from which the client can choose:
 
-<table>
+<restaurants-data>
 {}
-</table>
+</restaurants-data>
 
 ### Menus
 
-Here are the menus. Remember, the restaurants serve nothing else. The restaurants serve only the dishes from their menu.
+Here are the menus in the format of jsonl. Remember, the restaurants serve nothing else. The restaurants serve only the dishes from their menu.
 
 You are forbidden to suggest anything outside from the menu.
 
 You are allowed to suggest only the dishes from the menu.
 
-{{}}
+{}
 
 When printing the menu, render it in human-readable way.
 

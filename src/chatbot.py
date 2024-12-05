@@ -41,12 +41,63 @@ def parse_llm_json(llm_response: str) -> str:
 
 
 def order(restaurant_name: str, dishes_list: list[str], delivery_time: str) -> None:
+    current_chosen_dishes_string = generate_dishes_string(dishes_list)
     order_template = "Your order of {} from {} was successfully received and will be delivered to you by {}"
-    print(order_template.format(", ".join(dishes_list), restaurant_name, delivery_time))
+    print(order_template.format(current_chosen_dishes_string, restaurant_name, delivery_time))
+
+
+def initialize_menus_string() -> tuple[str, str]:
+    with open("../data/restaurants.jsonl") as fin:
+        descriptions = fin.readlines()
+    restaurant_names = [eval(description)["name"] for description in descriptions]
+    menus = []
+    for name in restaurant_names:
+        with open(f"../data/{name}.jsonl") as fin:
+            menu = fin.read()
+        one_menu = f"""\n#### {name} menu
+Here are the only dishes that are available at {name}
+<{name} menu>
+{menu}
+</{name} menu>
+"""
+        menus.append(one_menu)
+    menus_string = "\n".join(menus)
+    descriptions_string = "".join(descriptions)
+    return descriptions_string, menus_string
+
+
+def initialize_system_prompt() -> str:
+    with open("prompts/system_prompt.txt") as fin:
+        system_prompt = fin.read()
+    descriptions, menus_string = initialize_menus_string()
+    system_prompt = system_prompt.format(descriptions, menus_string)
+    return system_prompt
+
+
+def initialize_messages() -> list[dict[str, str]]:
+    system_prompt = initialize_system_prompt()
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": "Please help me to order food"},
+        {"role": "assistant", "content": greeting}
+    ]
+    return messages
+
+
+def generate_dishes_string(current_chosen_dishes):
+    current_chosen_dishes_string = []
+    for i in range(len(current_chosen_dishes["dish_names"])):
+        num_portions = current_chosen_dishes["dish_quantities"][i]
+        dish_name = current_chosen_dishes["dish_names"][i]
+        portions_word = "portions" if num_portions > 1 else "portion"
+        current_chosen_dishes_string.append(f'{num_portions} {portions_word} of {dish_name}')
+    current_chosen_dishes_string = ", ".join(current_chosen_dishes_string)
+    return current_chosen_dishes_string
 
 
 def get_next_ai_message(
     messages: list[dict[str, str]],
+    confirmation_requested: bool,
     model: str,
     client: openai.OpenAI,
     temperature: float = 0.1,
@@ -66,22 +117,21 @@ def get_next_ai_message(
     current_delivery_time_json = analyze_conversation(ask_for_delivery_time, messages, model, client)
     current_delivery_time = parse_llm_json(current_delivery_time_json)["delivery_time"]
     logger.debug("Here is the delivery time:", current_delivery_time)
-
-    logger.debug("Determining if the order is made and confirmed")
-    is_finished_json = analyze_conversation(ask_for_end, messages, model, client)
-    is_finished = int(parse_llm_json(is_finished_json)["order_made"])
-    logger.debug("Is the conversation finished", is_finished) 
+    
+    is_finished = False
+    if confirmation_requested:
+        logger.debug("Determining if the order is made and confirmed")
+        is_finished_json = analyze_conversation(ask_for_end, messages[-1]["content"], model, client)
+        is_finished = int(parse_llm_json(is_finished_json)["meaning"])
+        logger.debug("Is the conversation finished", is_finished)
+        if is_finished:
+            order(current_chosen_restaurant, current_chosen_dishes, current_delivery_time)
 
     if current_chosen_restaurant and current_chosen_dishes and current_delivery_time:
-        current_chosen_dishes_string = []
-        for i in range(len(current_chosen_dishes["dish_names"])):
-            num_portions = current_chosen_dishes["dish_quantities"][i]
-            dish_name = current_chosen_dishes["dish_names"][i]
-            portions_word = "portions" if num_portions > 1 else "portion"
-            current_chosen_dishes_string.append(f'{num_portions} {portions_word} of {dish_name}')
-        current_chosen_dishes_string = ", ".join(current_chosen_dishes_string)
+        current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
         ai_reply = "You have chosen to order {} from {} by {}. Is that correct?"
         ai_reply = ai_reply.format(current_chosen_dishes_string, current_chosen_restaurant, current_delivery_time)
+        confirmation_requested = True
     else:
         ai_reply_generator = client.chat.completions.create(
             model=model,
@@ -90,54 +140,21 @@ def get_next_ai_message(
             temperature=temperature,
         )
         ai_reply = ai_reply_generator.choices[0].message.content
-    return ai_reply, is_finished
-
-
-def initialize_menus_string() -> tuple[str, str]:
-    descriptions = pd.read_csv("../data/restaurants.csv", sep=";")
-    restaurant_names = set(descriptions.name)
-    menus = []
-    for name in restaurant_names:
-        one_menu = f"""\n#### {name} menu table
-Here are the only dishes that are available at {name}
-<{name} menu table>
-{pd.read_csv(f"../data/{name}.csv", sep=";").to_markdown()}
-</{name} menu table>
-"""
-        menus.append(one_menu)
-    menus_string = "\n".join(menus)
-    return descriptions.to_markdown(), menus_string
-
-
-def initialize_system_prompt() -> str:
-    with open("prompts/system_prompt.txt") as fin:
-        system_prompt = fin.read()
-    descriptions, menus_string = initialize_menus_string()
-    system_prompt = system_prompt.format(descriptions)
-    system_prompt = system_prompt.format(menus_string)
-    return system_prompt
-
-
-def initialize_messages() -> list[dict[str, str]]:
-    system_prompt = initialize_system_prompt()
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": "Please help me to order food"},
-        {"role": "assistant", "content": greeting}
-    ]
-    return messages
+    return ai_reply, confirmation_requested, is_finished
 
 
 def make_conversation(messages: list[dict[str, str]], model: str, client) -> None:
+    confirmation_requested = False
     print("Chatbot: ", end="")
     print(greeting)
     while True:
         print("You: ", end="")
         human_message = input()
         messages.append({"role": "user", "content": human_message})
-        ai_reply, is_finished = get_next_ai_message(messages, model, client)
+        ai_reply, confirmation_requested, is_finished = get_next_ai_message(messages, confirmation_requested, model, client)
+        if is_finished:
+            break
         print("Chatbot: ", end="")
         print(ai_reply)
         messages.append({"role": "assistant", "content": ai_reply})
-        if is_finished:
-            break
+

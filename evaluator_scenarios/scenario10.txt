@@ -1,0 +1,17 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+User: I want 3 classical cheeseburgers from Burger Shef by 3 pm today, nothing else, thank you
+
+Chatbot: You have chosen to order 3 portions of Classic Cheeseburger from Burger Shef by 3 pm today. Is that correct?
+
+User: no, I have changed my mind, make it two portions instead of three
+
+Chatbot: You have chosen to order 2 portions of Classic Cheeseburger from Burger Shef by 3 pm today. Is that correct?
+
+User: Yes, thanks
+
+Chatbot: Great! Your order is received, have a nice meal, our conversation is over.
