@@ -89,7 +89,7 @@ Chatbot: Based on your order, I'll calculate the total cost and confirm the deta
     * Desired delivery time: (Please specify a time within the next hour or a specific time today or tomorrow)
 User: I confirm. As for delivery, by 19:00 please
 
-Chatbot: You have chosen to order 6 portions of Lobio, 6 portions of Chakapuli, 3 portions of Mtsvadi, 12 portions of Pkhali from Gagimarjos by 19:00. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know.
+Chatbot: You have chosen to order 6 portions of Lobio, 6 portions of Chakapuli, 3 portions of Mtsvadi, 12 portions of Pkhali from Gagimarjos by 19:00. Is that correct?
 
 User: I confirm the order
 

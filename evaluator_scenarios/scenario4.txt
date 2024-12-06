@@ -51,8 +51,10 @@ Please select one of the following options:
 * **90 minutes**: We will deliver your order within 90 minutes.
 
 Please let me know your preferred delivery time.
-User: 
- Oh no, I have changed my mind. I want to order Sushi (Assorted) from Nippon restaurant instead. Please deliver within 90 minutes.
-Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 90 minutes. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+User: Oh no, I have changed my mind. I want to order Sushi (Assorted) from Nippon restaurant instead. Please deliver within 90 minutes.
+
+Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 90 minutes. Is that correct?
+
 User: I confirm
+
 Chatbot: Great! Have a nice meal, our conversation is over.

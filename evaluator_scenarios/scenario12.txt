@@ -1,0 +1,65 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+You: What kinds of cuisine can I order from you?
+
+Chatbot: We have a variety of cuisines to choose from. Our restaurants offer:
+
+    1. Japanese cuisine at Nippon
+    2. Burgers at Burger Shef
+    3. Thai cuisine at Sukhothai
+    4. Italian cuisine at Roman Holiday
+    5. Georgian cuisine at Gagimarjos
+
+    Which type of cuisine are you in the mood for today?
+
+You: Can I order from multiple restaurants at once?
+
+Chatbot: Unfortunately, we can only process orders from one restaurant at a time. However, I can help you choose the best restaurant for your order based on the dishes you want to order.
+
+    So, let's focus on one restaurant at a time. Which cuisine are you interested in ordering from?
+
+You: What are the three most popular Georgian dishes?
+
+Chatbot: Georgian cuisine is delicious and rich in flavors. Based on our menu, the three most popular Georgian dishes at Gagimarjos are:
+
+    1. **Khachapuri** - a cheese-filled bread topped with an egg and butter
+    2. **Khinkali** - juicy dumplings filled with spiced meat or vegetables
+    3. **Satsivi** - chicken or turkey in a walnut sauce, served with bread or rice
+
+    Would you like to order from Gagimarjos or explore other cuisines?
+
+You: I want 3 portions of Khachapuri and 15 portions of Khinkali
+
+Chatbot: Based on your order, I'd like to confirm the following:
+
+    * 3 portions of **Khachapuri** (cheese-filled bread) from Gagimarjos
+    * 15 portions of **Khinkali** (juicy dumplings) from Gagimarjos
+
+    Before I proceed, I'd like to confirm the total number of portions. You've ordered a total of 18 portions (3 Khachapuri + 15 Khinkali).
+
+    Also, I'd like to confirm that you'd like to order from Gagimarjos, which serves Georgian cuisine.
+
+    Is everything correct?
+
+You: Yes
+
+Chatbot: I'll proceed with your order.
+
+    To confirm, you'd like to order:
+
+    * 3 portions of **Khachapuri** (cheese-filled bread) from Gagimarjos
+    * 15 portions of **Khinkali** (juicy dumplings) from Gagimarjos
+
+    Next, I need to know when you'd like to receive your order. Would you like it delivered within the next hour, or would you prefer a specific time today or tomorrow?
+
+You: within the next hour, please
+
+Chatbot: You have chosen to order 3 portions of Khachapuri, 15 portions of Khinkali from Gagimarjos by within the next hour, please. Is that correct?
+
+You: totally
+
+Chatbot: Your order of 3 portions of Khachapuri, 15 portions of Khinkali from Gagimarjos was successfully received and will be delivered to you by within the next hour, please

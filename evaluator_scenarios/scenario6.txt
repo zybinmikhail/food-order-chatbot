@@ -21,15 +21,15 @@ Chatbot: Khinkali is a traditional Georgian dish. I see that Gagimarjos restaura
     Would you like to order Khinkali from Gagimarjos?
 User: yes, 10 khinkali by 12:00
 
-Chatbot: You have chosen to order Khinkali from Gagimarjos by 12:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+Chatbot: You have chosen to order Khinkali from Gagimarjos by 12:00. Is that correct?
 
 User: I also want 3 Churchkhela
 
-Chatbot: You have chosen to order Khinkali, Churchkhela from Gagimarjos by 12:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+Chatbot: You have chosen to order Khinkali, Churchkhela from Gagimarjos by 12:00. Is that correct?
 
 User: remove Khinkali and add lobio
 
-Chatbot: You have chosen to order Churchkhela, Lobio from Gagimarjos by 12:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+Chatbot: You have chosen to order Churchkhela, Lobio from Gagimarjos by 12:00. Is that correct?
 
 User:  I confirm
 

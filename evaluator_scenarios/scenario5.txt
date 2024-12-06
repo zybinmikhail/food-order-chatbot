@@ -64,7 +64,7 @@ Chatbot: You would like to cancel the **Miso Soup** from your order.
 
 User:  By 12:00 please
 
-Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 12:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 12:00. Is that correct?
 
 User:  I confirm
 

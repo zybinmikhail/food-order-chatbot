@@ -42,7 +42,7 @@ Chatbot: Spaghetti Carbonara is a classic Italian dish. I'll add it to your orde
 
 User: This is correct. By 16:00.
 
-Chatbot: You have chosen to order Spaghetti Carbonara from Roman Holiday by 16:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+Chatbot: You have chosen to order Spaghetti Carbonara from Roman Holiday by 16:00. Is that correct?
 
 User: I confirm
 

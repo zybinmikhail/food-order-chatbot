@@ -2,3 +2,4 @@ loguru==0.7.2
 openai==1.52.1
 pandas==2.2.3
 pyyaml==6.0.2
+seaborn==0.13.2

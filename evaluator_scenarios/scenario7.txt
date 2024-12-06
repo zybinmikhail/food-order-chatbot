@@ -32,6 +32,8 @@ Chatbot: 4 portions of Lasagna would be a delicious meal!
 
 User: Nothing else, tomorrow by 12:00
 
-Chatbot: You have chosen to order 4 portions of Lasagna from Roman Holiday by 12:00 tomorrow. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know.
+Chatbot: You have chosen to order 4 portions of Lasagna from Roman Holiday by 12:00 tomorrow. Is that correct? If, otherwise, you would like to change or add something, please let me know.
 
 User: I confirm the order
+
+Chatbot: Great! Have a nice meal, our conversation is over.

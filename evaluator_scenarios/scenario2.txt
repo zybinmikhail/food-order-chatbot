@@ -45,7 +45,7 @@ Chatbot: Roman Holiday has a wonderful menu. Here are some of their pasta and pi
 
 User:  I want Spaghetti Carbonara and Margherita Pizza from Roman Holiday by 16:00
 
-Chatbot: You have chosen to order Spaghetti Carbonara, Margherita Pizza from Roman Holiday by 16:00. Is that correct? If so, please type 'I confirm' and our conversation will be over.
+Chatbot: You have chosen to order Spaghetti Carbonara, Margherita Pizza from Roman Holiday by 16:00. Is that correct?
 
 User:  I confirm
 

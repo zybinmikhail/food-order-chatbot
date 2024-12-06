@@ -76,7 +76,7 @@ User:
 
 User:  1 portion, add Thai Iced Tea, by 14:00
 
-Chatbot: You have chosen to order 1 portion of Massaman Curry, 1 portion of Thai Iced Tea from Sukhothai by 14:00. Is that correct? If so, please exactly type 'I confirm the order' (without quotation marks) and our conversation will be over. If, otherwise, you would like to change or add something, please let me know.
+Chatbot: You have chosen to order 1 portion of Massaman Curry, 1 portion of Thai Iced Tea from Sukhothai by 14:00. Is that correct?
 
 User:  I confirm the order
 
