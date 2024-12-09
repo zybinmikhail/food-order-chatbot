@@ -4,8 +4,8 @@ Your task is to evaluate the performance of the food ordering chatbot.
 
 You will be provided with the following
 1. The data that the chatbot is allowed to use: 
-  1. The table of all available restaurants and their descriptions from which the client can choose and the chatbot should suggest.
-  2. The menus of all the restaurants.
+  1. All available restaurants and their descriptions in jsonl format from which the client can choose and the chatbot should suggest.
+  2. The menus of all the restaurants in jsonl format.
 2. The conversation of the chatbot and the user.
 3. The response of the cbatbot.
 4. The ground truth response.
@@ -76,6 +76,11 @@ Expected output:
 
 </examples>
 
+Guidelines:
+- It is OK if the ground truth response and chatbot response are slightly different as long as the meaning is the same
+- It is OK if the chatbot asks for delivery time, chosen restaurant or chosen dishes
+- Factual correctness means correspondence of the chatbot response and the information available for the chatbot to use (restaurants descriptions and their menus)
+- Appropriateness means how pertinent is what the chatbot replied to what the user said previously
 
 Output format:
 ```json

@@ -1,0 +1,44 @@
+Chatbot: Hello, Dear Customer!
+
+I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+What would you like to eat today?
+User: What can you offer?
+
+Chatbot: We have a variety of restaurants to choose from, each serving a unique cuisine. Here are the options:
+
+1. **Nippon** - Japanese cuisine, with dishes like Sushi, Tempura, Ramen, and more.
+2. **Burger Shef** - Burgers, sandwiches, and other American-style comfort food.
+3. **Sukhothai** - Thai cuisine, with dishes like Pad Thai, Tom Yum Soup, and Green Curry.
+4. **Roman Holiday** - Italian cuisine, with dishes like Pizza, Pasta, and more.
+5. **Gagimarjos** - Georgian cuisine, with dishes like Khinkali, Khachapuri, and more.
+
+Which type of cuisine are you in the mood for?
+User: Are there any other options?
+
+Chatbot: I'm afraid not. Those are the only 5 restaurants we have available. But don't worry, each one has a unique and delicious menu to choose from!
+
+Would you like to choose one of the options I listed earlier, or would you like me to tell you more about each restaurant?
+User: How many pizza options do you have in Roman Holiday? ALso, why it is called like that?
+
+Chatbot: In Roman Holiday, we have only **1** pizza option: **Margherita Pizza**. It's a classic Italian dish topped with tomato sauce, fresh mozzarella, basil, and olive oil.
+
+As for the name, Roman Holiday is inspired by the 1953 film of the same name, starring Audrey Hepburn and Gregory Peck. The film is a romantic comedy that follows a princess who escapes her royal duties to explore Rome. The restaurant's name is a nod to the film's charm and Italian setting, evoking a sense of la dolce vita (the sweet life) and Italian hospitality.
+
+Now, would you like to order from Roman Holiday or explore other options?
+User: What are the pizza size options?
+
+Chatbot: In Roman Holiday, the Margherita Pizza is available in only one size: **Standard size 26 cm**.
+User: Great. Can you deliver 3 Margherita Pizzas by a specific time?
+
+Chatbot: We'd be happy to deliver 3 Margherita Pizzas to you.
+
+To confirm, you'd like to order 3 Margherita Pizzas from Roman Holiday, correct?
+
+Now, let's talk about delivery time. What specific time would you like to receive your order? Please keep in mind that we can deliver within 1 hour, or by a specific time today or tomorrow.
+User: Yes, I confirm that. Please deliver by 6 pm today.
+
+Chatbot: You have chosen to order 3 portions of Margherita Pizza from Roman Holiday by 6 pm today. Is that correct?
+User: I confirm
+
+Chatbot: Your order of 3 portions of Margherita Pizza from Roman Holiday was successfully received and will be delivered to you by 6 pm today
