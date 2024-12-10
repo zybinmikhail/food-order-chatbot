@@ -41,7 +41,7 @@ def parse_llm_json(llm_response: str) -> str:
 
 def order(restaurant_name: str, dishes_list: list[str], delivery_time: str) -> None:
     current_chosen_dishes_string = generate_dishes_string(dishes_list)
-    order_template = "Your order of {} from {} was successfully received and will be delivered to you by {}"
+    order_template = "Chatbot: Your order of {} from {} was successfully received and will be delivered to you by {}"
     print(
         order_template.format(
             current_chosen_dishes_string, restaurant_name, delivery_time
@@ -115,21 +115,21 @@ def get_next_ai_message(
     current_chosen_restaurant = parse_llm_json(current_chosen_restaurant_json)[
         "restaurant_name"
     ]
-    logger.debug("Here is the determined chosen restaurant:", current_chosen_restaurant)
+    logger.debug("Here is the determined chosen restaurant:" + current_chosen_restaurant)
 
     logger.debug("Determining the chosen dishes...")
     current_chosen_dishes_json = analyze_conversation(
         ask_for_dishes, messages, model, client
     )
     current_chosen_dishes = parse_llm_json(current_chosen_dishes_json)
-    logger.debug("Here are the determined dishes:", current_chosen_dishes)
+    logger.debug("Here are the determined dishes:" + str(current_chosen_dishes))
 
     logger.debug("Determining the delivery time...")
     current_delivery_time_json = analyze_conversation(
         ask_for_delivery_time, messages, model, client
     )
     current_delivery_time = parse_llm_json(current_delivery_time_json)["delivery_time"]
-    logger.debug("Here is the delivery time:", current_delivery_time)
+    logger.debug("Here is the delivery time:" + current_delivery_time)
 
     is_finished = False
     if confirmation_requested:
@@ -138,13 +138,13 @@ def get_next_ai_message(
             ask_for_end, messages[-1]["content"], model, client
         )
         is_finished = int(parse_llm_json(is_finished_json)["meaning"])
-        logger.debug("Is the conversation finished", is_finished)
+        logger.debug("Is the conversation finished" + str(is_finished))
         if is_finished:
             order(
                 current_chosen_restaurant, current_chosen_dishes, current_delivery_time
             )
 
-    if current_chosen_restaurant and current_chosen_dishes and current_delivery_time:
+    if current_chosen_restaurant and current_chosen_dishes["dish_names"] and current_delivery_time:
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
         ai_reply = "You have chosen to order {} from {} by {}. Is that correct?"
         ai_reply = ai_reply.format(

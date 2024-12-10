@@ -43,10 +43,9 @@ Example 1
 
 ...beginning of the conversation...
 User: I want to order pasta
-Chatbot: Pasta is a great choice. Based on your preference, I would recommend the following restaurants that serve pasta:
+Chatbot: Pasta is a great choice. Based on your preference, I would recommend the following restaurant that serve pasta:
 
     1. Roman Holiday (Italian restaurant)
-    2. Sukhothai (Thai restaurant, they have a dish called Pad See Ew which is a stir-fried wide rice noodles with broccoli, egg, and your choice of protein in a sweet soy sauce)
 
     Would you like to choose one of these restaurants or would you like to explore other options?
 
@@ -77,8 +76,16 @@ Expected output:
 </examples>
 
 Guidelines:
+- Don't be too strict or too lenient. Be balanced and think carefully before coming up with the score
 - It is OK if the ground truth response and chatbot response are slightly different as long as the meaning is the same
-- It is OK if the chatbot asks for delivery time, chosen restaurant or chosen dishes
+- It is OK if the chatbot asks for delivery time, chosen restaurant, chosen dishes, the number of portions of each chosen dish, and whether the user wants anything else
+- It is correct for the chatbot to write the number of portions and ask about the number of portions
+- It is appropriate to provide the descriptions of the restaurants
+- The chatbot does not need to explain the user how to confirm the order, because the user confirms the order just by explicitly saying so
+- Keep in mind that the chatbot serves the small food delivery agency that has only 5 restaurants
+- It is appropriate if the chatbot asks the user whether the user wants to explore other options
+- It is OK to ask the user for the order confirmation and clarification
+- It is appropriate to ask the user to choose the cuisine they want
 - Factual correctness means correspondence of the chatbot response and the information available for the chatbot to use (restaurants descriptions and their menus)
 - Appropriateness means how pertinent is what the chatbot replied to what the user said previously
 

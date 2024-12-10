@@ -1,0 +1,45 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+You: When can I receive my order?
+
+Chatbot: We can deliver your order within the next hour, or you can specify a specific time today or tomorrow. Please let me know when you would like to receive your order.
+
+You: I want to receive my order by 12:00 tomorrow please
+
+Chatbot: We will make sure to deliver your order by 12:00 tomorrow. Now, let's talk about the food. Which restaurant would you like to order from? We have the following options:
+
+    1. **Nippon** (Japanese cuisine) - Experience the flavors of Japan at our authentic restaurant. Our menu offers Sushi (Assorted), Tempura, Ramen, Teriyaki Chicken, Gyoza, Chirashi Bowl, Yakitori, Miso Soup, Okonomiyaki, Matcha Green Tea Ice Cream.
+    2. **Burger Shef** (Burgers) - Satisfy your cravings for juicy, mouthwatering burgers at our restaurant. Sink your teeth into our signature burgers made with premium beef patties, fresh toppings, and savory sauces.
+    3. **Sukhothai** (Thai cuisine) - Transport your taste buds to Thailand at our vibrant and flavorful restaurant. Indulge in the exotic and aromatic dishes of Thai cuisine.
+    4. **Roman Holiday** (Italian cuisine) - Immerse yourself in the rich and comforting flavors of Italy at our charming restaurant. Indulge in classic Italian dishes.
+    5. **Gagimarjos** (Georgian cuisine) - Step into our Georgian restaurant and experience the unique and vibrant flavors of the Caucasus region. Delight in traditional Georgian dishes.
+
+    Which restaurant would you like to choose from?
+
+You: Show me the Sukhothai menu
+
+Chatbot: Here is the menu from **Sukhothai**, a Thai restaurant:
+
+**Sukhothai Menu**
+
+    1. **Pad Thai**: Stir-fried rice noodles with shrimp, tofu, egg, bean sprouts, and peanuts in a tangy tamarind sauce - $12.99
+    2. **Tom Yum Soup**: Spicy and sour soup with shrimp, mushrooms, lemongrass, and Thai herbs - $10.99
+    3. **Green Curry**: Creamy coconut milk curry with chicken, eggplant, bamboo shoots, and basil - $13.99
+    4. **Mango Sticky Rice**: Sweet dessert made with ripe mango, sticky rice, and coconut milk - $7.99
+    5. **Som Tum (Papaya Salad)**: Shredded green papaya salad with tomatoes, green beans, peanuts, and a spicy lime dressing - $9.99
+    6. **Pad See Ew**: Stir-fried wide rice noodles with broccoli, egg, and your choice of protein in a sweet soy sauce - $11.99
+    7. **Massaman Curry**: Rich and flavorful curry with beef, potatoes, onions, and peanuts in a fragrant sauce - $14.99
+    8. **Chicken Satay**: Grilled marinated chicken skewers served with peanut sauce and cucumber salad - $8.99
+    9. **Panang Curry**: Thick and spicy curry with pork, bell peppers, kaffir lime leaves, and coconut milk - $12.99
+
+    Which dish would you like to order from Sukhothai?
+
+You: 4 portions of Pad See Ew
+
+Chatbot: You have chosen to order 4 portions of Chicken Pad See Ew from Sukhothai by 12:00 tomorrow. Is that correct?
+
+You: Yes, exactly

@@ -1,0 +1,47 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+User: I want to order 3 chicken tacos from Mexican Macho by 3 pm today
+
+Chatbot: Based on your interest in chicken dishes, I would recommend the following restaurants:
+
+    1. Sukhothai (Thai cuisine) - They have a variety of chicken dishes such as Chicken Satay and Panang Curry.
+    2. Roman Holiday (Italian cuisine) - They have Chicken Parmigiana, which is a breaded chicken cutlet topped with marinara sauce and melted mozzarella cheese.
+    3. Gagimarjos (Georgian cuisine) - They have Chicken Satsivi, which is chicken in a walnut sauce, served with bread and rice.
+
+    Which one of these restaurants sounds appealing to you?
+
+User: I want all of these dishes
+
+Chatbot: You want to order all of the chicken dishes from the recommended restaurants. However, I need to clarify that you can only order from one restaurant at a time.
+
+    Let's start by choosing one of the recommended restaurants. Which one would you like to order from?
+
+    Please choose one of the following restaurants:
+
+    1. Sukhothai (Thai cuisine)
+    2. Roman Holiday (Italian cuisine)
+    3. Gagimarjos (Georgian cuisine)
+
+    Once you choose a restaurant, we can proceed with ordering the chicken dishes.
+
+User: What is the most popular?
+
+Chatbot: Based on our menu, I can suggest that the most popular chicken dish is the Teriyaki Chicken from Nippon (Japanese cuisine). It's a classic dish that many customers enjoy.
+
+    However, I also want to suggest that the Chicken Parmigiana from Roman Holiday (Italian cuisine) is a close second in terms of popularity. It's a breaded and fried chicken cutlet topped with marinara sauce and melted mozzarella cheese, which is a crowd-pleaser.
+
+    If you're looking for something a bit more exotic, the Chicken Satsivi from Gagimarjos (Georgian cuisine) is also a popular choice. It's a dish made with chicken in a walnut sauce, served with bread and rice.
+
+    Let me know if you'd like to order from one of these restaurants, or if you'd like to explore other options.
+
+User: I want to order 1 portion of the Chicken Parmigiana from Roman Holiday by 3 pm today
+
+Chatbot: You have chosen to order 1 portion of Chicken Parmigiana from Roman Holiday by 3 pm today. Is that correct?
+
+User: Yes, exactly
+
+Chatbot: Your order of 1 portion of Chicken Parmigiana from Roman Holiday was successfully received and will be delivered to you by 3 pm today

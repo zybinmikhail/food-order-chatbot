@@ -35,7 +35,7 @@ def evaluate_ai_reply(
     chatbot_data,
     model: str,
     client: openai.OpenAI,
-    temperature: float = 0.0,
+    temperature: float = 0.05,
 ) -> str:
     evaluator_prompt = template.format(
         chatbot_data, str(messages), predicted_message, ground_truth
