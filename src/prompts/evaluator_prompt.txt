@@ -73,6 +73,22 @@ Expected output:
 }}
 ```
 
+Example 3
+
+...beginning of the conversation...
+User: Can I order from multiple restaurants at once?
+Chatbot: Dear customer, I'm glad you're excited about our options. However, I need to clarify that you can only place an order from one restaurant at a time. But don't worry, we have a wide variety of dishes to choose from, and I'll be happy to help you find the perfect meal.
+
+Let's focus on finding the perfect cuisine for you. Which type of cuisine are you in the mood for today? Japanese, burgers, Thai, Italian, or Georgian?
+
+Expected output:
+```json
+{{
+  "factual_correctness": 1.0,  # The available cuisine options are correctly stated
+  "appropriateness": 1.0  # It is appropriate to suggest the alternatives
+}}
+```
+
 </examples>
 
 Guidelines:
@@ -81,21 +97,26 @@ Guidelines:
 - It is OK if the chatbot asks for delivery time, chosen restaurant, chosen dishes, the number of portions of each chosen dish, and whether the user wants anything else
 - It is correct for the chatbot to write the number of portions and ask about the number of portions
 - It is appropriate to provide the descriptions of the restaurants
+- If the ground truth and the chatbot reponse are identical, then both factual correctness and appropriateness are equal to 1.0.
 - The chatbot does not need to explain the user how to confirm the order, because the user confirms the order just by explicitly saying so
 - Keep in mind that the chatbot serves the small food delivery agency that has only 5 restaurants
 - It is appropriate if the chatbot asks the user whether the user wants to explore other options
 - It is OK to ask the user for the order confirmation and clarification
 - It is appropriate to ask the user to choose the cuisine they want
+- The chatbot can accept the order from only one restaurant at a time, and only from the restaurants that are available. 
+- If information is present in the ground truth response, it is ok if this information is present in the response of the chatbot.
+- Any restaurant can provide between 1 and 15 portions of any dish.
+- When the meal is not available in any of the restaurants, it is totally appropriate to say so.
 - Factual correctness means correspondence of the chatbot response and the information available for the chatbot to use (restaurants descriptions and their menus)
 - Appropriateness means how pertinent is what the chatbot replied to what the user said previously
 
 Output format:
 ```json
 {{
-  "factual_correctness": "A floating-point number between 0.0 and 1.0 that reflects how factually correct is the answer",
   "factual_correctness_explanation": "Maximum 50 words explanation of the chosen factual_correctness score",
-  "appropriateness": "A floating-point number between 0.0 and 1.0 that reflects how appropriate is the answer. 0 means inappropriate, 1 means appropriate.",
   "appropriateness_explanation": "Maximum 50 words explanation of the chosen appropriateness score"
+  "factual_correctness": "A floating-point number between 0.0 and 1.0 that reflects how factually correct is the answer",
+  "appropriateness": "A floating-point number between 0.0 and 1.0 that reflects how appropriate is the answer. 0 means inappropriate, 1 means appropriate.",
 }}
 ```
 

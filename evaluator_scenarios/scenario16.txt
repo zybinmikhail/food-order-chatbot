@@ -1,0 +1,45 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+User: I want to order from Pizza House
+
+Chatbot: I'm happy to help you with your order, but I have to inform you that there is no "Pizza House" in our list of available restaurants. However, we do have "Roman Holiday" which serves Italian cuisine, including pizzas.
+
+    Would you like to order from "Roman Holiday" instead?
+
+User: yes, 3 large pizzas
+
+Chatbot: I'm glad you chose "Roman Holiday"! However, I have to inform you that they only serve one size of pizza, which is a Standard size 26 cm. They don't have a "large" pizza option.
+
+    Would you like to order 3 Standard size pizzas from "Roman Holiday"?
+
+User: Not really. In this case, I want 3 big burgers. Do you have burger delivery options?
+
+Chatbot: We do have a restaurant that serves burgers. "Burger Shef" is a great option for you. They have a variety of delicious burgers on their menu.
+
+    However, I have to inform you that they don't have a "big" burger option. They have different types of burgers, such as Classic Cheeseburger, BBQ Bacon Burger, Mushroom Swiss Burger, and more.
+
+    Would you like to order from "Burger Shef" instead?
+
+User: 3 BBQ Bacon Burgers please, by 6 pm today
+
+Chatbot: I'd be happy to help you with your order.
+
+    Here's a summary of your order:
+
+    * Restaurant: Burger Shef
+    * Order: 3 BBQ Bacon Burgers
+    * Delivery time: by 6 pm today
+
+    Before I confirm your order, I just want to confirm the details. You'd like to order 3 BBQ Bacon Burgers, which is a total of $35.97. You'd like to have them delivered by 6 pm today.
+
+    Is that correct?
+
+User: Yes, that's correct, I confirm
+
+Chatbot: You have chosen to order 3 portions of BBQ Bacon Burger from Burger Shef by by 6 pm today. Is that accurate?
+
+User: Exactly, buddy

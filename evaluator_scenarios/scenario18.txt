@@ -1,0 +1,55 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+User: what pasta options do you havw
+
+Chatbot: We have several pasta options available from different restaurants. 
+
+    From Roman Holiday, we have:
+    - Spaghetti Carbonara (pasta) ($14.99)
+    - Lasagna al Forno ($13.99)
+    - Gnocchi alla Sorrentina ($11.99)
+
+    From Sukhothai, we have:
+    - Chicken Pad See Ew ($11.99)
+
+    If you're interested in any of these options, I can guide you through the ordering process.
+
+User: add 3 Lasagna al Forno, 5 Gnocchi alla Sorrentina, 2 Spaghetti Carbonara
+
+Chatbot: You'd like to order:
+
+    - 3 Lasagna al Forno ($13.99 x 3 = $41.97)
+    - 5 Gnocchi alla Sorrentina ($11.99 x 5 = $59.95)
+    - 2 Spaghetti Carbonara ($14.99 x 2 = $29.98)
+
+    Total cost: $41.97 + $59.95 + $29.98 = $132.90
+
+    Now, let's talk about the restaurant. Since you're ordering pasta, I would recommend choosing Roman Holiday as your restaurant. They have a wide variety of pasta dishes, and the ones you've chosen are all part of their menu.
+
+    Would you like to order from Roman Holiday?
+
+You: Yes, I want to order from ROman Holiday. Remove 1 Spaghetti Carbonara and 1 Gnocchi alla Sorrentina, add some drink
+
+Chatbot: You'd like to remove 1 Spaghetti Carbonara and 1 Gnocchi alla Sorrentina from your order.
+
+    Here's the updated order:
+
+    - 3 Lasagna al Forno ($13.99 x 3 = $41.97)
+    - 4 Gnocchi alla Sorrentina ($11.99 x 4 = $47.96)
+    - 1 Spaghetti Carbonara ($14.99)
+
+    Total cost: $41.97 + $47.96 + $14.99 = $104.92
+
+    Your order is now complete. Let's move on to the delivery details.
+
+    When would you like to receive your order? Would you like it delivered within the next hour, or would you prefer a specific time today or tomorrow?
+
+User: Yes, this is correct. Deliver within the next hoour please
+
+Chatbot: You have chosen to order 3 portions of Lasagna al Forno, 4 portions of Gnocchi alla Sorrentina, 1 portion of Spaghetti Carbonara from Roman Holiday by within the next hour. Is that accurate?
+
+User: Yes!

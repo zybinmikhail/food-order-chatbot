@@ -8,7 +8,7 @@ User: I want a big dinner with a lot of meat
 
 Chatbot: A hearty dinner with a lot of meat sounds delicious!
 
-    To help you find the perfect restaurant, I'd like to know if you have any specific preferences. Do you have a preferred type of cuisine in mind, such as Italian, Mexican, or Asian?
+    To help you find the perfect restaurant, I'd like to know if you have any specific preferences. Do you have a preferred type of cuisine in mind, such as Italian, Georgian, or Asian?
 
     Also, are there any specific types of meat you'd like to have in your dinner, such as beef, pork, chicken, or lamb?
 

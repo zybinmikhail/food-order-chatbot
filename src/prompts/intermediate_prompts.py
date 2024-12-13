@@ -4,17 +4,16 @@ I am food order chatbot! My function is to help you choose and order food from v
 
 What would you like to eat today?"""
 
-ask_for_restaurant = """You are conversation analyzer.
+ask_for_restaurant_dishes_delivery_time = """You are conversation analyzer.
 
 Please review the conversation between the food ordering chatbot and the user.
 
 Carefully analyze the user's replies and the order summary made by the chatbot.
 
-Has the user already told the chatbot what restaurant they have chosen to have order from?
-
-Keep in mind that the user can change their order.
-
-Keep in mind: if the user has chosen a specific dish, it means they have chosen the restaurant where this dish comes from.
+Ask yourself the following questions:
+- Has the user already told the chatbot what restaurant they have chosen to have order from?
+- Has the user already told the chatbot what dishes they have chosen to order? 
+- Has the user already provided chatbot with the information about what delivery time they have chosen?
 
 Here is the conversation of the chatbot and the user:
 
@@ -22,20 +21,35 @@ Here is the conversation of the chatbot and the user:
 {}
 </conversation>
 
-Output format:
-```json
-{{
-  "restaurant_name": "Restaurant name that the user has chosen during the conversation or empty if not chosen"
-}}
-```
-
 Guidelines:
 - Carefully analyze the user's replies and the order summary made by the chatbot.
 - Has the user already told the chatbot what restaurant they have chosen to have order from?
 - The user can change their order. If the user canceled their order, it means they do not want the dishes from that order.  Newer information has higher priority.
-- If the user has chosen a specific dish, it means they have also chosen the restaurant where this dish comes from.
+- If the user has chosen a specific dish, it means they have also chosen the restaurant where this dish comes from. Dish information has higher priority.
 - All dishes must be from the same restaurant that the user has chosen.
+- If the user has already told the chatbot what dishes they have chosen to order, then output the dishes the user ordered and the number of portions for each dish.
 - Your task is to output valid json strictly in output format. Don't output anything else.
+- All the DISTINCT dishes from the "dish_names" output field must come from the same restaurant "restaurant_name".
+- Keep in mind that the user can change their order. Newer information has higher priority. Pay special attention to the last user reply.
+- Keep in mind: if the user has chosen a specific dish, it means they have chosen the restaurant where this dish comes from.
+- Carefully analyze the user's replies and the order summary made by the chatbot.
+- Based on the conversation of the chatbot and the user, has the user already provided chatbot with the information about what dishes they want to order? 
+- If the user has not ordered anything specific yet, the fields of your json output must be empty lists. 
+- The user can change their order. Newer information has higher priority. All dish names must be exactly present in the menu of one restaurant. All the dishes must come from the same restaurant.
+- Pay attention when the user says "No", "Not really", "I changed my mind", and so on. 
+- Output valid json strictly in output format.
+
+Output format:
+```json
+{{
+  "dish_names": "List of DISTINCT names of the dishes that the user has ordered from the restaurant_name or empty list if the user has not ordered anything yet",
+  "dish_quantities": "List of the number of portions for each dish that the user has ordered or empty list if the user has not ordered anything yet",
+  "restaurant_name": "Restaurant name that the user has chosen during the conversation or empty if not chosen",
+  "delivery_time": "Delivery time that the user has chosen during the conversation or empty if not chosen"
+}}
+```
+
+Your task is to output valid json strictly in output format. Don't output anything else.
 """
 
 ask_for_dishes = """Please review the conversation between the food ordering chatbot and the user.
@@ -172,6 +186,31 @@ Expected output:
   "meaning": 1
 }}
 ```
+
+Example 6
+
+Input:
+I also want 3 Churchkhela
+
+Expected output:
+```json
+{{
+  "meaning": 0
+}}
+```
+
+Example 7
+
+Input:
+remove Khinkali and add lobio
+
+Expected output:
+```json
+{{
+  "meaning": 0
+}}
+```
+
 </examples>
 
 Output format:

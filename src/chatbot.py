@@ -5,9 +5,7 @@ from loguru import logger
 
 
 from prompts.intermediate_prompts import (
-    ask_for_restaurant,
-    ask_for_dishes,
-    ask_for_delivery_time,
+    ask_for_restaurant_dishes_delivery_time,
     ask_for_end,
     greeting,
 )
@@ -26,6 +24,24 @@ def analyze_conversation(
         temperature=temperature,
     )
     return generator.choices[0].message.content
+
+
+def postprocess_conversation_analysis(current_chosen_info_json):
+    current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
+    restaurant_in = "restaurant_name" in current_chosen_info_json_parsed
+    names_in = "dish_names" in current_chosen_info_json_parsed
+    quantities_in = "dish_quantities" in current_chosen_info_json_parsed
+    time_in = "delivery_time" in current_chosen_info_json_parsed
+    if not (restaurant_in and names_in and quantities_in and time_in):
+        return "", "", "", False
+    
+    current_chosen_restaurant = current_chosen_info_json_parsed["restaurant_name"]
+    current_chosen_dishes = {
+        "dish_names": current_chosen_info_json_parsed["dish_names"],
+        "dish_quantities": current_chosen_info_json_parsed["dish_quantities"],
+    }
+    current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
+    return current_chosen_restaurant, current_chosen_dishes, current_delivery_time, True
 
 
 def parse_llm_json(llm_response: str) -> str:
@@ -105,31 +121,19 @@ def get_next_ai_message(
     confirmation_requested: bool,
     model: str,
     client: openai.OpenAI,
-    temperature: float = 0.1,
+    temperature: float = 0.05,
 ) -> tuple[str, list[dict[str, str]]]:
 
-    logger.debug("Determining the chosen restaurant...")
-    current_chosen_restaurant_json = analyze_conversation(
-        ask_for_restaurant, messages, model, client
+    current_chosen_info_json = analyze_conversation(
+        ask_for_restaurant_dishes_delivery_time, messages, model, client
     )
-    current_chosen_restaurant = parse_llm_json(current_chosen_restaurant_json)[
-        "restaurant_name"
-    ]
-    logger.debug("Here is the determined chosen restaurant:" + current_chosen_restaurant)
 
-    logger.debug("Determining the chosen dishes...")
-    current_chosen_dishes_json = analyze_conversation(
-        ask_for_dishes, messages, model, client
-    )
-    current_chosen_dishes = parse_llm_json(current_chosen_dishes_json)
-    logger.debug("Here are the determined dishes:" + str(current_chosen_dishes))
-
-    logger.debug("Determining the delivery time...")
-    current_delivery_time_json = analyze_conversation(
-        ask_for_delivery_time, messages, model, client
-    )
-    current_delivery_time = parse_llm_json(current_delivery_time_json)["delivery_time"]
-    logger.debug("Here is the delivery time:" + current_delivery_time)
+    # In case of wrong json format, just repeat
+    success = False
+    while not success:
+        current_chosen_restaurant, current_chosen_dishes, current_delivery_time, success = (
+            postprocess_conversation_analysis(current_chosen_info_json)
+        )
 
     is_finished = False
     if confirmation_requested:
@@ -144,9 +148,13 @@ def get_next_ai_message(
                 current_chosen_restaurant, current_chosen_dishes, current_delivery_time
             )
 
-    if current_chosen_restaurant and current_chosen_dishes["dish_names"] and current_delivery_time:
+    if (
+        current_chosen_restaurant
+        and current_chosen_dishes["dish_names"]
+        and current_delivery_time
+    ):
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
-        ai_reply = "You have chosen to order {} from {} by {}. Is that correct?"
+        ai_reply = "You have chosen to order {} from {} by {}. Is that accurate?"
         ai_reply = ai_reply.format(
             current_chosen_dishes_string,
             current_chosen_restaurant,

@@ -1,0 +1,52 @@
+Chatbot: You're looking for a Margherita Pizza. That sounds delicious!
+
+    However, I need to clarify that you mentioned "51 pizza", but I couldn't find any information about a "51" pizza. Could you please tell me which restaurant you would like to order from? We have a variety of restaurants to choose from, including Roman Holiday, which serves a classic Margherita Pizza.
+
+    Here are some options:
+
+    1. **Roman Holiday**: Italian cuisine, known for their delicious pizzas, including the Margherita Pizza.
+    2. **Burger Shef**: Burgers and sandwiches, but no pizzas.
+    3. **Nippon**: Japanese cuisine, with a variety of sushi and noodle dishes.
+    4. **Sukhothai**: Thai cuisine, with a range of spicy and sour dishes.
+    5. **Gagimarjos**: Georgian cuisine, with a focus on meat and vegetable dishes.
+
+    Which restaurant would you like to order from?
+
+User: That was a typo, I want 5 Margherita Pizza from Roman Holiday
+
+Chatbot: You'd like to order 5 Margherita Pizzas from Roman Holiday. That sounds like a great choice!
+
+    Here's a brief description of Roman Holiday:
+
+    **Roman Holiday**: Italian cuisine, known for their delicious pizzas, including the Margherita Pizza. Experience the rich flavors of Italy in a charming atmosphere.
+
+    Now, let's take a look at the menu for Roman Holiday:
+
+    **Menu:**
+
+    1. **Margherita Pizza**: Traditional pizza topped with tomato sauce, fresh mozzarella, basil, and olive oil. ($12.99)
+    2. **Spaghetti Carbonara (pasta)**: Pasta dish with egg, pancetta, pecorino cheese, and black pepper. ($14.99)
+    3. **Chicken Parmigiana**: Breaded chicken cutlets topped with marinara sauce and melted mozzarella cheese. ($16.99)
+    4. **Risotto ai Funghi**: Creamy risotto with mixed mushrooms, Parmesan cheese, and white wine. ($15.99)
+    5. **Lasagna al Forno**: Layers of pasta, Bolognese sauce, bechamel, and melted cheese baked to perfection. ($13.99)
+    6. **Caprese Salad**: Fresh tomatoes, mozzarella cheese, basil, olive oil, and balsamic glaze. ($9.99)
+    7. **Tiramisu**: Classic Italian dessert made with layers of coffee-soaked ladyfingers and mascarpone cream. ($7.99)
+    8. **Gnocchi alla Sorrentina**: Potato dumplings with tomato sauce, mozzarella, and basil. ($11.99)
+    9. **Osso Buco**: Braised veal shanks with vegetables, white wine, and gremolata. ($19.99)
+    10. **Panna Cotta**: Creamy Italian dessert topped with fruit compote. ($6.99)
+
+    You've already chosen the Margherita Pizza. Would you like to add any other dishes to your order?
+
+    Please respond with the following information:
+
+    1. How many portions of each dish would you like to order? (e.g., 5 Margherita Pizzas)
+    2. Would you like to add any other dishes to your order?
+    3. What time would you like to receive your order?
+
+User: 5 pizzas, nothing else, thsnk you, within an hour
+
+Chatbot: You have chosen to order 5 portions of Margherita Pizza from Roman Holiday by within an hour. Is that accurate?
+
+User: yes
+
+Chatbot: Your order of 5 portions of Margherita Pizza from Roman Holiday was successfully received and will be delivered to you by within an hour

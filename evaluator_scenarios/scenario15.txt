@@ -4,23 +4,17 @@ Chatbot: Hello, Dear Customer!
 
     What would you like to eat today?
 
-You: When can I receive my order?
+User: When can I receive my order?
 
 Chatbot: We can deliver your order within the next hour, or you can specify a specific time today or tomorrow. Please let me know when you would like to receive your order.
 
-You: I want to receive my order by 12:00 tomorrow please
+User: I want to receive my order by 12:00 tomorrow please
 
-Chatbot: We will make sure to deliver your order by 12:00 tomorrow. Now, let's talk about the food. Which restaurant would you like to order from? We have the following options:
+Chatbot: We can deliver your order by 12:00 tomorrow. That's settled then.
 
-    1. **Nippon** (Japanese cuisine) - Experience the flavors of Japan at our authentic restaurant. Our menu offers Sushi (Assorted), Tempura, Ramen, Teriyaki Chicken, Gyoza, Chirashi Bowl, Yakitori, Miso Soup, Okonomiyaki, Matcha Green Tea Ice Cream.
-    2. **Burger Shef** (Burgers) - Satisfy your cravings for juicy, mouthwatering burgers at our restaurant. Sink your teeth into our signature burgers made with premium beef patties, fresh toppings, and savory sauces.
-    3. **Sukhothai** (Thai cuisine) - Transport your taste buds to Thailand at our vibrant and flavorful restaurant. Indulge in the exotic and aromatic dishes of Thai cuisine.
-    4. **Roman Holiday** (Italian cuisine) - Immerse yourself in the rich and comforting flavors of Italy at our charming restaurant. Indulge in classic Italian dishes.
-    5. **Gagimarjos** (Georgian cuisine) - Step into our Georgian restaurant and experience the unique and vibrant flavors of the Caucasus region. Delight in traditional Georgian dishes.
+Now, let's talk about the food. What would you like to eat today? Which type of cuisine are you in the mood for? Italian, Japanese, Thai, Georgian, or maybe a juicy burger?
 
-    Which restaurant would you like to choose from?
-
-You: Show me the Sukhothai menu
+User: Show me the Thai menu
 
 Chatbot: Here is the menu from **Sukhothai**, a Thai restaurant:
 
@@ -38,8 +32,8 @@ Chatbot: Here is the menu from **Sukhothai**, a Thai restaurant:
 
     Which dish would you like to order from Sukhothai?
 
-You: 4 portions of Pad See Ew
+User: 4 portions of Pad See Ew
 
 Chatbot: You have chosen to order 4 portions of Chicken Pad See Ew from Sukhothai by 12:00 tomorrow. Is that correct?
 
-You: Yes, exactly
+User: Yes, exactly
