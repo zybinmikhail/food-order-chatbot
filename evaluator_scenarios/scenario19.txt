@@ -1,0 +1,13 @@
+Chatbot: Hello, Dear Customer!
+
+    I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
+
+    What would you like to eat today?
+
+You: 3 churchkhela and 1 lobio by 1 pm, nothing else, thanks
+
+Chatbot: You have chosen to order 3 portions of Churchkhela, 1 portion of Lobio from Gagimarjos by 1 pm. Is that accurate?
+
+You: change the order. make it 5 Churchkhela and 2 lobio by 2 pm
+
+Chatbot: Your order of 5 portions of Churchkhela, 2 portions of Lobio from Gagimarjos was successfully received and will be delivered to you by 2 pm

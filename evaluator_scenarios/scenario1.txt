@@ -24,10 +24,8 @@ Chatbot: Roman Holiday has a variety of pasta dishes on their menu. Here are som
     1. **Spaghetti Carbonara**: Pasta dish with egg, pancetta, pecorino cheese, and black pepper
     2. **Gnocchi alla Sorrentina**: Potato dumplings with tomato sauce, mozzarella, and basil
     3. **Lasagna al Forno**: Layers of pasta, Bolognese sauce, bechamel, and melted cheese baked to perfection
-    4. **Risotto ai Funghi**: Creamy risotto with mixed mushrooms, Parmesan cheese, and white wine
-    5. **Caprese Salad** (not a traditional pasta dish, but a salad with fresh tomatoes, mozzarella cheese, basil, olive oil, and balsamic glaze)
 
-    These are just a few examples of the pasta dishes they have on their menu. Would you like to order any of these dishes or would you like me to suggest something else?
+    Would you like to order any of these dishes or would you like me to suggest something else?
 
 User: I want to order Spaghetti Carbonara from Roman Holiday
 

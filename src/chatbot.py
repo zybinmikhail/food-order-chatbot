@@ -154,10 +154,12 @@ def get_next_ai_message(
         and current_delivery_time
     ):
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
-        ai_reply = "You have chosen to order {} from {} by {}. Is that accurate?"
+        add_by = "" if current_delivery_time.startswith("within") else " by"
+        ai_reply = "You have chosen to order {} from {}{} {}. Is that accurate?"
         ai_reply = ai_reply.format(
             current_chosen_dishes_string,
             current_chosen_restaurant,
+            add_by,
             current_delivery_time,
         )
         confirmation_requested = True

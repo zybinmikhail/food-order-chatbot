@@ -195,7 +195,7 @@ I also want 3 Churchkhela
 Expected output:
 ```json
 {{
-  "meaning": 0
+  "meaning": 0  # This sentence contains no confirmation
 }}
 ```
 
@@ -207,7 +207,19 @@ remove Khinkali and add lobio
 Expected output:
 ```json
 {{
-  "meaning": 0
+  "meaning": 0  # the user asked to change their order, therefore the meaning is negative
+}}
+```
+
+Example 8
+
+Input:
+change the order. make it 5 Churchkhela and 2 lobio by 2 pm
+
+Expected output:
+```json
+{{
+  "meaning": 0  # the user asked to change the order, so additional confirmation has to be made after updating the order
 }}
 ```
 

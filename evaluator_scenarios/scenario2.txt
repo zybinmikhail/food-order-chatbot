@@ -10,15 +10,11 @@ User:  I want to have pasta and pizza
 
 Chatbot: Pasta and pizza sound delicious!
 
-    Based on your preferences, I would recommend the following restaurants:
+    Based on your preferences, I would recommend the following restaurant:
 
-    1. **Roman Holiday** - They have a variety of pasta dishes, such as Spaghetti Carbonara and Lasagna al Forno, and also offer classic pizzas like Margherita Pizza.
+    **Roman Holiday** - They have a variety of pasta dishes, such as Spaghetti Carbonara and Lasagna al Forno, and also offer classic pizzas like Margherita Pizza.
 
     Would you like to order from Roman Holiday?
-
-    If you'd like to explore other options, I can also suggest:
-
-    2. **Burger Shef** - Although they specialize in burgers, they also have some pasta options, but not as extensive as Roman Holiday.
 
     Please let me know if you'd like to proceed with Roman Holiday or explore other options.
 

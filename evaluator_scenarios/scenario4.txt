@@ -7,15 +7,14 @@ Chatbot:
 
 User: I want a big sushi set
 
-Chatbot: A big sushi set sounds delicious!
+Chatbot: A big sushi set sounds delicious! Based on your request, I would recommend the following restaurants that serve sushi:
 
-    For a big sushi set, I would recommend the following restaurants:
+    1. **Nippon**: Experience the flavors of Japan at our authentic restaurant. Our menu offers Sushi (Assorted), Tempura, Ramen, Teriyaki Chicken, Gyoza, Chirashi Bowl, Yakitori, Miso Soup, Okonomiyaki, Matcha Green Tea Ice Cream. Enjoy a peaceful and welcoming atmosphere as you dine on delicious dishes made with the finest ingredients.
 
-    1. **Nippon**: They have a variety of sushi sets, including a large selection of fresh raw fish and seafood.
-    
-    Would you like to order from one of these restaurants, or would you like me to suggest some other options?
+    Would you like to order from Nippon?
 
-    Also, would you like to know the menu options for these restaurants?
+    Please let me know if you would like to order from Nippon or if you would like to explore other options.
+
 User:  What are sushi set options in Nippon?
 
 Chatbot: Nippon has a variety of sushi sets to choose from. Here are some of their options:
@@ -31,26 +30,15 @@ They also have a variety of a la carte sushi options, including nigiri, maki rol
 Would you like to order one of these sushi sets, or would you like to customize your order with some additional items?
 
 Also, would you like to know the delivery time options for Nippon?
+
 User:  I want to order Chirashi Bowl
 
-Chatbot: The Chirashi Bowl is a popular and delicious option.
+Chatbot: The Chirashi Bowl is a popular dish at Nippon. Would you like to order one Chirashi Bowl or multiple portions? Please note that the maximum number of portions for any dish is 15.
 
-So, to confirm, you would like to order the **Chirashi Bowl** from **Nippon**.
+Also, would you like to order any additional items to go with your Chirashi Bowl, such as miso soup or tempura bits?
 
-Here is a summary of your order:
+Lastly, would you like to specify a delivery time for your order? We can deliver within the next hour, or you can choose a specific time today or tomorrow.
 
-* Restaurant: Nippon
-* Order: Chirashi Bowl ($17.99)
-
-Next, I need to know when you would like to receive your order. Would you like to choose a delivery time?
-
-Please select one of the following options:
-
-* **30 minutes**: We will deliver your order within 30 minutes.
-* **60 minutes**: We will deliver your order within 60 minutes.
-* **90 minutes**: We will deliver your order within 90 minutes.
-
-Please let me know your preferred delivery time.
 User: Oh no, I have changed my mind. I want to order Sushi (Assorted) from Nippon restaurant instead. Please deliver within 90 minutes.
 
 Chatbot: You have chosen to order Sushi (Assorted) from Nippon by 90 minutes. Is that correct?

@@ -7,7 +7,7 @@ You will be provided with the following
   1. All available restaurants and their descriptions in jsonl format from which the client can choose and the chatbot should suggest.
   2. The menus of all the restaurants in jsonl format.
 2. The conversation of the chatbot and the user.
-3. The response of the cbatbot.
+3. The response of the chatbot.
 4. The ground truth response.
 
 Please compare the response of the chatbot and the groung truth response.
@@ -28,14 +28,14 @@ Here is the conversation with the chatbot and the user in the form of python dic
 </conversation>
 
 Here is the response of the chatbot
-<response>
+<CHATBOT_RESPONSE>
 {}
-</response>
+</CHATBOT_RESPONSE>
 
 Here is the ground truth response
-<ground_truth>
+<GROUND_TRUTH>
 {}
-</ground_truth>
+</GROUND_TRUTH>
 
 Examples
 <examples>
@@ -92,8 +92,8 @@ Expected output:
 </examples>
 
 Guidelines:
-- Don't be too strict or too lenient. Be balanced and think carefully before coming up with the score
-- It is OK if the ground truth response and chatbot response are slightly different as long as the meaning is the same
+- Don't be too strict or too lenient. Be balanced and think carefully before coming up with the score. 
+- It is OK if the ground truth response and chatbot response are slightly different as long as the meaning is the same. It is OK to replace words with their synonims, such as "accurate" and "correct"
 - It is OK if the chatbot asks for delivery time, chosen restaurant, chosen dishes, the number of portions of each chosen dish, and whether the user wants anything else
 - It is correct for the chatbot to write the number of portions and ask about the number of portions
 - It is appropriate to provide the descriptions of the restaurants
@@ -103,7 +103,7 @@ Guidelines:
 - It is appropriate if the chatbot asks the user whether the user wants to explore other options
 - It is OK to ask the user for the order confirmation and clarification
 - It is appropriate to ask the user to choose the cuisine they want
-- The chatbot can accept the order from only one restaurant at a time, and only from the restaurants that are available. 
+- The chatbot can accept the order from only one restaurant at a time, and only from the restaurants that are available. The user can order from ONE restaurant at a time. 
 - If information is present in the ground truth response, it is ok if this information is present in the response of the chatbot.
 - Any restaurant can provide between 1 and 15 portions of any dish.
 - When the meal is not available in any of the restaurants, it is totally appropriate to say so.
