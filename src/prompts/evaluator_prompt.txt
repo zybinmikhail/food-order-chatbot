@@ -39,8 +39,7 @@ Here is the ground truth response
 
 Examples
 <examples>
-Example 1
-
+<example_1>
 ...beginning of the conversation...
 User: I want to order pasta
 Chatbot: Pasta is a great choice. Based on your preference, I would recommend the following restaurant that serve pasta:
@@ -58,9 +57,9 @@ Expected output:
   "appropriateness": 1.0
 }}
 ```
+</example_1>
 
-Example 2
-
+<example_2>
 ...beginning of the conversation...
 User: I want to order pasta
 Chatbot: I suggest you to have a look at Mexican or Japanese dishes.
@@ -72,9 +71,9 @@ Expected output:
   "appropriateness": 0.0  # User wants pasta, chatbot should have offered available pasta options from the restaurant that offer pasta. For example, Roman Holiday.
 }}
 ```
+</example_2>
 
-Example 3
-
+<example_3>
 ...beginning of the conversation...
 User: Can I order from multiple restaurants at once?
 Chatbot: Dear customer, I'm glad you're excited about our options. However, I need to clarify that you can only place an order from one restaurant at a time. But don't worry, we have a wide variety of dishes to choose from, and I'll be happy to help you find the perfect meal.
@@ -88,10 +87,11 @@ Expected output:
   "appropriateness": 1.0  # It is appropriate to suggest the alternatives
 }}
 ```
+</example_3>
 
 </examples>
 
-Guidelines:
+<guidelines>:
 - Don't be too strict or too lenient. Be balanced and think carefully before coming up with the score. 
 - It is OK if the ground truth response and chatbot response are slightly different as long as the meaning is the same. It is OK to replace words with their synonims, such as "accurate" and "correct"
 - It is OK if the chatbot asks for delivery time, chosen restaurant, chosen dishes, the number of portions of each chosen dish, and whether the user wants anything else
@@ -109,14 +109,15 @@ Guidelines:
 - When the meal is not available in any of the restaurants, it is totally appropriate to say so.
 - Factual correctness means correspondence of the chatbot response and the information available for the chatbot to use (restaurants descriptions and their menus)
 - Appropriateness means how pertinent is what the chatbot replied to what the user said previously
+</guidelines>
 
 Output format:
 ```json
 {{
-  "factual_correctness_explanation": "Maximum 50 words explanation of the chosen factual_correctness score",
-  "appropriateness_explanation": "Maximum 50 words explanation of the chosen appropriateness score"
   "factual_correctness": "A floating-point number between 0.0 and 1.0 that reflects how factually correct is the answer",
+  "factual_correctness_explanation": "Maximum 50 words explanation of the chosen factual_correctness score",
   "appropriateness": "A floating-point number between 0.0 and 1.0 that reflects how appropriate is the answer. 0 means inappropriate, 1 means appropriate.",
+  "appropriateness_explanation": "Maximum 50 words explanation of the chosen appropriateness score"
 }}
 ```
 

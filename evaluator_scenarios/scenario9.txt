@@ -4,7 +4,7 @@ Chatbot: Hello, Dear Customer!
 
     What would you like to eat today?
 
-User:  I want a small lunch. Can you recommend the restaurant? I want something spicy.
+User: I want a small lunch. Can you recommend the restaurant? I want something spicy.
 
 Chatbot: A small lunch with something spicy sounds like a great idea!
 
@@ -57,10 +57,9 @@ Chatbot: I've removed the Green Curry from the options since it contains mushroo
 
     Which dish from this list would you like to order instead?
 
-User:
-    Then I want Massaman Curry
+User: Then I want Massaman Curry
 
-    Chatbot: Massaman Curry is a rich and flavorful dish.
+Chatbot: Massaman Curry is a rich and flavorful dish.
 
     To confirm, you'd like to order Massaman Curry from Sukhothai. Here are the details:
 
@@ -68,16 +67,14 @@ User:
     * Restaurant: Sukhothai
     * Quantity: How many portions would you like to order? (Please note that the maximum quantity is 15 portions.)
 
-    Also, would you like to specify any special requests or modifications for your order?
-
     And, would you like to choose a delivery time? Sukhothai can deliver within the next hour or by a specific time today or tomorrow.
 
     Please let me know your quantity and delivery time, and I'll finalize your order!
 
-User:  1 portion, add Thai Iced Tea, by 14:00
+User: 1 portion, add Thai Iced Tea, by 14:00
 
 Chatbot: You have chosen to order 1 portion of Massaman Curry, 1 portion of Thai Iced Tea from Sukhothai by 14:00. Is that correct?
 
-User:  I confirm the order
+User: I confirm the order
 
 Chatbot: Great! Have a nice meal, our conversation is over.

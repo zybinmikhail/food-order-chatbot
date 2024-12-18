@@ -16,7 +16,7 @@ def analyze_conversation(
     messages: list[dict[str, str]],
     model: str,
     client: openai.OpenAI,
-    temperature: float = 0.1,
+    temperature: float = 0.0,
 ) -> str:
     generator = client.chat.completions.create(
         model=model,
@@ -28,6 +28,8 @@ def analyze_conversation(
 
 def postprocess_conversation_analysis(current_chosen_info_json):
     current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
+
+    # If not all necessary fields are present, the generation is unsiccessful
     restaurant_in = "restaurant_name" in current_chosen_info_json_parsed
     names_in = "dish_names" in current_chosen_info_json_parsed
     quantities_in = "dish_quantities" in current_chosen_info_json_parsed
@@ -40,6 +42,12 @@ def postprocess_conversation_analysis(current_chosen_info_json):
         "dish_names": current_chosen_info_json_parsed["dish_names"],
         "dish_quantities": current_chosen_info_json_parsed["dish_quantities"],
     }
+
+    # If the number of dishes is not the same as the number of portions, the generation is unsiccessful
+    if len(current_chosen_dishes["dish_names"]) != len(current_chosen_dishes["dish_quantities"]):
+        print(current_chosen_dishes)
+        return "", "", "", False
+
     current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
     return current_chosen_restaurant, current_chosen_dishes, current_delivery_time, True
 
@@ -121,7 +129,7 @@ def get_next_ai_message(
     confirmation_requested: bool,
     model: str,
     client: openai.OpenAI,
-    temperature: float = 0.05,
+    temperature: float = 0.0,
 ) -> tuple[str, list[dict[str, str]]]:
 
     current_chosen_info_json = analyze_conversation(
