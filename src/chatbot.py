@@ -22,6 +22,7 @@ def analyze_conversation(
         model=model,
         messages=[{"role": "user", "content": template.format(str(messages))}],
         temperature=temperature,
+        stop=["}\n```"],
     )
     return generator.choices[0].message.content
 
@@ -36,7 +37,7 @@ def postprocess_conversation_analysis(current_chosen_info_json):
     time_in = "delivery_time" in current_chosen_info_json_parsed
     if not (restaurant_in and names_in and quantities_in and time_in):
         return "", "", "", False
-    
+
     current_chosen_restaurant = current_chosen_info_json_parsed["restaurant_name"]
     current_chosen_dishes = {
         "dish_names": current_chosen_info_json_parsed["dish_names"],
@@ -44,7 +45,9 @@ def postprocess_conversation_analysis(current_chosen_info_json):
     }
 
     # If the number of dishes is not the same as the number of portions, the generation is unsiccessful
-    if len(current_chosen_dishes["dish_names"]) != len(current_chosen_dishes["dish_quantities"]):
+    if len(current_chosen_dishes["dish_names"]) != len(
+        current_chosen_dishes["dish_quantities"]
+    ):
         print(current_chosen_dishes)
         return "", "", "", False
 
@@ -57,7 +60,7 @@ def parse_llm_json(llm_response: str) -> str:
     if "{" not in llm_response:
         llm_response = "{" + llm_response
     if "}" not in llm_response:
-        llm_response = "}" + llm_response
+        llm_response = llm_response + "}"
     llm_response = llm_response[llm_response.find("{") : llm_response.find("}") + 1]
     llm_response = eval(llm_response)
     return llm_response
@@ -139,9 +142,12 @@ def get_next_ai_message(
     # In case of wrong json format, just repeat
     success = False
     while not success:
-        current_chosen_restaurant, current_chosen_dishes, current_delivery_time, success = (
-            postprocess_conversation_analysis(current_chosen_info_json)
-        )
+        (
+            current_chosen_restaurant,
+            current_chosen_dishes,
+            current_delivery_time,
+            success,
+        ) = postprocess_conversation_analysis(current_chosen_info_json)
 
     is_finished = False
     if confirmation_requested:
