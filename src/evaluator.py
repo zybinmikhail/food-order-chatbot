@@ -62,7 +62,7 @@ def evaluate_scenario(scenario_id: int) -> tuple[float, float]:
     messages = [{"role": "system", "content": system_prompt}] + read_scenario(
         scenario_id
     )
-    logger.disable("chatbot")
+    # logger.disable("chatbot")
     factual_correctness_list = []
     appropriateness_list = []
     confirmation_requested = False
@@ -80,16 +80,21 @@ def evaluate_scenario(scenario_id: int) -> tuple[float, float]:
         logger.info(predicted_message)
         logger.info("-" * 20 + "ground_truth" + "-" * 20)
         logger.info(ground_truth)
-        evaluation = evaluate_ai_reply(
-            evaluator_prompt,
-            messages[1:i],
-            predicted_message,
-            ground_truth,
-            chatbot_data,
-            model,
-            client,
-        )
-        evaluation = chatbot.parse_llm_json(evaluation)
+        
+        success = False
+        while not success:
+            evaluation = evaluate_ai_reply(
+                evaluator_prompt,
+                messages[1:i],
+                predicted_message,
+                ground_truth,
+                chatbot_data,
+                model,
+                client,
+            )
+            evaluation = chatbot.parse_llm_json(evaluation)
+            success = ("factual_correctness" in evaluation) and ("appropriateness" in evaluation)
+
         factual_correctness_list.append(evaluation["factual_correctness"])
         appropriateness_list.append(evaluation["appropriateness"])
         logger.info(str(evaluation))

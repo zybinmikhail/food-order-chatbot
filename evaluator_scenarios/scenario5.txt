@@ -1,10 +1,9 @@
-
--- cancel one item
 Chatbot: Hello, Dear Customer!
 
     I am food order chatbot! My function is to help you choose and order food from various cafes and restaurants.
 
     What would you like to eat today?
+
 User:  I want sushi
 
 Chatbot: Sushi is a great choice. There are a few restaurants that serve sushi. Based on your choice, I would recommend the following restaurants:
@@ -19,7 +18,7 @@ User:  Yes, I want to orde susho from NIppon
 
 Chatbot: You want to order Sushi (Assorted) from Nippon.
 
-Here is the menu for Nippon:
+    Here is the menu for Nippon:
 
     **Nippon Menu**
 
@@ -39,9 +38,10 @@ Here is the menu for Nippon:
     Which dish would you like to add to your order?
 
     Also, please let me know what time you would like to have your order delivered.
+
 User: Sushi (Assorted) and Miso Soup
 
-    Chatbot: You would like to order:
+Chatbot: You would like to order:
 
     1. **Sushi (Assorted)**: A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce ($15.99)
     2. **Miso Soup**: A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions ($4.99)

@@ -4,7 +4,7 @@ I am food order chatbot! My function is to help you choose and order food from v
 
 What would you like to eat today?"""
 
-ask_for_restaurant_dishes_delivery_time = """You are conversation analyzer. You are NOT chatbot.
+ask_for_restaurant_dishes_delivery_time = """You are conversation analyzer. You reply in JSON format.
 
 Please review the conversation between the food ordering chatbot and the user.
 
@@ -17,6 +17,7 @@ Ask yourself the following questions:
 
 <instruction>
 You are forbidden to write python code. You will be penalized for it.
+You are forbidden to make suggestions for the chatbot or for the user. You will be penalized for that.
 
 1. Identify the suggestions made by the chatbot that the user agreed with
 2. Identify the order summaries made by the chatbot
@@ -76,11 +77,13 @@ Output format:
   "dish_names": "List of DISTINCT names of the dishes that the user has ordered from the restaurant_name or empty list if the user has not ordered anything yet",
   "dish_quantities": "List of the number of portions for each dish that the user has ordered or empty list if the user has not ordered anything yet",
   "restaurant_name": "Restaurant name that the user has chosen during the conversation or empty if not chosen",
-  "delivery_time": "Delivery time that the user has chosen during the conversation or empty if not chosen"
+  "delivery_time": "Delivery time that the user has chosen during the conversation or empty if not chosen",
+  "explanation": "Maximum 50 words explanation of your actions"
 }}
 ```
 
-Your task is to output valid json strictly in output format. Don't output anything else.
+Your task as the conversation analyzer is to output valid JSON strictly in output format. Don't output anything else.
+You always start your response with this sequence of symbols: "```json\n{{"
 """
 
 ask_for_end = """You are language analyzing software.

@@ -1,6 +1,4 @@
 import openai
-import pandas as pd
-
 from loguru import logger
 
 
@@ -16,21 +14,35 @@ def analyze_conversation(
     messages: list[dict[str, str]],
     model: str,
     client: openai.OpenAI,
-    temperature: float = 0.0,
 ) -> str:
     generator = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": template.format(str(messages))}],
-        temperature=temperature,
-        stop=["}\n```"],
+        temperature=0.0,
+        # max_tokens=500,
+        stop=["}\n```", "python", "I will suggest"],
     )
     return generator.choices[0].message.content
 
 
-def postprocess_conversation_analysis(current_chosen_info_json):
-    current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
+def parse_llm_json(llm_response: str) -> dict[str, str]:
+    logger.debug(llm_response)
+    if "{" not in llm_response:
+        llm_response = "{" + llm_response
+    if "}" not in llm_response:
+        llm_response = llm_response + "}"
+    llm_response = llm_response[llm_response.find("{") : llm_response.find("}") + 1]
+    llm_response = eval(llm_response)
+    return llm_response
 
-    # If not all necessary fields are present, the generation is unsiccessful
+
+def postprocess_conversation_analysis(current_chosen_info_json):
+    try:
+        current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
+    except SyntaxError:
+        return "", "", "", False
+    
+    # If not all necessary fields are present, the generation is unsuccessful
     restaurant_in = "restaurant_name" in current_chosen_info_json_parsed
     names_in = "dish_names" in current_chosen_info_json_parsed
     quantities_in = "dish_quantities" in current_chosen_info_json_parsed
@@ -44,26 +56,14 @@ def postprocess_conversation_analysis(current_chosen_info_json):
         "dish_quantities": current_chosen_info_json_parsed["dish_quantities"],
     }
 
-    # If the number of dishes is not the same as the number of portions, the generation is unsiccessful
+    # If the number of dishes is not the same as the number of portions, the generation is unsuccessful
     if len(current_chosen_dishes["dish_names"]) != len(
         current_chosen_dishes["dish_quantities"]
     ):
-        print(current_chosen_dishes)
         return "", "", "", False
-
+    
     current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
     return current_chosen_restaurant, current_chosen_dishes, current_delivery_time, True
-
-
-def parse_llm_json(llm_response: str) -> str:
-    logger.debug(llm_response)
-    if "{" not in llm_response:
-        llm_response = "{" + llm_response
-    if "}" not in llm_response:
-        llm_response = llm_response + "}"
-    llm_response = llm_response[llm_response.find("{") : llm_response.find("}") + 1]
-    llm_response = eval(llm_response)
-    return llm_response
 
 
 def order(restaurant_name: str, dishes_list: list[str], delivery_time: str) -> None:
