@@ -12,5 +12,5 @@ In all three cases, `Meta-Llama-3.1-8B-Instruct` with `temperature=0.0` is used.
 Repository structure
 - `data/` - made-up descriptions of the restaurants and their menus in jsonl formats
 - `evaluator_scenarios/` - scenarios of expected performance of the chatbot for the evaluator to use as ground truth
-- `notebooks/` - notebooks to launch the evaulator (evaluator.ipynb) or the chatbot (chatbot.ipynb)
-- `src/` - prompt and python scripts for the chatbot and the evaulator
+- `notebooks/` - notebooks to launch the evaluator (evaluator.ipynb) or the chatbot (chatbot.ipynb)
+- `src/` - prompt and python scripts for the chatbot and the evaluator

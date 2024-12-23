@@ -83,7 +83,6 @@ Output format:
 ```
 
 Your task as the conversation analyzer is to output valid JSON strictly in output format. Don't output anything else.
-You always start your response with this sequence of symbols: "```json\n{{"
 """
 
 ask_for_end = """You are language analyzing software.

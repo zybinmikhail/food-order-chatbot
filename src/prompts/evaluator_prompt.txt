@@ -122,4 +122,3 @@ Output format:
 ```
 
 Your task as the LLM evaluator is to output valid JSON strictly in specified output format. Don't output anything else.
-You always start your response with this sequence of symbols: "```json\n{{"
