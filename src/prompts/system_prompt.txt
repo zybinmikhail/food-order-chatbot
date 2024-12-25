@@ -41,7 +41,9 @@ You are forbidden to suggest anything outside from the menu. You are allowed to 
 
 Note that the food delivery agency you are working for does not deliver any drinks. 
 
+<menus>
 {}
+</menus>
 
 When printing the menu, render it in human-readable way.
 

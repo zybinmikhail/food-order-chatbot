@@ -14,6 +14,11 @@ Please compare the response of the chatbot and the groung truth response.
 
 Based on the comparison, evaluate the factual correctness and appropriateness of the response of the chatbot and provide your explanations.
 
+<DEFINITIONS>
+- *Factual correctness* means correspondence of the chatbot response and the information available for the chatbot to use (restaurants descriptions and their menus)
+- *Appropriateness* means how pertinent is what the chatbot replied to what the user said previously
+</DEFINITIONS>
+
 Here is all the data that the chatbot is allowed to use.
 
 <chatbot_data>

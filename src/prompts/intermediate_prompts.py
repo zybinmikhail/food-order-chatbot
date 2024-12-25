@@ -4,11 +4,17 @@ I am food order chatbot! My function is to help you choose and order food from v
 
 What would you like to eat today?"""
 
-ask_for_restaurant_dishes_delivery_time = """You are conversation analyzer. You reply in JSON format.
+ask_for_restaurant_dishes_delivery_time = """You are conversation analyzer.
 
 Please review the conversation between the food ordering chatbot and the user.
 
 Carefully analyze the user's replies and the order summary made by the chatbot.
+
+Here is the conversation of the chatbot and the user:
+
+<conversation>
+{}
+</conversation>
 
 Ask yourself the following questions:
 - Has the user already told the chatbot what restaurant they have chosen to have order from?
@@ -16,9 +22,6 @@ Ask yourself the following questions:
 - Has the user already provided chatbot with the information about what delivery time they have chosen?
 
 <instruction>
-You are forbidden to write python code. You will be penalized for it.
-You are forbidden to make suggestions for the chatbot or for the user. You will be penalized for that.
-
 1. Identify the suggestions made by the chatbot that the user agreed with
 2. Identify the order summaries made by the chatbot
 3. Identify places when the user says the following words
@@ -28,24 +31,18 @@ You are forbidden to make suggestions for the chatbot or for the user. You will 
   - "I also want..."
   - "add..."
   - "remove..."
-4. Create "dish_names" variable. it must store a List of DISTINCT names of the dishes that the user has ordered from the restaurant_name or empty list if the user has not ordered anything yet"
-5. Based on what you identified on the steps 1-3 of this instruction, add to the "dish_names" variable everything that the user wants to order
-6. Based on what you identified on the steps 1-3 of this instruction, remove from the "dish_names" variable everything that the user refused to order.
-7. Create "dish_quantities": "List of the number of portions for each dish that the user has ordered or empty list if the user has not ordered anything yet",
+4. Review the <restaurants-data> and <menus> section of the system_prompt. The user can order only from the restaurants listed in the <restaurants-data> section and only dishes from the <menus> section. 
+5. Create "dish_names" variable. It must store a List of DISTINCT names of the dishes that the user has ordered from the restaurant_name or empty list if the user has not ordered anything yet.
+6. Based on what you identified on the steps 1-3 of this instruction, add to the "dish_names" variable everything that the user ordered.
+7. Create "dish_quantities": List of the number of portions for each dish that the user has ordered or empty list if the user has not ordered anything yet.
 8. Based on what you identified on the steps 1-3 of this instruction, add to the "dish_quantities" variable the number of portions of everything that the user wants to order. The default number of portions is 1. "dish_quantities" list must be of the same length as "dish_names" list.
-9. Create "restaurant_name": "Restaurant name that the user has chosen during the conversation or empty if not chosen",
-10. Create "delivery_time": "Delivery time that the user has chosen during the conversation or empty if not chosen"
+9. Create "restaurant_name": Restaurant name that the user has chosen during the conversation or empty if not chosen. This must be one of the restaurants from <restaurants-data> section of the chatbot system prompt.
+10. Create "delivery_time": Delivery time that the user has chosen during the conversation or empty if not chosen"
 11. Output the values of dish_names, dish_quantities, restaurant_name, delivery_time in json format.
 </instruction>
 
-Here is the conversation of the chatbot and the user:
-
-<conversation>
-{}
-</conversation>
-
 <guidelines>
-You must strictly and carefully follow these guidelines. After you create your response, double-check it against these guidelines. Make sure all are followed.
+You must strictly and carefully follow these guidelines. After you create your response, double-check it. Make sure all of the guidelines are followed.
 
 - Carefully analyze the user's replies and the order summary made by the chatbot.
 - Has the user already told the chatbot what restaurant they have chosen to have order from?
@@ -78,11 +75,11 @@ Output format:
   "dish_quantities": "List of the number of portions for each dish that the user has ordered or empty list if the user has not ordered anything yet",
   "restaurant_name": "Restaurant name that the user has chosen during the conversation or empty if not chosen",
   "delivery_time": "Delivery time that the user has chosen during the conversation or empty if not chosen",
-  "explanation": "Maximum 50 words explanation of your actions"
+  "explanation": "Maximum 50 words explanation of your output"
 }}
 ```
 
-Your task as the conversation analyzer is to output valid JSON strictly in output format. Don't output anything else.
+Your task as the conversation analyzer is to output valid JSON strictly in output format. Think step-by-step.
 """
 
 ask_for_end = """You are language analyzing software.

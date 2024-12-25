@@ -7,7 +7,7 @@ LLM is used in 3 different ways
 2. As a conversation analyzer to determine what exactly the user has ordered, from what restaurant and what is the desired delivery time
 3. As a chatbot evaluator
 
-In all three cases, `Meta-Llama-3.1-8B-Instruct` with `temperature=0.0` is used.
+In all three cases, `Llama-3.1-Nemotron-70B-Instruct-HF` with `temperature=0.0` is used.
 
 Repository structure
 - `data/` - made-up descriptions of the restaurants and their menus in jsonl formats

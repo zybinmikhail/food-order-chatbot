@@ -1,10 +1,9 @@
 import openai
 from loguru import logger
 
-
 from prompts.intermediate_prompts import (
-    ask_for_restaurant_dishes_delivery_time,
     ask_for_end,
+    ask_for_restaurant_dishes_delivery_time,
     greeting,
 )
 
@@ -19,7 +18,6 @@ def analyze_conversation(
         model=model,
         messages=[{"role": "user", "content": template.format(str(messages))}],
         temperature=0.0,
-        # max_tokens=500,
         stop=["}\n```", "python", "I will suggest"],
     )
     return generator.choices[0].message.content
@@ -41,7 +39,7 @@ def postprocess_conversation_analysis(current_chosen_info_json):
         current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
     except SyntaxError:
         return "", "", "", False
-    
+
     # If not all necessary fields are present, the generation is unsuccessful
     restaurant_in = "restaurant_name" in current_chosen_info_json_parsed
     names_in = "dish_names" in current_chosen_info_json_parsed
@@ -61,7 +59,7 @@ def postprocess_conversation_analysis(current_chosen_info_json):
         current_chosen_dishes["dish_quantities"]
     ):
         return "", "", "", False
-    
+
     current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
     return current_chosen_restaurant, current_chosen_dishes, current_delivery_time, True
 
@@ -132,11 +130,15 @@ def get_next_ai_message(
     confirmation_requested: bool,
     model: str,
     client: openai.OpenAI,
+    analyzer_model: str,
+    analyzer_client: openai.OpenAI,
     temperature: float = 0.0,
 ) -> tuple[str, list[dict[str, str]]]:
-
     current_chosen_info_json = analyze_conversation(
-        ask_for_restaurant_dishes_delivery_time, messages, model, client
+        ask_for_restaurant_dishes_delivery_time,
+        messages,
+        analyzer_model,
+        analyzer_client,
     )
 
     # In case of wrong json format, just repeat
@@ -188,7 +190,13 @@ def get_next_ai_message(
     return ai_reply, confirmation_requested, is_finished
 
 
-def make_conversation(messages: list[dict[str, str]], model: str, client) -> None:
+def make_conversation(
+    messages: list[dict[str, str]],
+    model: str,
+    client: openai.OpenAI,
+    analyzer_model: str,
+    analyzer_client: openai.OpenAI,
+) -> None:
     confirmation_requested = False
     print("Chatbot: ", end="")
     print(greeting)
@@ -197,7 +205,12 @@ def make_conversation(messages: list[dict[str, str]], model: str, client) -> Non
         human_message = input()
         messages.append({"role": "user", "content": human_message})
         ai_reply, confirmation_requested, is_finished = get_next_ai_message(
-            messages, confirmation_requested, model, client
+            messages,
+            confirmation_requested,
+            model,
+            client,
+            analyzer_model,
+            analyzer_client,
         )
         if is_finished:
             break
