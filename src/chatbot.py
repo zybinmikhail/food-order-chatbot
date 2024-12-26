@@ -1,3 +1,5 @@
+from typing import Union
+
 import openai
 from loguru import logger
 
@@ -10,7 +12,7 @@ from prompts.intermediate_prompts import (
 
 def analyze_conversation(
     template: str,
-    messages: list[dict[str, str]],
+    messages: Union[list[dict[str, str]], str],
     model: str,
     client: openai.OpenAI,
 ) -> str:
@@ -20,18 +22,19 @@ def analyze_conversation(
         temperature=0.0,
         stop=["}\n```", "python", "I will suggest"],
     )
-    return generator.choices[0].message.content
+    ai_reply = str(generator.choices[0].message.content)
+    return ai_reply
 
 
-def parse_llm_json(llm_response: str) -> dict[str, str]:
+def parse_llm_json(llm_response: str) -> dict[str, Union[str, float]]:
     logger.debug(llm_response)
     if "{" not in llm_response:
         llm_response = "{" + llm_response
     if "}" not in llm_response:
         llm_response = llm_response + "}"
     llm_response = llm_response[llm_response.find("{") : llm_response.find("}") + 1]
-    llm_response = eval(llm_response)
-    return llm_response
+    llm_response_evaluated = eval(llm_response)
+    return llm_response_evaluated
 
 
 def postprocess_conversation_analysis(current_chosen_info_json):
@@ -133,7 +136,7 @@ def get_next_ai_message(
     analyzer_model: str,
     analyzer_client: openai.OpenAI,
     temperature: float = 0.0,
-) -> tuple[str, list[dict[str, str]]]:
+) -> tuple[str, bool, bool]:
     current_chosen_info_json = analyze_conversation(
         ask_for_restaurant_dishes_delivery_time,
         messages,
@@ -155,9 +158,12 @@ def get_next_ai_message(
     if confirmation_requested:
         logger.debug("Determining if the order is made and confirmed")
         is_finished_json = analyze_conversation(
-            ask_for_end, messages[-1]["content"], model, client
+            ask_for_end,
+            messages[-1]["content"],
+            model,
+            client,
         )
-        is_finished = int(parse_llm_json(is_finished_json)["meaning"])
+        is_finished = bool(parse_llm_json(is_finished_json)["meaning"])
         logger.debug("Is the conversation finished" + str(is_finished))
         if is_finished:
             order(
@@ -182,11 +188,11 @@ def get_next_ai_message(
     else:
         ai_reply_generator = client.chat.completions.create(
             model=model,
-            messages=messages,
+            messages=messages,  # type: ignore
             max_tokens=None,
             temperature=temperature,
         )
-        ai_reply = ai_reply_generator.choices[0].message.content
+        ai_reply = str(ai_reply_generator.choices[0].message.content)
     return ai_reply, confirmation_requested, is_finished
 
 

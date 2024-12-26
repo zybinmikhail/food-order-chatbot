@@ -10,7 +10,11 @@ LLM is used in 3 different ways
 In all three cases, `Llama-3.1-Nemotron-70B-Instruct-HF` with `temperature=0.0` is used.
 
 Repository structure
+- `src/` - prompts and python scripts for the chatbot and the evaluator
+- `notebooks/` - notebooks to launch the evaluator (evaluator.ipynb) or the chatbot (chatbot.ipynb)
 - `data/` - made-up descriptions of the restaurants and their menus in jsonl formats
 - `evaluator_scenarios/` - scenarios of expected performance of the chatbot for the evaluator to use as ground truth
-- `notebooks/` - notebooks to launch the evaluator (evaluator.ipynb) or the chatbot (chatbot.ipynb)
-- `src/` - prompt and python scripts for the chatbot and the evaluator
+
+Current values of the quality metrics:
+- factual_correctness: 0.89±0.07
+- appropriateness: 0.86±0.08

@@ -31,9 +31,9 @@ def read_scenario(scenario_id: int) -> list[dict[str, str]]:
 def evaluate_ai_reply(
     template: str,
     messages: list[dict[str, str]],
-    predicted_message,
-    ground_truth,
-    chatbot_data,
+    predicted_message: str,
+    ground_truth: str,
+    chatbot_data: str,
     model: str,
     client: openai.OpenAI,
     temperature: float = 0.0,
@@ -46,14 +46,15 @@ def evaluate_ai_reply(
         messages=[{"role": "user", "content": evaluator_prompt}],
         temperature=temperature,
     )
-    return evaluator.choices[0].message.content
+    ai_reply = str(evaluator.choices[0].message.content)
+    return ai_reply
 
 
 def evaluate_scenario(
     scenario_id: int,
-    evaluator_model_dict,
-    chatbot_model_dict,
-    analyzer_model_dict,
+    evaluator_model_dict: dict[str, str],
+    chatbot_model_dict: dict[str, str],
+    analyzer_model_dict: dict[str, str],
 ) -> tuple[float, float]:
     with open("prompts/evaluator_prompt.txt") as fin:
         evaluator_prompt = fin.read()
@@ -104,14 +105,16 @@ def evaluate_scenario(
                 evaluator_model_dict["model"],
                 evaluator_client,
             )
-            evaluation = chatbot.parse_llm_json(evaluation)
-            success = ("factual_correctness" in evaluation) and (
-                "appropriateness" in evaluation
+            evaluation_parsed_dict = chatbot.parse_llm_json(evaluation)
+            success = ("factual_correctness" in evaluation_parsed_dict) and (
+                "appropriateness" in evaluation_parsed_dict
             )
 
-        factual_correctness_list.append(evaluation["factual_correctness"])
-        appropriateness_list.append(evaluation["appropriateness"])
-        logger.info(str(evaluation))
+        factual_correctness_list.append(
+            float(evaluation_parsed_dict["factual_correctness"])
+        )
+        appropriateness_list.append(float(evaluation_parsed_dict["appropriateness"]))
+        logger.info(str(evaluation_parsed_dict))
     factual_correctness = sum(factual_correctness_list) / len(factual_correctness_list)
     appropriateness = sum(appropriateness_list) / len(appropriateness_list)
     return factual_correctness, appropriateness
