@@ -1,5 +1,6 @@
 import openai
 from loguru import logger
+from typing import Optional
 
 import chatbot
 
@@ -8,7 +9,7 @@ def read_scenario(scenario_id: int) -> list[dict[str, str]]:
     with open(f"../evaluator_scenarios/scenario{scenario_id}.txt", "r") as fin:
         scenario = fin.readlines()
 
-    # This is to remove the commentaries
+    # This is to remove the commentaries at the beginning of the file
     while not scenario[0].startswith("Chatbot"):
         scenario = scenario[1:]
 
@@ -36,7 +37,6 @@ def evaluate_ai_reply(
     chatbot_data: str,
     model: str,
     client: openai.OpenAI,
-    temperature: float = 0.0,
 ) -> str:
     evaluator_prompt = template.format(
         chatbot_data, str(messages), predicted_message, ground_truth
@@ -44,9 +44,31 @@ def evaluate_ai_reply(
     evaluator = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": evaluator_prompt}],
-        temperature=temperature,
+        temperature=0.0,
     )
     ai_reply = str(evaluator.choices[0].message.content)
+    return ai_reply
+
+
+def generate_provocative_reply(
+    template: str,
+    provocator_role: str,
+    messages: list[dict[str, str]],
+    chatbot_data: str,
+    model: str,
+    client: openai.OpenAI,
+) -> str:
+    provocative_prompt = template.format(
+        chatbot_data,
+        provocator_role, 
+        str(messages),
+    )
+    provocator = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": provocative_prompt}],
+        temperature=1.0,
+    )
+    ai_reply = str(provocator.choices[0].message.content)
     return ai_reply
 
 
@@ -55,9 +77,11 @@ def evaluate_scenario(
     evaluator_model_dict: dict[str, str],
     chatbot_model_dict: dict[str, str],
     analyzer_model_dict: dict[str, str],
+    use_provocation: bool = False,
+    provocator_model_dict: Optional[dict[str, str]] = None,
+    provocator_role: Optional[str] = None,
 ) -> tuple[float, float]:
-    with open("prompts/evaluator_prompt.txt") as fin:
-        evaluator_prompt = fin.read()
+
     descriptions, menus_string = chatbot.initialize_menus_string()
 
     chatbot_data = descriptions + "\n" + menus_string
@@ -79,9 +103,29 @@ def evaluate_scenario(
     analyzer_client = openai.OpenAI(
         api_key="***REMOVED***", base_url=analyzer_model_dict["api_base"]
     )
+    if use_provocation:
+        provocator_client = openai.OpenAI(
+            api_key="***REMOVED***", base_url=provocator_model_dict["api_base"]
+        )
+        with open("prompts/provocation_prompt.txt") as fin:
+            provocator_prompt = fin.read()
+        with open("prompts/evaluator_prompt.txt") as fin:
+            evaluator_prompt = fin.read()
+    else:
+        with open("prompts/evaluator_prompt_with_reference.txt") as fin:
+            evaluator_prompt = fin.read()
+
     for i in range(4, len(messages), 2):
+        # In case of provocation we change the last message (which is the user's message)
+        last_message = messages[i - 1]["content"]
+        if use_provocation:
+            provocator_message = generate_provocative_reply(
+                provocator_prompt, provocator_role, messages, chatbot_data, provocator_model_dict["model"], provocator_client,
+            )
+            last_message = chatbot.parse_llm_json(provocator_message)["provocative_reply"]
+
         predicted_message, confirmation_requested, _ = chatbot.get_next_ai_message(
-            messages[:i],
+            messages[:i-1] + [{"role": "user", "content": last_message}],
             confirmation_requested,
             chatbot_model_dict["model"],
             chatbot_client,

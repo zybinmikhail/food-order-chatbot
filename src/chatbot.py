@@ -20,6 +20,7 @@ def analyze_conversation(
         model=model,
         messages=[{"role": "user", "content": template.format(str(messages))}],
         temperature=0.0,
+        timeout=120,
         stop=["}\n```", "python", "I will suggest"],
     )
     ai_reply = str(generator.choices[0].message.content)
@@ -135,7 +136,6 @@ def get_next_ai_message(
     client: openai.OpenAI,
     analyzer_model: str,
     analyzer_client: openai.OpenAI,
-    temperature: float = 0.0,
 ) -> tuple[str, bool, bool]:
     current_chosen_info_json = analyze_conversation(
         ask_for_restaurant_dishes_delivery_time,
@@ -190,7 +190,8 @@ def get_next_ai_message(
             model=model,
             messages=messages,  # type: ignore
             max_tokens=None,
-            temperature=temperature,
+            timeout=120,
+            temperature=0.0,
         )
         ai_reply = str(ai_reply_generator.choices[0].message.content)
     return ai_reply, confirmation_requested, is_finished

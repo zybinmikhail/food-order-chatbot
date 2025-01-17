@@ -8,6 +8,9 @@ You will be provided with the following data:
   - The menus of all the restaurants in JSONL format.
 2. The conversation of the chatbot and the user.
 3. The response of the chatbot.
+4. The ground truth response.
+
+Please compare the response of the chatbot and the groung truth response.
 
 Based on the comparison, evaluate the factual correctness and appropriateness of the response of the chatbot and provide your explanations.
 
@@ -32,6 +35,12 @@ Here is the response of the chatbot:
 <CHATBOT_RESPONSE>
 {}
 </CHATBOT_RESPONSE>
+
+
+Here is the ground truth response:
+<GROUND_TRUTH>
+{}
+</GROUND_TRUTH>
 
 Examples
 <examples>
