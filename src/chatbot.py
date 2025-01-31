@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Generator
 
 import openai
 from loguru import logger
@@ -136,7 +136,23 @@ def get_next_ai_message(
     client: openai.OpenAI,
     analyzer_model: str,
     analyzer_client: openai.OpenAI,
-) -> tuple[str, bool, bool]:
+    stream=False,
+) -> tuple[Union[str, Generator], bool, bool]:
+    """_summary_
+
+    Args:
+        messages (list[dict[str, str]]): _description_
+        confirmation_requested (bool): _description_
+        model (str): _description_
+        client (openai.OpenAI): _description_
+        analyzer_model (str): _description_
+        analyzer_client (openai.OpenAI): _description_
+        stream (bool, optional): _description_. Defaults to False.
+
+    Returns:
+        tuple[str | Generator, bool, bool]: _description_
+    """
+    # TODO Document the function
     current_chosen_info_json = analyze_conversation(
         ask_for_restaurant_dishes_delivery_time,
         messages,
@@ -192,8 +208,12 @@ def get_next_ai_message(
             max_tokens=None,
             timeout=120,
             temperature=0.0,
+            stream=stream,
         )
-        ai_reply = str(ai_reply_generator.choices[0].message.content)
+        if stream:
+            ai_reply = ai_reply_generator
+        else:
+            ai_reply = str(ai_reply_generator.choices[0].message.content)
     return ai_reply, confirmation_requested, is_finished
 
 

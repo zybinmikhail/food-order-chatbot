@@ -1,0 +1,2 @@
+- Recommend restaurants and dishes based on your preferences
+- Receive and order from you
