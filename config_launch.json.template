@@ -1,0 +1,8 @@
+{
+    "chatbot_model": "chatbot_model_name",
+    "analyzer_model": "analyzer_model_name",
+    "evaluator_model": "evaluator_model_name",
+    "provocator_model": "provocator_model_name",
+    "use_evaluator": true,
+    "use_provocator": false
+}
