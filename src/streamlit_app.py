@@ -1,20 +1,13 @@
 import streamlit as st
 import openai
-import random
-import time
+import json
 
-from chatbot import initialize_messages, get_next_ai_message
+from chatbot import initialize_messages, get_next_ai_message, order
+import configuration
 
-chatbot_model_dict = {
-    "model": "neuralmagic/Llama-3.1-Nemotron-70B-Instruct-HF-FP8-dynamic",
-    "api_base": "***REMOVED***",
-    "api_key": "***REMOVED***",
-}
-analyzer_model_dict = {
-    "model": "neuralmagic/Llama-3.1-Nemotron-70B-Instruct-HF-FP8-dynamic",
-    "api_base": "***REMOVED***",
-    "api_key": "***REMOVED***",
-}
+with open("../config_launch.json", "r", encoding="utf-8") as fin:
+    config_launch = json.load(fin)
+chatbot_model_dict, analyzer_model_dict = configuration.init_model_dicts()
 
 chatbot_client = openai.OpenAI(
     api_key=chatbot_model_dict["api_key"], base_url=chatbot_model_dict["api_base"]
@@ -38,8 +31,8 @@ st.markdown(usage_guidelines)
 # Initialize session state
 if "messages" not in st.session_state:
     st.session_state.messages = initialize_messages()
-st.session_state.confirmation_requested = False
-st.session_state.is_finished = False
+    st.session_state.confirmation_requested = False
+    st.session_state.is_finished = False
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages[2:]:
@@ -54,6 +47,7 @@ if not st.session_state.is_finished:
             st.markdown(human_message)
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": human_message})
+        
         with st.chat_message("assistant"):
             st.write("Analyzing your message...")
         ai_reply, confirmation_requested, is_finished = get_next_ai_message(
@@ -65,13 +59,23 @@ if not st.session_state.is_finished:
             analyzer_client,
             stream=True,
         )
-        print(is_finished)
         st.session_state.is_finished = is_finished
-        if isinstance(ai_reply, str):
-            st.write(ai_reply)
-            response = ai_reply
-        else:
+        st.session_state.confirmation_requested = confirmation_requested
+        
+        if is_finished:
+            response = "Your order has been received. Have a nice meal! Concact me again anytime you need to order food. I hope I was helpful to you as an AI assistant.\nPress any key to quit."
             with st.chat_message("assistant"):
-                response = st.write_stream(ai_reply)
+                st.write(response)
+        else:
+            if isinstance(ai_reply, str):
+                with st.chat_message("assistant"):
+                    st.write(ai_reply)
+                response = ai_reply
+            else:
+                with st.chat_message("assistant"):
+                    response = st.write_stream(ai_reply)
+        
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
+else:
+    pass

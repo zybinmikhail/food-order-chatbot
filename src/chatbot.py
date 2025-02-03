@@ -153,16 +153,16 @@ def get_next_ai_message(
         tuple[str | Generator, bool, bool]: _description_
     """
     # TODO Document the function
-    current_chosen_info_json = analyze_conversation(
-        ask_for_restaurant_dishes_delivery_time,
-        messages,
-        analyzer_model,
-        analyzer_client,
-    )
 
     # In case of wrong json format, just repeat
     success = False
     while not success:
+        current_chosen_info_json = analyze_conversation(
+            ask_for_restaurant_dishes_delivery_time,
+            messages,
+            analyzer_model,
+            analyzer_client,
+        )
         (
             current_chosen_restaurant,
             current_chosen_dishes,
@@ -176,8 +176,8 @@ def get_next_ai_message(
         is_finished_json = analyze_conversation(
             ask_for_end,
             messages[-1]["content"],
-            model,
-            client,
+            analyzer_model,
+            analyzer_client,
         )
         is_finished = bool(parse_llm_json(is_finished_json)["meaning"])
         logger.debug("Is the conversation finished" + str(is_finished))
