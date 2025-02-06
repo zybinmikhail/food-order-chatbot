@@ -1,7 +1,6 @@
 loguru==0.7.2
 openai==1.60.2
 pandas==2.2.3
-pyyaml==6.0.2
 seaborn==0.13.2
 streamlit==1.41.1
 watchdog==6.0.0

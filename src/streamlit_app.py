@@ -1,13 +1,23 @@
 import streamlit as st
 import openai
-import json
 
 from chatbot import initialize_messages, get_next_ai_message, order
-import configuration
 
-with open("../config_launch.json", "r", encoding="utf-8") as fin:
-    config_launch = json.load(fin)
-chatbot_model_dict, analyzer_model_dict = configuration.init_model_dicts()
+
+chatbot_model = st.secrets["launch_parameters"]["chatbot_model"]
+chatbot_model_dict = {
+    "model": chatbot_model,
+    "api_base": st.secrets["api_bases"][chatbot_model],
+    "api_key": st.secrets["api_keys"][chatbot_model],
+}
+analyzer_model = st.secrets["launch_parameters"]["analyzer_model"]
+analyzer_model_dict = {
+    "model": analyzer_model,
+    "api_base": st.secrets["api_bases"][analyzer_model],
+    "api_key": st.secrets["api_keys"][analyzer_model],
+}
+
+print(chatbot_model_dict, analyzer_model_dict)
 
 chatbot_client = openai.OpenAI(
     api_key=chatbot_model_dict["api_key"], base_url=chatbot_model_dict["api_base"]
@@ -19,12 +29,12 @@ analyzer_client = openai.OpenAI(
 st.title("Food order chatbot")
 
 st.subheader("What this chatbot can do")
-with open("what_chatbot_can_do.txt", "r", encoding="utf-8") as fin:
+with open("src/what_chatbot_can_do.txt", "r", encoding="utf-8") as fin:
     what_chatbot_can_do = fin.read()
 st.markdown(what_chatbot_can_do)
 
 st.subheader("Usage guidelines")
-with open("usage_guidelines.txt", "r", encoding="utf-8") as fin:
+with open("src/usage_guidelines.txt", "r", encoding="utf-8") as fin:
     usage_guidelines = fin.read()
 st.markdown(usage_guidelines)
 

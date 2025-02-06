@@ -79,12 +79,12 @@ def order(restaurant_name: str, dishes_list: list[str], delivery_time: str) -> N
 
 
 def initialize_menus_string() -> tuple[str, str]:
-    with open("../data/restaurants.jsonl") as fin:
+    with open("data/restaurants.jsonl") as fin:
         descriptions = fin.readlines()
     restaurant_names = [eval(description)["name"] for description in descriptions]
     menus = []
     for name in restaurant_names:
-        with open(f"../data/{name}.jsonl") as fin:
+        with open(f"data/{name}.jsonl") as fin:
             menu = fin.read()
         one_menu = f"""\n#### {name} menu
 Here are the only dishes that are available at {name}
@@ -99,7 +99,7 @@ Here are the only dishes that are available at {name}
 
 
 def initialize_system_prompt() -> str:
-    with open("prompts/system_prompt.txt") as fin:
+    with open("src/prompts/system_prompt.txt") as fin:
         system_prompt = fin.read()
     descriptions, menus_string = initialize_menus_string()
     system_prompt = system_prompt.format(descriptions, menus_string)
