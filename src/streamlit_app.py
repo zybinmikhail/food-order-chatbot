@@ -1,7 +1,13 @@
+import secrets
+import string
 import streamlit as st
 import openai
 
 from chatbot import initialize_messages, get_next_ai_message, order
+
+
+def reset_conversation():
+    del st.session_state["messages"]
 
 
 chatbot_model = st.secrets["launch_parameters"]["chatbot_model"]
@@ -73,9 +79,16 @@ if not st.session_state.is_finished:
         st.session_state.confirmation_requested = confirmation_requested
         
         if is_finished:
-            response = "Your order has been received. Have a nice meal! Concact me again anytime you need to order food. I hope I was helpful to you as an AI assistant.\nPress any key to quit."
+            order_id = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+            response = (
+                f"Your order has been received. Order ID is {order_id}. "
+                "Have a nice meal! Concact me again anytime you need to order food. "
+                "I hope I was helpful to you as an AI assistant.\nPress the button to quit."
+            )
             with st.chat_message("assistant"):
                 st.write(response)
+            st.button("Quit")
+            st.button("Place a new order", on_click=reset_conversation)
         else:
             if isinstance(ai_reply, str):
                 with st.chat_message("assistant"):
