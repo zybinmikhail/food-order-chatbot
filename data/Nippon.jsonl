@@ -1,12 +1,12 @@
-{"dish_name": "Sushi (Assorted)", "dish_description": "A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce. Note: 12 pieces per portion.", "dish_price": "$15"}
-{"dish_name": "Tempura", "dish_description": "Lightly battered and fried shrimp and vegetables, served with a dipping sauce", "dish_price": "$12"}
-{"dish_name": "Chicken Ramen", "dish_description": "A hearty noodle soup with broth, vegetables, and your chicken. This is the most popular dish from the Nippon restaurant.", "dish_price": "$10"}
-{"dish_name": "Pork Ramen", "dish_description": "A hearty noodle soup with broth, vegetables, and pork. This is the most popular dish from the Nippon restaurant.", "dish_price": "$10"}
-{"dish_name": "Tofu Ramen", "dish_description": "A hearty noodle soup with broth, vegetables, and tofu. This is the most popular dish from the Nippon restaurant.", "dish_price": "$10"}
-{"dish_name": "Teriyaki Chicken", "dish_description": "Grilled chicken marinated in a sweet and savory teriyaki sauce, served with steamed rice and vegetables. This is the most popular chicken dish across all restaurants.", "dish_price": "$14"}
-{"dish_name": "Gyoza", "dish_description": "Pan-fried dumplings filled with pork and vegetables, served with a tangy dipping sauce. Note: 5 pieces per portion.", "dish_price": "$8"}
-{"dish_name": "Chirashi Bowl", "dish_description": "A colorful bowl of sushi rice topped with an assortment of sashimi, vegetables, and tamago (sweet omelette)", "dish_price": "$17"}
-{"dish_name": "Yakitori", "dish_description": "Skewers of grilled chicken, vegetables, and tofu, glazed with a teriyaki sauce", "dish_price": "$9"}
-{"dish_name": "Miso Soup", "dish_description": "A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions", "dish_price": "$4"}
-{"dish_name": "Okonomiyaki", "dish_description": "A savory pancake made with cabbage, pork, and seafood, topped with a sweet and tangy sauce", "dish_price": "$11"}
-{"dish_name": "Matcha Green Tea Ice Cream", "dish_description": "Creamy and refreshing ice cream infused with the earthy flavors of matcha green tea", "dish_price": "$5"}
+{"dish_name": "Sushi (Assorted)", "dish_description": "A selection of fresh raw fish and seafood served on seasoned rice, accompanied by wasabi and soy sauce. Note: 12 pieces per portion.", "dish_price": "€15"}
+{"dish_name": "Tempura", "dish_description": "Lightly battered and fried shrimp and vegetables, served with a dipping sauce", "dish_price": "€12"}
+{"dish_name": "Chicken Ramen", "dish_description": "A hearty noodle soup with broth, vegetables, and your chicken. This is the most popular dish from the Nippon restaurant.", "dish_price": "€10"}
+{"dish_name": "Pork Ramen", "dish_description": "A hearty noodle soup with broth, vegetables, and pork. This is the most popular dish from the Nippon restaurant.", "dish_price": "€10"}
+{"dish_name": "Tofu Ramen", "dish_description": "A hearty noodle soup with broth, vegetables, and tofu. This is the most popular dish from the Nippon restaurant.", "dish_price": "€10"}
+{"dish_name": "Teriyaki Chicken", "dish_description": "Grilled chicken marinated in a sweet and savory teriyaki sauce, served with steamed rice and vegetables. This is the most popular chicken dish across all restaurants.", "dish_price": "€14"}
+{"dish_name": "Gyoza", "dish_description": "Pan-fried dumplings filled with pork and vegetables, served with a tangy dipping sauce. Note: 5 pieces per portion.", "dish_price": "€8"}
+{"dish_name": "Chirashi Bowl", "dish_description": "A colorful bowl of sushi rice topped with an assortment of sashimi, vegetables, and tamago (sweet omelette)", "dish_price": "€17"}
+{"dish_name": "Yakitori", "dish_description": "Skewers of grilled chicken, vegetables, and tofu, glazed with a teriyaki sauce", "dish_price": "€9"}
+{"dish_name": "Miso Soup", "dish_description": "A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions", "dish_price": "€4"}
+{"dish_name": "Okonomiyaki", "dish_description": "A savory pancake made with cabbage, pork, and seafood, topped with a sweet and tangy sauce", "dish_price": "€11"}
+{"dish_name": "Matcha Green Tea Ice Cream", "dish_description": "Creamy and refreshing ice cream infused with the earthy flavors of matcha green tea", "dish_price": "€5"}
