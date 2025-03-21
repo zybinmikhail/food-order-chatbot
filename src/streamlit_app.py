@@ -6,8 +6,13 @@ import openai
 from chatbot import initialize_messages, get_next_ai_message, order
 
 
-def reset_conversation():
+def end_conversation():
     del st.session_state["messages"]
+
+
+def reset_conversation():
+    end_conversation()
+    st.session_state.is_finished = False
 
 
 chatbot_model = st.secrets["launch_parameters"]["chatbot_model"]
@@ -34,28 +39,28 @@ analyzer_client = openai.OpenAI(
 
 st.title("Food order chatbot")
 
-st.subheader("What this chatbot can do")
-with open("src/what_chatbot_can_do.txt", "r", encoding="utf-8") as fin:
-    what_chatbot_can_do = fin.read()
-st.markdown(what_chatbot_can_do)
+if "is_finished" not in st.session_state or not st.session_state.is_finished:
+    st.header("What this chatbot can do")
+    with open("src/what_chatbot_can_do.txt", "r", encoding="utf-8") as fin:
+        what_chatbot_can_do = fin.read()
+    st.markdown(what_chatbot_can_do)
 
-st.subheader("Usage guidelines")
-with open("src/usage_guidelines.txt", "r", encoding="utf-8") as fin:
-    usage_guidelines = fin.read()
-st.markdown(usage_guidelines)
+    st.header("Usage guidelines")
+    with open("src/usage_guidelines.txt", "r", encoding="utf-8") as fin:
+        usage_guidelines = fin.read()
+    st.markdown(usage_guidelines)
 
-# Initialize session state
-if "messages" not in st.session_state:
-    st.session_state.messages = initialize_messages()
-    st.session_state.confirmation_requested = False
-    st.session_state.is_finished = False
+    # Initialize session state
+    if "messages" not in st.session_state:
+        st.session_state.messages = initialize_messages()
+        st.session_state.confirmation_requested = False
+        st.session_state.is_finished = False
 
-# Display chat messages from history on app rerun
-for message in st.session_state.messages[2:]:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages[2:]:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-if not st.session_state.is_finished:
     # Accept user input
     if human_message := st.chat_input("Enter your gastronomical ideas"):
         # Display user message in chat message container
@@ -81,14 +86,15 @@ if not st.session_state.is_finished:
         if is_finished:
             order_id = ''.join(secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6))
             response = (
-                f"Your order has been received. Order ID is {order_id}. "
+                f"Your order has been received. Order ID is {order_id}. Remember to write it down! "
                 "Have a nice meal! Concact me again anytime you need to order food. "
-                "I hope I was helpful to you as an AI assistant.\nPress the button to quit."
+                "I hope I was helpful to you as an AI assistant."
             )
             with st.chat_message("assistant"):
                 st.write(response)
-            st.button("Quit")
-            st.button("Place a new order", on_click=reset_conversation)
+            left, right = st.columns(2)
+            left.button("Quit", icon="🔚", on_click=end_conversation, use_container_width=True)
+            right.button("Place a new order", icon="🔄", on_click=reset_conversation, use_container_width=True)
         else:
             if isinstance(ai_reply, str):
                 with st.chat_message("assistant"):
@@ -101,4 +107,4 @@ if not st.session_state.is_finished:
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
 else:
-    pass
+    st.markdown("You can safely navigate away. See you next time!")
