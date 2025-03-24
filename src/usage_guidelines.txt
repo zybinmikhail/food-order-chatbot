@@ -3,4 +3,7 @@
 - Try to avoid typos and ambiguities
 - The chatbot can accept an order only from one restaurant at a time
 - No more that 5 portions of each dish can be ordered
+- Drinks are not delivered
+- No need to provide address
+- Acceptable order time is within 1 hour or by a specific time today or tomorrow
 - This bot seems to be a little slow, so be patient

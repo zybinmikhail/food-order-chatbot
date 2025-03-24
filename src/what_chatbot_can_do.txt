@@ -1,2 +1,3 @@
 - Recommend restaurants and dishes out of the available list based on your preferences
 - Receive a food order from you
+- The chatbot only understands English language and always replies in English
