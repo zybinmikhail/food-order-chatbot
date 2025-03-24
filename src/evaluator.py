@@ -152,9 +152,8 @@ def evaluate_scenario(
                 "provocative_reply"
             ]
 
-        predicted_message, confirmation_requested, _ = chatbot.get_next_ai_message(
+        predicted_message, _ = chatbot.get_next_ai_message(
             messages[: i - 1] + [{"role": "user", "content": last_message}],
-            confirmation_requested,
             chatbot_model_dict["model"],
             chatbot_client,
             analyzer_model_dict["model"],

@@ -134,28 +134,12 @@ def generate_dishes_string(current_chosen_dishes):
 
 def get_next_ai_message(
     messages: list[dict[str, str]],
-    confirmation_requested: bool,
     model: str,
     client: openai.OpenAI,
     analyzer_model: str,
     analyzer_client: openai.OpenAI,
     stream=False,
 ) -> tuple[Union[str, Generator], bool, bool]:
-    """_summary_
-
-    Args:
-        messages (list[dict[str, str]]): _description_
-        confirmation_requested (bool): _description_
-        model (str): _description_
-        client (openai.OpenAI): _description_
-        analyzer_model (str): _description_
-        analyzer_client (openai.OpenAI): _description_
-        stream (bool, optional): _description_. Defaults to False.
-
-    Returns:
-        tuple[str | Generator, bool, bool]: _description_
-    """
-    # TODO Document the function
 
     # In case of wrong json format, just repeat
     success = False
@@ -173,27 +157,12 @@ def get_next_ai_message(
             success,
         ) = postprocess_conversation_analysis(current_chosen_info_json)
 
-    is_finished = False
-    if confirmation_requested:
-        logger.debug("Determining if the order is made and confirmed")
-        is_finished_json = analyze_conversation(
-            ask_for_end,
-            messages[-1]["content"],
-            analyzer_model,
-            analyzer_client,
-        )
-        is_finished = bool(parse_llm_json(is_finished_json)["meaning"])
-        logger.debug("Is the conversation finished" + str(is_finished))
-        if is_finished:
-            order(
-                current_chosen_restaurant, current_chosen_dishes, current_delivery_time
-            )
-
     if (
         current_chosen_restaurant
         and current_chosen_dishes["dish_names"]
         and current_delivery_time
     ):
+        confirmation_requested = True
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
         add_by = "" if current_delivery_time.startswith("within") else " by"
         ai_reply = "You have chosen to order {} from {}{} {}. Is that accurate?"
@@ -203,8 +172,10 @@ def get_next_ai_message(
             add_by,
             current_delivery_time,
         )
-        confirmation_requested = True
+        if stream:
+            ai_reply = (symbol for symbol in ai_reply)
     else:
+        confirmation_requested = False
         ai_reply_generator = client.chat.completions.create(
             model=model,
             messages=messages,  # type: ignore
@@ -217,7 +188,7 @@ def get_next_ai_message(
             ai_reply = ai_reply_generator
         else:
             ai_reply = str(ai_reply_generator.choices[0].message.content)
-    return ai_reply, confirmation_requested, is_finished
+    return ai_reply, confirmation_requested
 
 
 def make_conversation(
