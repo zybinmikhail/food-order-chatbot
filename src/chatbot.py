@@ -43,7 +43,7 @@ def parse_llm_json(llm_response: str) -> dict[str, Union[str, float]]:
     return llm_response_evaluated
 
 
-def postprocess_conversation_analysis(current_chosen_info_json):
+def postprocess_conversation_analysis(current_chosen_info_json: str) -> tuple[str, dict[str, str], str, bool]:
     try:
         current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
     except SyntaxError:
@@ -71,16 +71,6 @@ def postprocess_conversation_analysis(current_chosen_info_json):
 
     current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
     return current_chosen_restaurant, current_chosen_dishes, current_delivery_time, True
-
-
-def order(restaurant_name: str, dishes_list: list[str], delivery_time: str) -> None:
-    current_chosen_dishes_string = generate_dishes_string(dishes_list)
-    order_template = "Chatbot: Your order of {} from {} was successfully received and will be delivered to you by {}"
-    print(
-        order_template.format(
-            current_chosen_dishes_string, restaurant_name, delivery_time
-        )
-    )
 
 
 def initialize_menus_string() -> tuple[str, str]:
@@ -119,7 +109,7 @@ def initialize_messages() -> list[dict[str, str]]:
     return messages
 
 
-def generate_dishes_string(current_chosen_dishes):
+def generate_dishes_string(current_chosen_dishes: dict[str, str]) -> str:
     current_chosen_dishes_string = []
     for i in range(len(current_chosen_dishes["dish_names"])):
         num_portions = current_chosen_dishes["dish_quantities"][i]
