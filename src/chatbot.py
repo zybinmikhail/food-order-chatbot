@@ -3,11 +3,16 @@ from typing import Union, Generator
 import openai
 from loguru import logger
 
+import sys
+
+sys.path.append("../")
+
 from prompts.intermediate_prompts import (
     ask_for_end,
     ask_for_restaurant_dishes_delivery_time,
     greeting,
 )
+from prompts import SYSTEM_PROMPT
 
 
 def analyze_conversation(
@@ -99,10 +104,8 @@ Here are the only dishes that are available at {name}
 
 
 def initialize_system_prompt() -> str:
-    with open("src/prompts/system_prompt.txt") as fin:
-        system_prompt = fin.read()
     descriptions, menus_string = initialize_menus_string()
-    system_prompt = system_prompt.format(descriptions, menus_string)
+    system_prompt = SYSTEM_PROMPT.format(descriptions, menus_string)
     return system_prompt
 
 

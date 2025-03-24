@@ -4,9 +4,21 @@ from typing import Optional
 
 import chatbot
 
+from os.path import dirname, abspath, join
+
+current_dir = dirname(abspath(__file__))
+scenarios_path = join(dirname(current_dir), "evaluator_scenarios")
+
+from prompts import (
+    EVALUATOR_PROMPT_WITH_REFERENCE,
+    EVALUATOR_PROMPT,
+    PROVOCATION_PROMPT,
+)
+
 
 def read_scenario(scenario_id: int) -> list[dict[str, str]]:
-    with open(f"../evaluator_scenarios/scenario{scenario_id}.txt", "r") as fin:
+    one_scenario_path = join(scenarios_path, f"scenario{scenario_id}.txt")
+    with open(one_scenario_path, "r") as fin:
         scenario = fin.readlines()
 
     # This is to remove the commentaries at the beginning of the file
@@ -60,7 +72,7 @@ def generate_provocative_reply(
 ) -> str:
     provocative_prompt = template.format(
         chatbot_data,
-        provocator_role, 
+        provocator_role,
         str(messages),
     )
     provocator = client.chat.completions.create(
@@ -79,13 +91,13 @@ def evaluate_scenario(
 ) -> tuple[float, float]:
     """Compute metrics that represent the quality of model's answers for a given scenario.
 
-        Args:
-            scenario_id (int): A number from 1 to the maximal scenario number in evaluator_scenarios/ folder
-            models_dict (list[dict]): A list of dictionaries that describe the models
-            provocator_role (Optional[str], optional): Textual description of how exactly should the provocator generate its replies. Defaults to None.
+    Args:
+        scenario_id (int): A number from 1 to the maximal scenario number in evaluator_scenarios/ folder
+        models_dict (list[dict]): A list of dictionaries that describe the models
+        provocator_role (Optional[str], optional): Textual description of how exactly should the provocator generate its replies. Defaults to None.
 
-        Returns:
-            tuple[float, float]: mean factual correctness and appropriateness of the chatbot replies
+    Returns:
+        tuple[float, float]: mean factual correctness and appropriateness of the chatbot replies
     """
 
     descriptions, menus_string = chatbot.initialize_menus_string()
@@ -102,7 +114,8 @@ def evaluate_scenario(
     confirmation_requested = False
     chatbot_model_dict, analyzer_model_dict, evaluator_model_dict = models_dict[:3]
     evaluator_client = openai.OpenAI(
-        api_key=evaluator_model_dict["api_key"], base_url=evaluator_model_dict["api_base"]
+        api_key=evaluator_model_dict["api_key"],
+        base_url=evaluator_model_dict["api_base"],
     )
     chatbot_client = openai.OpenAI(
         api_key=chatbot_model_dict["api_key"], base_url=chatbot_model_dict["api_base"]
@@ -117,26 +130,30 @@ def evaluate_scenario(
             api_key=provocator_model_dict["api_key"],
             base_url=provocator_model_dict["api_base"],
         )
-        with open("prompts/provocation_prompt.txt") as fin:
-            provocator_prompt = fin.read()
-        with open("prompts/evaluator_prompt.txt") as fin:
-            evaluator_prompt = fin.read()
+        provocator_prompt = PROVOCATION_PROMPT
+        evaluator_prompt = EVALUATOR_PROMPT
     else:
         use_provocation = False
-        with open("prompts/evaluator_prompt_with_reference.txt") as fin:
-            evaluator_prompt = fin.read()
+        evaluator_prompt = EVALUATOR_PROMPT_WITH_REFERENCE
 
     for i in range(4, len(messages), 2):
         # In case of provocation we change the last message (which is the user's message)
         last_message = messages[i - 1]["content"]
         if use_provocation:
             provocator_message = generate_provocative_reply(
-                provocator_prompt, provocator_role, messages, chatbot_data, provocator_model_dict["model"], provocator_client,
+                provocator_prompt,
+                provocator_role,
+                messages,
+                chatbot_data,
+                provocator_model_dict["model"],
+                provocator_client,
             )
-            last_message = chatbot.parse_llm_json(provocator_message)["provocative_reply"]
+            last_message = chatbot.parse_llm_json(provocator_message)[
+                "provocative_reply"
+            ]
 
         predicted_message, confirmation_requested, _ = chatbot.get_next_ai_message(
-            messages[:i-1] + [{"role": "user", "content": last_message}],
+            messages[: i - 1] + [{"role": "user", "content": last_message}],
             confirmation_requested,
             chatbot_model_dict["model"],
             chatbot_client,
