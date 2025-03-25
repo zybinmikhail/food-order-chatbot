@@ -6,8 +6,6 @@ import chatbot
 
 from os.path import dirname, abspath, join
 
-current_dir = dirname(abspath(__file__))
-scenarios_path = join(dirname(current_dir), "evaluator_scenarios")
 
 from prompts import (
     EVALUATOR_PROMPT_WITH_REFERENCE,
@@ -15,9 +13,12 @@ from prompts import (
     PROVOCATION_PROMPT,
 )
 
+CURRENT_DIR = dirname(abspath(__file__))
+SCENARIOS_PATH = join(dirname(CURRENT_DIR), "evaluator_scenarios")
+
 
 def read_scenario(scenario_id: int) -> list[dict[str, str]]:
-    one_scenario_path = join(scenarios_path, f"scenario{scenario_id}.txt")
+    one_scenario_path = join(SCENARIOS_PATH, f"scenario{scenario_id}.txt")
     with open(one_scenario_path, "r") as fin:
         scenario = fin.readlines()
 
@@ -108,10 +109,8 @@ def evaluate_scenario(
     messages = [{"role": "system", "content": system_prompt}] + read_scenario(
         scenario_id
     )
-    # logger.disable("chatbot")
     factual_correctness_list = []
     appropriateness_list = []
-    confirmation_requested = False
     chatbot_model_dict, analyzer_model_dict, evaluator_model_dict = models_dict[:3]
     evaluator_client = openai.OpenAI(
         api_key=evaluator_model_dict["api_key"],

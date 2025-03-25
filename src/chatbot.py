@@ -8,7 +8,6 @@ import sys
 sys.path.append("../")
 
 from prompts.intermediate_prompts import (
-    ask_for_end,
     ask_for_restaurant_dishes_delivery_time,
     greeting,
 )
@@ -17,7 +16,7 @@ from prompts import SYSTEM_PROMPT
 
 def analyze_conversation(
     template: str,
-    messages: Union[list[dict[str, str]], str],
+    messages: list[dict[str, str]] | str,
     model: str,
     client: openai.OpenAI,
 ) -> str:
@@ -43,7 +42,9 @@ def parse_llm_json(llm_response: str) -> dict[str, Union[str, float]]:
     return llm_response_evaluated
 
 
-def postprocess_conversation_analysis(current_chosen_info_json: str) -> tuple[str, dict[str, str], str, bool]:
+def postprocess_conversation_analysis(
+    current_chosen_info_json: str,
+) -> tuple[str, dict[str, str], str, bool]:
     try:
         current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
     except SyntaxError:
@@ -130,7 +131,6 @@ def get_next_ai_message(
     analyzer_client: openai.OpenAI,
     stream=False,
 ) -> tuple[Union[str, Generator], bool, bool]:
-
     # In case of wrong json format, just repeat
     success = False
     while not success:
@@ -179,32 +179,3 @@ def get_next_ai_message(
         else:
             ai_reply = str(ai_reply_generator.choices[0].message.content)
     return ai_reply, confirmation_requested
-
-
-def make_conversation(
-    messages: list[dict[str, str]],
-    model: str,
-    client: openai.OpenAI,
-    analyzer_model: str,
-    analyzer_client: openai.OpenAI,
-) -> None:
-    confirmation_requested = False
-    print("Chatbot: ", end="")
-    print(greeting)
-    while True:
-        print("You: ", end="")
-        human_message = input()
-        messages.append({"role": "user", "content": human_message})
-        ai_reply, confirmation_requested, is_finished = get_next_ai_message(
-            messages,
-            confirmation_requested,
-            model,
-            client,
-            analyzer_model,
-            analyzer_client,
-        )
-        if is_finished:
-            break
-        print("Chatbot: ", end="")
-        print(ai_reply)
-        messages.append({"role": "assistant", "content": ai_reply})
