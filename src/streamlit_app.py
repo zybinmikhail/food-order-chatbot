@@ -41,7 +41,7 @@ def finish_interaction() -> None:
     )
     with st.chat_message("assistant"):
         st.success(response)
-    
+
     sentiment_mapping = ["one", "two", "three", "four", "five"]
     selected = st.feedback("stars")
     st.markdown("Before you go, please, rate your experience!")
@@ -49,7 +49,10 @@ def finish_interaction() -> None:
         st.markdown(f"You selected {sentiment_mapping[selected]} star(s).")
     left, right = st.columns(2)
     left.button(
-        "Quit", icon="🔚", on_click=end_conversation, use_container_width=True
+        "Quit",
+        icon="🔚",
+        on_click=end_conversation,
+        use_container_width=True,
     )
     right.button(
         "Place a new order",
@@ -62,11 +65,13 @@ def finish_interaction() -> None:
 def output_ai_reply(ai_reply: Generator) -> str:
     with st.chat_message("assistant"):
         response = st.write_stream(ai_reply)
-    return response
+    return str(response)
 
 
 def update_order() -> None:
-    st.session_state.messages.append({"role": "user", "content": "No, I would like to change or update my order"})
+    st.session_state.messages.append(
+        {"role": "user", "content": "No, I would like to change or update my order"}
+    )
     ai_reply = "Sure! What would you like to modify?"
     st.session_state.messages.append({"role": "assistant", "content": ai_reply})
     with st.chat_message("assistant"):
@@ -108,7 +113,11 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    if human_message := st.chat_input("Enter your gastronomical ideas", max_chars=256, key="user_input_field"):
+    if human_message := st.chat_input(
+        "Enter your gastronomical ideas",
+        max_chars=256,
+        key="user_input_field",
+    ):
         with st.chat_message("user"):
             st.markdown(human_message)
         st.session_state.messages.append({"role": "user", "content": human_message})
@@ -122,6 +131,7 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
                 analyzer_client,
                 stream=True,
             )
+        assert isinstance(ai_reply, Generator)
         response = output_ai_reply(ai_reply)
         st.session_state.messages.append({"role": "assistant", "content": response})
         if confirmation_requested:

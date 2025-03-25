@@ -1,6 +1,5 @@
 import openai
 from loguru import logger
-from typing import Optional
 
 import chatbot
 
@@ -88,7 +87,7 @@ def generate_provocative_reply(
 def evaluate_scenario(
     scenario_id: int,
     models_dict: list[dict],
-    provocator_role: Optional[str] = None,
+    provocator_role: str | None = None,
 ) -> tuple[float, float]:
     """Compute metrics that represent the quality of model's answers for a given scenario.
 
@@ -158,6 +157,7 @@ def evaluate_scenario(
             analyzer_model_dict["model"],
             analyzer_client,
         )
+        assert isinstance(predicted_message, str)
         ground_truth = messages[i]["content"]
         logger.info("-" * 20 + "predicted_message" + "-" * 20)
         logger.info(predicted_message)

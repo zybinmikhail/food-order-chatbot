@@ -1,4 +1,4 @@
-from typing import Union, Generator
+from typing import Any, Generator
 
 import openai
 from loguru import logger
@@ -31,7 +31,7 @@ def analyze_conversation(
     return ai_reply
 
 
-def parse_llm_json(llm_response: str) -> dict[str, Union[str, float]]:
+def parse_llm_json(llm_response: str) -> dict[str, Any]:
     logger.debug(llm_response)
     if "{" not in llm_response:
         llm_response = "{" + llm_response
@@ -44,11 +44,11 @@ def parse_llm_json(llm_response: str) -> dict[str, Union[str, float]]:
 
 def postprocess_conversation_analysis(
     current_chosen_info_json: str,
-) -> tuple[str, dict[str, str], str, bool]:
+) -> tuple[str, dict[str, list[str]], str] | bool:
     try:
         current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
     except SyntaxError:
-        return "", "", "", False
+        return False
 
     # If not all necessary fields are present, the generation is unsuccessful
     restaurant_in = "restaurant_name" in current_chosen_info_json_parsed
@@ -56,22 +56,24 @@ def postprocess_conversation_analysis(
     quantities_in = "dish_quantities" in current_chosen_info_json_parsed
     time_in = "delivery_time" in current_chosen_info_json_parsed
     if not (restaurant_in and names_in and quantities_in and time_in):
-        return "", "", "", False
+        return False
 
     current_chosen_restaurant = current_chosen_info_json_parsed["restaurant_name"]
-    current_chosen_dishes = {
-        "dish_names": current_chosen_info_json_parsed["dish_names"],
-        "dish_quantities": current_chosen_info_json_parsed["dish_quantities"],
+    dish_names: list[str] = current_chosen_info_json_parsed["dish_names"]
+    dish_quantities: list[str] = current_chosen_info_json_parsed["dish_quantities"]
+    current_chosen_dishes: dict[str, list[str]] = {
+        "dish_names": dish_names,
+        "dish_quantities": dish_quantities,
     }
 
     # If the number of dishes is not the same as the number of portions, the generation is unsuccessful
     if len(current_chosen_dishes["dish_names"]) != len(
         current_chosen_dishes["dish_quantities"]
     ):
-        return "", "", "", False
+        return False
 
     current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
-    return current_chosen_restaurant, current_chosen_dishes, current_delivery_time, True
+    return current_chosen_restaurant, current_chosen_dishes, current_delivery_time
 
 
 def initialize_menus_string() -> tuple[str, str]:
@@ -110,16 +112,16 @@ def initialize_messages() -> list[dict[str, str]]:
     return messages
 
 
-def generate_dishes_string(current_chosen_dishes: dict[str, str]) -> str:
-    current_chosen_dishes_string = []
+def generate_dishes_string(current_chosen_dishes: dict[str, list[str]]) -> str:
+    current_chosen_dishes_list = []
     for i in range(len(current_chosen_dishes["dish_names"])):
-        num_portions = current_chosen_dishes["dish_quantities"][i]
+        num_portions = int(current_chosen_dishes["dish_quantities"][i])
         dish_name = current_chosen_dishes["dish_names"][i]
         portions_word = "portions" if num_portions > 1 else "portion"
-        current_chosen_dishes_string.append(
+        current_chosen_dishes_list.append(
             f"{num_portions} {portions_word} of {dish_name}"
         )
-    current_chosen_dishes_string = ", ".join(current_chosen_dishes_string)
+    current_chosen_dishes_string = ", ".join(current_chosen_dishes_list)
     return current_chosen_dishes_string
 
 
@@ -130,7 +132,7 @@ def get_next_ai_message(
     analyzer_model: str,
     analyzer_client: openai.OpenAI,
     stream=False,
-) -> tuple[Union[str, Generator], bool, bool]:
+) -> tuple[str | Generator, bool]:
     # In case of wrong json format, just repeat
     success = False
     while not success:
@@ -140,13 +142,15 @@ def get_next_ai_message(
             analyzer_model,
             analyzer_client,
         )
-        (
-            current_chosen_restaurant,
-            current_chosen_dishes,
-            current_delivery_time,
-            success,
-        ) = postprocess_conversation_analysis(current_chosen_info_json)
-
+        postprocess_result = postprocess_conversation_analysis(current_chosen_info_json)
+        if not postprocess_result:
+            success = False
+        else:
+            current_chosen_restaurant, current_chosen_dishes, current_delivery_time = (
+                postprocess_result
+            )
+            success = True
+    ai_reply: str | Generator
     if (
         current_chosen_restaurant
         and current_chosen_dishes["dish_names"]
@@ -155,8 +159,10 @@ def get_next_ai_message(
         confirmation_requested = True
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
         add_by = "" if current_delivery_time.startswith("within") else " by"
-        ai_reply = "You have chosen to order {} from {}{} {}. Is that accurate?"
-        ai_reply = ai_reply.format(
+        ai_reply_template = (
+            "You have chosen to order {} from {}{} {}. Is that accurate?"
+        )
+        ai_reply = ai_reply_template.format(
             current_chosen_dishes_string,
             current_chosen_restaurant,
             add_by,
