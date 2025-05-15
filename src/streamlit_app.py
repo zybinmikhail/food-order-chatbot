@@ -4,9 +4,12 @@ import secrets
 import string
 import streamlit as st
 import openai
+import yaml
+import orjson
 
 from chatbot import initialize_messages, get_next_ai_message
 
+CONFIG = yaml.safe_load(open("config.yaml", "r"))
 
 def end_conversation() -> None:
     del st.session_state["messages"]
@@ -18,19 +21,23 @@ def reset_conversation() -> None:
 
 
 def display_headers() -> None:
-    st.header("What this chatbot can do")
-    with open("src/what_chatbot_can_do.txt", "r", encoding="utf-8") as fin:
-        what_chatbot_can_do = fin.read()
-    st.markdown(what_chatbot_can_do)
-
-    st.header("Usage guidelines")
-    with open("src/usage_guidelines.txt", "r", encoding="utf-8") as fin:
-        usage_guidelines = fin.read()
-    st.markdown(usage_guidelines)
+    headers = ["What this chatbot can do", "Usage guidelines"]
+    paths = [
+        "src/what_chatbot_can_do.txt",
+        "src/usage_guidelines.txt",
+    ]
+    for header, path in zip(headers, paths):
+        with open(path, "r", encoding="utf-8") as fin:
+            content = fin.read()
+        st.header(header)
+        st.markdown(content)
 
 
 def finish_interaction() -> None:
     st.session_state.is_finished = True
+    # Generate a random order ID
+    # using uppercase letters and digits
+    # The order ID is 6 characters long
     order_id = "".join(
         secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
@@ -62,7 +69,7 @@ def finish_interaction() -> None:
     )
 
 
-def output_ai_reply(ai_reply: Generator) -> str:
+def output_ai_reply(ai_reply: openai.Stream) -> str:
     with st.chat_message("assistant"):
         response = st.write_stream(ai_reply)
     return str(response)
@@ -70,10 +77,9 @@ def output_ai_reply(ai_reply: Generator) -> str:
 
 def update_order() -> None:
     st.session_state.messages.append(
-        {"role": "user", "content": "No, I would like to change or update my order"}
+        {"role": "user", "content": CONFIG["update_order_user_msg"]}
     )
-    ai_reply = "Sure! What would you like to modify?"
-    st.session_state.messages.append({"role": "assistant", "content": ai_reply})
+    st.session_state.messages.append({"role": "assistant", "content": CONFIG["update_order_ai_msg"]})
     with st.chat_message("assistant"):
         st.markdown(ai_reply)
 
@@ -98,7 +104,6 @@ analyzer_client = openai.OpenAI(
     api_key=analyzer_model_dict["api_key"], base_url=analyzer_model_dict["api_base"]
 )
 
-
 if "is_finished" not in st.session_state or not st.session_state.is_finished:
     st.title("Food order chatbot")
     display_headers()
@@ -114,9 +119,8 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
             st.markdown(message["content"])
 
     if human_message := st.chat_input(
-        "Enter your gastronomical ideas",
-        max_chars=256,
-        key="user_input_field",
+        placeholder=CONFIG["input_placeholder"],
+        max_chars=CONFIG["max_input_length"],
     ):
         with st.chat_message("user"):
             st.markdown(human_message)
@@ -131,19 +135,18 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
                 analyzer_client,
                 stream=True,
             )
-        assert isinstance(ai_reply, Generator)
         response = output_ai_reply(ai_reply)
         st.session_state.messages.append({"role": "assistant", "content": response})
         if confirmation_requested:
             left, right = st.columns(2)
             left.button(
-                "Yes, I confirm",
+                CONFIG["confirmation_agree_msg"],
                 icon="✅",
                 on_click=finish_interaction,
                 use_container_width=True,
             )
             right.button(
-                "No, I would like to change or update my order",
+                CONFIG["confirmation_disagree_msg"],
                 icon="❌",
                 on_click=update_order,
                 use_container_width=True,
