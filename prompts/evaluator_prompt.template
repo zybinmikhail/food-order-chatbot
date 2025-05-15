@@ -4,8 +4,8 @@ Your task is to evaluate the performance of the food ordering chatbot. Your outp
 
 You will be provided with the following data:
 1. The data that the chatbot is allowed to use: 
-  - All available restaurants and their descriptions in JSONL format from which the client can choose and the chatbot should suggest.
-  - The menus of all the restaurants in JSONL format.
+  a. All available restaurants and their descriptions in JSONL format from which the client can choose and the chatbot should suggest.
+  b. The menus of all the restaurants in JSONL format.
 2. The conversation of the chatbot and the user.
 3. The response of the chatbot.
 
@@ -33,7 +33,6 @@ Here is the response of the chatbot:
 {}
 </CHATBOT_RESPONSE>
 
-Examples
 <examples>
 <example_1>
 ...beginning of the conversation...
@@ -54,7 +53,6 @@ Expected output:
 }}
 ```
 </example_1>
-
 <example_2>
 ...beginning of the conversation...
 User: I want to order pasta
@@ -68,7 +66,6 @@ Expected output:
 }}
 ```
 </example_2>
-
 <example_3>
 ...beginning of the conversation...
 User: Can I order from multiple restaurants at once?
@@ -84,9 +81,7 @@ Expected output:
 }}
 ```
 </example_3>
-
 </examples>
-
 <guidelines>:
 - Don't be too strict or too lenient. Be balanced and think carefully before coming up with the score. 
 - It is OK if the ground truth response and chatbot response are slightly different as long as the meaning is the same. It is OK to replace words with their synonims, such as "accurate" and "correct"
