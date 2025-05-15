@@ -1,7 +1,9 @@
 from typing import Any, Generator
 
 import openai
+import orjson
 from loguru import logger
+from pydantic import BaseModel, Field, validator
 
 import sys
 
@@ -14,6 +16,27 @@ from prompts.intermediate_prompts import (
 from prompts import SYSTEM_PROMPT
 
 
+class AIResponse(BaseModel):
+    restaurant_name: str = Field(
+        description="The name of the restaurant chosen by the user."
+    )
+    dish_names: list[str] = Field(
+        description="The names of the dishes chosen by the user."
+    )
+    dish_quantities: list[str] = Field(
+        description="The quantities of each dish chosen by the user."
+    )
+    delivery_time: str = Field(
+        description="The time when the user wants the food to be delivered."
+    )
+    
+    @validator("dish_quantities")
+    def validate_dish_quantities(cls, v, values):
+        if len(v) != len(values.get("dish_names", [])):
+            raise ValueError("dish_quantities must have the same length as dish_names")
+        return v
+
+
 def analyze_conversation(
     template: str,
     messages: list[dict[str, str]] | str,
@@ -24,55 +47,31 @@ def analyze_conversation(
         model=model,
         messages=[{"role": "user", "content": template.format(str(messages))}],
         temperature=0.0,
-        timeout=120,
-        stop=["}\n```", "python", "I will suggest"],
+        stop=["\n```"],
     )
-    ai_reply = str(generator.choices[0].message.content)
+    ai_reply = str(generator.choices[0].message.content) + "\n```"
     return ai_reply
 
 
-def parse_llm_json(llm_response: str) -> dict[str, Any]:
-    logger.debug(llm_response)
-    if "{" not in llm_response:
-        llm_response = "{" + llm_response
-    if "}" not in llm_response:
-        llm_response = llm_response + "}"
-    llm_response = llm_response[llm_response.find("{") : llm_response.find("}") + 1]
-    llm_response_evaluated = eval(llm_response)
-    return llm_response_evaluated
+def parse_llm_json(reply: str) -> AIResponse | None:
+    logger.info(f"Parsing LLM JSON: {reply}")
+    try:
+        json_text = reply[reply.find("```json") + 7 : reply.rfind("```")]
+        return AIResponse.model_validate(orjson.loads(json_text))
+    except (ValueError, AttributeError) as e:
+        logger.error(f"Failed to parse JSON: {e}")
+        return None
 
 
 def postprocess_conversation_analysis(
-    current_chosen_info_json: str,
-) -> tuple[str, dict[str, list[str]], str] | bool:
-    try:
-        current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
-    except SyntaxError:
-        return False
-
-    # If not all necessary fields are present, the generation is unsuccessful
-    restaurant_in = "restaurant_name" in current_chosen_info_json_parsed
-    names_in = "dish_names" in current_chosen_info_json_parsed
-    quantities_in = "dish_quantities" in current_chosen_info_json_parsed
-    time_in = "delivery_time" in current_chosen_info_json_parsed
-    if not (restaurant_in and names_in and quantities_in and time_in):
-        return False
-
-    current_chosen_restaurant = current_chosen_info_json_parsed["restaurant_name"]
-    dish_names: list[str] = current_chosen_info_json_parsed["dish_names"]
-    dish_quantities: list[str] = current_chosen_info_json_parsed["dish_quantities"]
+    current_chosen_info_json_parsed: AIResponse,
+) -> tuple[str, dict[str, list[str]], str]:
+    current_chosen_restaurant = current_chosen_info_json_parsed.restaurant_name
+    current_delivery_time = current_chosen_info_json_parsed.delivery_time
     current_chosen_dishes: dict[str, list[str]] = {
-        "dish_names": dish_names,
-        "dish_quantities": dish_quantities,
+        "dish_names": current_chosen_info_json_parsed.dish_names,
+        "dish_quantities": current_chosen_info_json_parsed.dish_quantities,
     }
-
-    # If the number of dishes is not the same as the number of portions, the generation is unsuccessful
-    if len(current_chosen_dishes["dish_names"]) != len(
-        current_chosen_dishes["dish_quantities"]
-    ):
-        return False
-
-    current_delivery_time = current_chosen_info_json_parsed["delivery_time"]
     return current_chosen_restaurant, current_chosen_dishes, current_delivery_time
 
 
@@ -86,9 +85,9 @@ def initialize_menus_string() -> tuple[str, str]:
             menu = fin.read()
         one_menu = f"""\n#### {name} menu
 Here are the only dishes that are available at {name}
-<{name} menu>
+<menu 'restaurant_name'="{name}">
 {menu}
-</{name} menu>
+</menu>
 """
         menus.append(one_menu)
     menus_string = "\n".join(menus)
@@ -132,8 +131,8 @@ def get_next_ai_message(
     analyzer_model: str,
     analyzer_client: openai.OpenAI,
     stream=False,
-) -> tuple[str | Generator, bool]:
-    # In case of wrong json format, just repeat
+) -> tuple[str | openai.Stream, bool]:
+
     success = False
     while not success:
         current_chosen_info_json = analyze_conversation(
@@ -142,23 +141,27 @@ def get_next_ai_message(
             analyzer_model,
             analyzer_client,
         )
-        postprocess_result = postprocess_conversation_analysis(current_chosen_info_json)
-        if not postprocess_result:
-            success = False
-        else:
+        current_chosen_info_json_parsed = parse_llm_json(current_chosen_info_json)
+        if current_chosen_info_json_parsed is not None:
             current_chosen_restaurant, current_chosen_dishes, current_delivery_time = (
-                postprocess_result
+                postprocess_conversation_analysis(current_chosen_info_json_parsed)
             )
             success = True
-    ai_reply: str | Generator
+    
+    ai_reply: str | openai.Stream
     if (
         current_chosen_restaurant
         and current_chosen_dishes["dish_names"]
         and current_delivery_time
+        and (max(current_chosen_dishes["dish_quantities"]) <= 5)
+        and (min(current_chosen_dishes["dish_quantities"]) >= 1)
     ):
         confirmation_requested = True
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
-        add_by = "" if current_delivery_time.startswith("within") else " by"
+        if not current_delivery_time.startswith("within") and not current_delivery_time.startswith("by"):
+            add_by = " by"
+        else:
+            add_by = ""
         ai_reply_template = (
             "You have chosen to order {} from {}{} {}. Is that accurate?"
         )
@@ -175,8 +178,6 @@ def get_next_ai_message(
         ai_reply_generator = client.chat.completions.create(
             model=model,
             messages=messages,  # type: ignore
-            max_tokens=None,
-            timeout=120,
             temperature=0.0,
             stream=stream,
         )
