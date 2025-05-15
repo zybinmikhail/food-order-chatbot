@@ -36,7 +36,7 @@ Current values of the quality metrics:
 
 ### Local usage
 
-Create a dedicated environment and install all the necessary libraries using the command
+Create a dedicated environment with Python 3.13 and install all the necessary libraries using the command
 
 ```bash
 pip install -r requirements.txt

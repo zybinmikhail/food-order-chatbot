@@ -6,3 +6,8 @@ venv/
 *.json
 *.toml
 notebooks/
+.DS_Store
+*.egg-info/
+*.egg
+*.pyc
+*.pyo
