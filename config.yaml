@@ -4,3 +4,5 @@ confirmation_agree_msg: "Yes, I confirm the order"
 confirmation_disagree_msg: "No, I would like to change or update"
 update_order_user_msg: "No, I would like to change or update my order"
 update_order_ai_msg: "Sure! What would you like to modify?"
+use_tools: true
+temperature: 0.7
