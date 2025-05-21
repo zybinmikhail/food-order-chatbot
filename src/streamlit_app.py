@@ -104,6 +104,12 @@ analyzer_client = openai.OpenAI(
     api_key=analyzer_model_dict["api_key"], base_url=analyzer_model_dict["api_base"]
 )
 
+azure_client = openai.AzureOpenAI(
+    api_key=chatbot_model_dict["api_key"],
+    azure_endpoint=chatbot_model_dict["api_base"],
+    api_version="2025-04-01-preview",
+)
+
 if "is_finished" not in st.session_state or not st.session_state.is_finished:
     st.title("Food order chatbot")
     display_headers()
@@ -115,8 +121,9 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages[2:]:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        if isinstance(message, dict) and message["role"] in ["user", "assistant"]:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
     if human_message := st.chat_input(
         placeholder=CONFIG["input_placeholder"],
@@ -126,30 +133,100 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
             st.markdown(human_message)
         st.session_state.messages.append({"role": "user", "content": human_message})
 
-        with st.spinner("Analyzing your response...", show_time=True):
-            ai_reply, confirmation_requested = get_next_ai_message(
-                st.session_state.messages,
-                chatbot_model_dict["model"],
-                chatbot_client,
-                analyzer_model_dict["model"],
-                analyzer_client,
+        if not CONFIG["use_tools"]:
+            with st.spinner("Analyzing your response...", show_time=True):
+                ai_reply, confirmation_requested = get_next_ai_message(
+                    st.session_state.messages,
+                    chatbot_model_dict["model"],
+                    chatbot_client,
+                    analyzer_model_dict["model"],
+                    analyzer_client,
+                    stream=True,
+                )
+            response = output_ai_reply(ai_reply)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            if confirmation_requested:
+                left, right = st.columns(2)
+                left.button(
+                    CONFIG["confirmation_agree_msg"],
+                    icon="✅",
+                    on_click=finish_interaction,
+                    use_container_width=True,
+                )
+                right.button(
+                    CONFIG["confirmation_disagree_msg"],
+                    icon="❌",
+                    on_click=update_order,
+                    use_container_width=True,
+                )
+
+        else:
+            response = azure_client.chat.completions.create(
+                model=chatbot_model,
+                messages=st.session_state.messages,
+                temperature=CONFIG["temperature"],
+                tools=tools_list,
+                tool_choice="auto",
                 stream=True,
             )
-        response = output_ai_reply(ai_reply)
-        st.session_state.messages.append({"role": "assistant", "content": response})
-        if confirmation_requested:
-            left, right = st.columns(2)
-            left.button(
-                CONFIG["confirmation_agree_msg"],
-                icon="✅",
-                on_click=finish_interaction,
-                use_container_width=True,
-            )
-            right.button(
-                CONFIG["confirmation_disagree_msg"],
-                icon="❌",
-                on_click=update_order,
-                use_container_width=True,
-            )
+            response_message = response.choices[0].message
+            tool_calls = response_message.tool_calls
+            print(response_message)
+            if tool_calls:
+                st.session_state.messages.append(response_message)
+                for i in range(len(tool_calls)):
+                    tool_call_id = tool_calls[i].id
+                    tool_function_name = tool_calls[i].function.name
+                    print(tool_function_name)
+
+                    print(
+                        "TOOL ARGUMENTS:",
+                        orjson.loads(tool_calls[i].function.arguments),
+                    )
+                    tool_arguments = orjson.loads(tool_calls[i].function.arguments)
+
+                    results = functions_by_name[tool_function_name](**tool_arguments)
+
+                    st.session_state.messages.append(
+                        {
+                            "role": "tool",
+                            "tool_call_id": tool_call_id,
+                            "name": tool_function_name,
+                            "content": results,
+                        }
+                    )
+
+                    if tool_function_name == "ask_for_order_confirmation":
+                        # Move this to the tool function
+                        left, right = st.columns(2)
+                        left.button(
+                            CONFIG["confirmation_agree_msg"],
+                            icon="✅",
+                            on_click=finish_interaction,
+                            use_container_width=True,
+                        )
+                        right.button(
+                            CONFIG["confirmation_disagree_msg"],
+                            icon="❌",
+                            on_click=update_order,
+                            use_container_width=True,
+                        )
+
+                print(st.session_state.messages)
+
+                model_response_with_function_call = (
+                    azure_client.chat.completions.create(
+                        model=chatbot_model,
+                        messages=st.session_state.messages,
+                        temperature=CONFIG["temperature"],
+                        stream=True,
+                    )
+                )
+                ai_reply = model_response_with_function_call.choices[0].message.content
+            else:
+                ai_reply = response_message.content
+
+            response = output_ai_reply(ai_reply)
+            st.session_state.messages.append({"role": "assistant", "content": response})
 else:
     st.markdown("You can safely navigate away. See you next time!")

@@ -1,6 +1,10 @@
-from typing import Any
 import json
+from pathlib import Path
+from typing import Any
+
 import pandas as pd
+
+CURRENT_DIR = Path(__file__).parent
 
 
 def get_restaurant_descriptions() -> str:
@@ -9,13 +13,14 @@ def get_restaurant_descriptions() -> str:
     Returns:
         str: Markdown table with restaurant descriptions.
     """
-    with open("../data/restaurants.jsonl", "r") as f:
-    restaurants: list[dict[str, Any]] = [json.loads(line) for line in f.readlines()]
+
+    with open(CURRENT_DIR.parent / "data/restaurants.jsonl") as f:
+        restaurants: list[dict[str, Any]] = [json.loads(line) for line in f.readlines()]
 
     RESTAURANT_DESCRIPTIONS: str = pd.DataFrame(restaurants).to_markdown()
     return RESTAURANT_DESCRIPTIONS
 
-    
+
 def get_restaurant_menu(restaurant_name: str) -> str:
     """Retrieves the menu for a given restaurant.
 
@@ -23,10 +28,10 @@ def get_restaurant_menu(restaurant_name: str) -> str:
         restaurant_name (str): The name of the restaurant for which to get the menu.
 
     Returns:
-        str: Markdown table with the restaurant's menu, or an error message if not found.
+        str: Markdown table with the menu, or an error message if not found.
     """
     try:
-        with open(f"../data/{restaurant_name}.jsonl", "r") as f:
+        with open(CURRENT_DIR.parent / f"data/{restaurant_name}.jsonl") as f:
             menu: list[dict[str, Any]] = [json.loads(line) for line in f.readlines()]
     except FileNotFoundError:
         return f"Menu for {restaurant_name} not found."
@@ -45,7 +50,7 @@ def generate_dishes_string(dish_names: list[str], dish_quantities: list[int]) ->
         str: Human-readable string describing the order.
     """
     current_chosen_dishes_list: list[str] = []
-    for (num_portions, dish_name) in zip(dish_quantities, dish_names):
+    for num_portions, dish_name in zip(dish_quantities, dish_names):
         num_portions = int(num_portions)
         portions_word = "portions" if num_portions > 1 else "portion"
         current_chosen_dishes_list.append(
@@ -59,7 +64,7 @@ def ask_for_order_confirmation(
     restaurant_name: str,
     dish_names: list[str],
     dish_quantities: list[int],
-    delivery_time: str
+    delivery_time: str,
 ) -> str:
     """Asks the user for confirmation of their order.
 
@@ -77,9 +82,7 @@ def ask_for_order_confirmation(
         add_by = " by"
     else:
         add_by = ""
-    ai_reply_template = (
-        "You have chosen to order {} from {}{} {}. Is that accurate?"
-    )
+    ai_reply_template = "You have chosen to order {} from {}{} {}. Is that accurate?"
     ai_reply = ai_reply_template.format(
         chosen_dishes_string,
         restaurant_name,
@@ -98,75 +101,88 @@ rest_descriptions_tool: dict[str, Any] = {
             "type": "object",
             "properties": {},
             "required": [],
-            "additionalProperties": False
+            "additionalProperties": False,
         },
-        "strict": True
-    }
+        "strict": True,
+    },
 }
 
 rest_menu_tool: dict[str, Any] = {
     "type": "function",
     "function": {
         "name": "get_restaurant_menu",
-        "description": "Get menu for a given restaurant.",
+        "description": "Get a menu for a given restaurant in markdown table format.",
         "parameters": {
             "type": "object",
             "properties": {
                 "restaurant_name": {
                     "type": "string",
-                    "description": "The name of the restaurant for which to get the menu."
+                    "description": (
+                        "The name of the restaurant for which to get the menu."
+                        " Must be one of the available restaurants."
+                    ),
                 }
             },
-            "required": [
-                "restaurant_name"
-            ],
-            "additionalProperties": False
+            "required": ["restaurant_name"],
+            "additionalProperties": False,
         },
-        "strict": True
-    }
+        "strict": True,
+    },
 }
 
 ask_for_order_confirmation_tool: dict[str, Any] = {
     "type": "function",
     "function": {
         "name": "ask_for_order_confirmation",
-        "description": "Ask the user for confirmation of their order.",
+        "description": (
+            "Create a well-formatted string to ask the user for confirmation of their order."
+        ),
         "parameters": {
             "type": "object",
             "properties": {
                 "restaurant_name": {
                     "type": "string",
-                    "description": "The name of the restaurant chosen by the user."
+                    "description": (
+                        "The name of the restaurant chosen by the user."
+                        " Must be one of the available restaurants."
+                    ),
                 },
                 "dish_names": {
                     "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "The names of the dishes chosen by the user. Must be of the same length as dish_quantities."
+                    "items": {"type": "string"},
+                    "description": (
+                        "List of the names of the dishes chosen by the user."
+                        " Must be of the same length as dish_quantities."
+                    ),
                 },
                 "dish_quantities": {
                     "type": "array",
-                    "items": {
-                        "enum":[1, 2, 3, 4, 5]
-                    },
-                    "description": "The quantities of each dish chosen by the user. Must be of the same length as dish_names."
+                    "items": {"enum": [1, 2, 3, 4, 5]},
+                    "description": (
+                        "List of the quantities of each dish chosen by the user."
+                        " Must be of the same length as dish_names."
+                    ),
                 },
                 "delivery_time": {
                     "type": "string",
-                    "description": "The time when the user wants the food to be delivered."
+                    "description": (
+                        "The time when the user wants the food to be delivered."
+                        " Must be unambiguous and in a human-readable format."
+                        " Acceptable order time is within 1 hour "
+                        " or by a specific time today or tomorrow."
+                    ),
                 },
             },
             "required": [
                 "restaurant_name",
                 "dish_names",
                 "dish_quantities",
-                "delivery_time"
+                "delivery_time",
             ],
-            "additionalProperties": False
+            "additionalProperties": False,
         },
-        "strict": True
-    }
+        "strict": True,
+    },
 }
 
 
@@ -179,5 +195,5 @@ tools_list: list[dict[str, Any]] = [
 functions_by_name: dict[str, Any] = {
     "get_restaurant_descriptions": get_restaurant_descriptions,
     "get_restaurant_menu": get_restaurant_menu,
-    "ask_for_order_confirmation": ask_for_order_confirmation
+    "ask_for_order_confirmation": ask_for_order_confirmation,
 }
