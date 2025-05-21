@@ -1,19 +1,22 @@
-from typing import Any, Generator
-
-import openai
-import orjson
-from loguru import logger
-from pydantic import BaseModel, Field, validator
 
 import sys
 
+import openai
+import orjson
+import yaml
+from loguru import logger
+from pydantic import BaseModel, Field, validator
+
 sys.path.append("../")
 
+from prompts import SYSTEM_PROMPT, SYSTEM_PROMPT_WITH_TOOLS
 from prompts.intermediate_prompts import (
     ask_for_restaurant_dishes_delivery_time,
     greeting,
 )
-from prompts import SYSTEM_PROMPT
+
+with open("config.yaml") as fin:
+    CONFIG = yaml.safe_load(fin)
 
 
 class AIResponse(BaseModel):
@@ -29,7 +32,7 @@ class AIResponse(BaseModel):
     delivery_time: str = Field(
         description="The time when the user wants the food to be delivered."
     )
-    
+
     @validator("dish_quantities")
     def validate_dish_quantities(cls, v, values):
         if len(v) != len(values.get("dish_names", [])):
@@ -95,14 +98,15 @@ Here are the only dishes that are available at {name}
     return descriptions_string, menus_string
 
 
-def initialize_system_prompt() -> str:
-    descriptions, menus_string = initialize_menus_string()
-    system_prompt = SYSTEM_PROMPT.format(descriptions, menus_string)
-    return system_prompt
+def initialize_system_prompt(use_tools: bool) -> str:
+    if not use_tools:
+        descriptions, menus_string = initialize_menus_string()
+        return SYSTEM_PROMPT.format(descriptions, menus_string)
+    return SYSTEM_PROMPT_WITH_TOOLS
 
 
 def initialize_messages() -> list[dict[str, str]]:
-    system_prompt = initialize_system_prompt()
+    system_prompt = initialize_system_prompt(CONFIG["use_tools"])
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": "Please help me to order food"},
@@ -132,7 +136,6 @@ def get_next_ai_message(
     analyzer_client: openai.OpenAI,
     stream=False,
 ) -> tuple[str | openai.Stream, bool]:
-
     success = False
     while not success:
         current_chosen_info_json = analyze_conversation(
@@ -147,7 +150,7 @@ def get_next_ai_message(
                 postprocess_conversation_analysis(current_chosen_info_json_parsed)
             )
             success = True
-    
+
     ai_reply: str | openai.Stream
     if (
         current_chosen_restaurant
@@ -158,7 +161,9 @@ def get_next_ai_message(
     ):
         confirmation_requested = True
         current_chosen_dishes_string = generate_dishes_string(current_chosen_dishes)
-        if not current_delivery_time.startswith("within") and not current_delivery_time.startswith("by"):
+        if not current_delivery_time.startswith(
+            "within"
+        ) and not current_delivery_time.startswith("by"):
             add_by = " by"
         else:
             add_by = ""
@@ -178,7 +183,7 @@ def get_next_ai_message(
         ai_reply_generator = client.chat.completions.create(
             model=model,
             messages=messages,  # type: ignore
-            temperature=0.0,
+            temperature=CONFIG["temperature"],
             stream=stream,
         )
         if stream:

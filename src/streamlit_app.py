@@ -1,15 +1,18 @@
-from typing import Generator
 
 import secrets
 import string
-import streamlit as st
+
 import openai
-import yaml
 import orjson
+import streamlit as st
+import yaml
 
-from chatbot import initialize_messages, get_next_ai_message
+from chatbot import get_next_ai_message, initialize_messages
+from tools import functions_by_name, tools_list
 
-CONFIG = yaml.safe_load(open("config.yaml", "r"))
+with open("config.yaml") as fin:
+    CONFIG = yaml.safe_load(fin)
+
 
 def end_conversation() -> None:
     del st.session_state["messages"]
@@ -27,7 +30,7 @@ def display_headers() -> None:
         "src/usage_guidelines.txt",
     ]
     for header, path in zip(headers, paths):
-        with open(path, "r", encoding="utf-8") as fin:
+        with open(path, encoding="utf-8") as fin:
             content = fin.read()
         st.header(header)
         st.markdown(content)
@@ -42,7 +45,8 @@ def finish_interaction() -> None:
         secrets.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
     response = (
-        f"Your order has been received. Order ID is {order_id}. Remember to write it down! "
+        f"Your order has been received. Order ID is {order_id}. "
+        "Remember to write it down! "
         "Have a nice meal! Concact me again anytime you need to order food. "
         "I hope I was helpful to you as an AI assistant."
     )
@@ -69,7 +73,10 @@ def finish_interaction() -> None:
     )
 
 
-def output_ai_reply(ai_reply: openai.Stream) -> str:
+def output_ai_reply(ai_reply: openai.Stream | str) -> str:
+    if isinstance(ai_reply, str):
+        ai_reply = (c for c in ai_reply)
+
     with st.chat_message("assistant"):
         response = st.write_stream(ai_reply)
     return str(response)
@@ -79,7 +86,9 @@ def update_order() -> None:
     st.session_state.messages.append(
         {"role": "user", "content": CONFIG["update_order_user_msg"]}
     )
-    st.session_state.messages.append({"role": "assistant", "content": CONFIG["update_order_ai_msg"]})
+    st.session_state.messages.append(
+        {"role": "assistant", "content": CONFIG["update_order_ai_msg"]}
+    )
     with st.chat_message("assistant"):
         st.markdown(ai_reply)
 

@@ -1,14 +1,12 @@
+from os.path import abspath, dirname, join
+
 import openai
 from loguru import logger
 
 import chatbot
-
-from os.path import dirname, abspath, join
-
-
 from prompts import (
-    EVALUATOR_PROMPT_WITH_REFERENCE,
     EVALUATOR_PROMPT,
+    EVALUATOR_PROMPT_WITH_REFERENCE,
     PROVOCATION_PROMPT,
 )
 
@@ -18,7 +16,7 @@ SCENARIOS_PATH = join(dirname(CURRENT_DIR), "evaluator_scenarios")
 
 def read_scenario(scenario_id: int) -> list[dict[str, str]]:
     one_scenario_path = join(SCENARIOS_PATH, f"scenario{scenario_id}.txt")
-    with open(one_scenario_path, "r") as fin:
+    with open(one_scenario_path) as fin:
         scenario = fin.readlines()
 
     # This is to remove the commentaries at the beginning of the file
