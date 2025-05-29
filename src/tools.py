@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -90,6 +91,15 @@ def ask_for_order_confirmation(
         delivery_time,
     )
     return ai_reply
+
+
+def get_current_datetime() -> str:
+    """Retrieves the current date, time, day of the week.
+
+    Returns:
+        str: Current date, time, day of the week in ISO format.
+    """
+    return datetime.now().strftime("%Y-%m-%dT%H:%M (%A)")
 
 
 rest_descriptions_tool: dict[str, Any] = {
@@ -186,14 +196,33 @@ ask_for_order_confirmation_tool: dict[str, Any] = {
 }
 
 
+get_current_datetime_tool: dict[str, Any] = {
+    "type": "function",
+    "function": {
+        "name": "get_current_datetime",
+        "description": (
+            "Get the current date, time, and day of the week in ISO format."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": False,
+        },
+        "strict": True,
+    },
+}
+
 tools_list: list[dict[str, Any]] = [
     rest_descriptions_tool,
     rest_menu_tool,
     ask_for_order_confirmation_tool,
+    get_current_datetime_tool,
 ]
 
 functions_by_name: dict[str, Any] = {
     "get_restaurant_descriptions": get_restaurant_descriptions,
     "get_restaurant_menu": get_restaurant_menu,
     "ask_for_order_confirmation": ask_for_order_confirmation,
+    "get_current_datetime": get_current_datetime,
 }
