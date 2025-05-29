@@ -109,7 +109,6 @@ def initialize_messages() -> list[dict[str, str]]:
     system_prompt = initialize_system_prompt(CONFIG["use_tools"])
     messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": "Please help me to order food"},
         {"role": "assistant", "content": greeting},
     ]
     return messages
