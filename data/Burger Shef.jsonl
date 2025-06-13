@@ -7,3 +7,16 @@
 {"dish_name": "Double Bacon Cheeseburger", "dish_description": "Two beef patties with crispy bacon, American cheese, lettuce, tomato, and special sauce on a sesame seed bun", "dish_price": "€13"}
 {"dish_name": "Teriyaki Pineapple Burger", "dish_description": "Grilled chicken patty with teriyaki sauce, grilled pineapple, lettuce, and Swiss cheese on a Hawaiian bun", "dish_price": "€11"}
 {"dish_name": "Fresh Salad", "dish_description": "A portion of cut tomatoes, cucumbers, salad leaves, olive oil, and delicious secret spices from pur Shef.", "dish_price": "€11"}
+{"dish_name": "Buffalo Blue Cheese Burger", "dish_description": "Beef patty with spicy buffalo sauce, blue cheese crumbles, lettuce, and tomato on a toasted bun.", "dish_price": "€12"}
+{"dish_name": "Portobello Mushroom Burger", "dish_description": "Grilled portobello mushroom cap with Swiss cheese, arugula, and garlic aioli on a ciabatta bun.", "dish_price": "€10"}
+{"dish_name": "Crispy Chicken Burger", "dish_description": "Breaded chicken breast with lettuce, tomato, pickles, and spicy mayo on a potato bun.", "dish_price": "€11"}
+{"dish_name": "Fish Fillet Burger", "dish_description": "Crispy fish fillet with tartar sauce, lettuce, and tomato on a sesame bun.", "dish_price": "€10"}
+{"dish_name": "Bacon Egg Burger", "dish_description": "Beef patty with fried egg, crispy bacon, cheddar cheese, and sriracha mayo on a brioche bun.", "dish_price": "€12"}
+{"dish_name": "Truffle Burger", "dish_description": "Beef patty with truffle aioli, mushrooms, Swiss cheese, and arugula on a toasted bun.", "dish_price": "€14"}
+{"dish_name": "Chili Cheese Burger", "dish_description": "Beef patty topped with house chili, cheddar cheese, onions, and jalapenos on a sesame bun.", "dish_price": "€12"}
+{"dish_name": "Sweet Potato Fries", "dish_description": "Crispy sweet potato fries served with chipotle mayo.", "dish_price": "€6"}
+{"dish_name": "Onion Rings", "dish_description": "Golden fried onion rings served with ranch dip.", "dish_price": "€6"}
+{"dish_name": "Milkshake (Chocolate/Vanilla/Strawberry)", "dish_description": "Classic thick milkshake in your choice of flavor.", "dish_price": "€5"}
+{"dish_name": "Classic Cola", "dish_description": "Chilled glass of classic cola beverage.", "dish_price": "€3"}
+{"dish_name": "Root Beer Float", "dish_description": "Root beer topped with a scoop of vanilla ice cream.", "dish_price": "€5"}
+{"dish_name": "Lemonade", "dish_description": "Freshly squeezed lemonade served over ice.", "dish_price": "€3"}

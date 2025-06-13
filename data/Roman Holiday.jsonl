@@ -8,3 +8,16 @@
 {"dish_name": "Gnocchi alla Sorrentina", "dish_description": "Potato dumplings with tomato sauce, mozzarella, and basil", "dish_price": " €11"}
 {"dish_name": "Osso Buco", "dish_description": "Braised veal shanks with vegetables, white wine, and gremolata", "dish_price": " €19"}
 {"dish_name": "Panna Cotta", "dish_description": "Creamy Italian dessert topped with fruit compote", "dish_price": " €6"}
+{"dish_name": "Fettuccine Alfredo", "dish_description": "Pasta tossed in a creamy Parmesan sauce with butter and black pepper.", "dish_price": "€13"}
+{"dish_name": "Bruschetta", "dish_description": "Grilled bread topped with diced tomatoes, garlic, basil, and olive oil.", "dish_price": "€7"}
+{"dish_name": "Pollo alla Cacciatora", "dish_description": "Chicken braised with tomatoes, bell peppers, olives, and herbs.", "dish_price": "€15"}
+{"dish_name": "Seafood Risotto", "dish_description": "Creamy risotto with shrimp, mussels, calamari, and white wine.", "dish_price": "€17"}
+{"dish_name": "Prosciutto e Melone", "dish_description": "Sweet melon slices wrapped in thinly sliced prosciutto.", "dish_price": "€10"}
+{"dish_name": "Arancini", "dish_description": "Crispy fried rice balls stuffed with ragù and mozzarella.", "dish_price": "€8"}
+{"dish_name": "Minestrone Soup", "dish_description": "Hearty vegetable soup with beans, pasta, and fresh herbs.", "dish_price": "€9"}
+{"dish_name": "Cannoli", "dish_description": "Crispy pastry tubes filled with sweet ricotta cream and chocolate chips.", "dish_price": "€7"}
+{"dish_name": "Insalata di Mare", "dish_description": "Seafood salad with octopus, shrimp, calamari, and lemon dressing.", "dish_price": "€16"}
+{"dish_name": "Affogato", "dish_description": "Vanilla gelato topped with a shot of hot espresso.", "dish_price": "€6"}
+{"dish_name": "Espresso", "dish_description": "Rich and aromatic Italian espresso shot.", "dish_price": "€3"}
+{"dish_name": "San Pellegrino Limonata", "dish_description": "Sparkling Italian lemon beverage.", "dish_price": "€4"}
+{"dish_name": "Aperol Spritz", "dish_description": "Classic Italian cocktail with Aperol, prosecco, and soda water.", "dish_price": "€7"}

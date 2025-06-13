@@ -10,3 +10,19 @@
 {"dish_name": "Miso Soup", "dish_description": "A traditional Japanese soup made with miso paste, tofu, seaweed, and green onions", "dish_price": "€4"}
 {"dish_name": "Okonomiyaki", "dish_description": "A savory pancake made with cabbage, pork, and seafood, topped with a sweet and tangy sauce", "dish_price": "€11"}
 {"dish_name": "Matcha Green Tea Ice Cream", "dish_description": "Creamy and refreshing ice cream infused with the earthy flavors of matcha green tea", "dish_price": "€5"}
+{"dish_name": "Unagi Don", "dish_description": "Grilled eel glazed with sweet soy sauce, served over steamed rice.", "dish_price": "€18"}
+{"dish_name": "Tonkatsu", "dish_description": "Breaded and deep-fried pork cutlet, served with shredded cabbage and tonkatsu sauce.", "dish_price": "€13"}
+{"dish_name": "Sashimi Platter", "dish_description": "Assorted slices of fresh raw fish, served with wasabi and soy sauce.", "dish_price": "€20"}
+{"dish_name": "Takoyaki", "dish_description": "Octopus-filled savory dough balls, topped with takoyaki sauce, mayo, and bonito flakes.", "dish_price": "€8"}
+{"dish_name": "Katsu Curry", "dish_description": "Crispy breaded pork cutlet served with Japanese curry sauce and rice.", "dish_price": "€14"}
+{"dish_name": "Udon Noodle Soup", "dish_description": "Thick wheat noodles in a savory broth with vegetables and your choice of protein.", "dish_price": "€11"}
+{"dish_name": "Ebi Fry", "dish_description": "Deep-fried breaded shrimp, served with tartar sauce and lemon.", "dish_price": "€13"}
+{"dish_name": "Agedashi Tofu", "dish_description": "Crispy fried tofu in a light dashi broth, topped with green onions and grated daikon.", "dish_price": "€7"}
+{"dish_name": "Onigiri", "dish_description": "Rice balls filled with salmon, pickled plum, or tuna mayo, wrapped in nori.", "dish_price": "€6"}
+{"dish_name": "Edamame", "dish_description": "Steamed young soybeans sprinkled with sea salt.", "dish_price": "€5"}
+{"dish_name": "Karaage", "dish_description": "Japanese-style fried chicken, marinated in soy, ginger, and garlic.", "dish_price": "€10"}
+{"dish_name": "Chawanmushi", "dish_description": "Savory steamed egg custard with shrimp, chicken, and mushrooms.", "dish_price": "€8"}
+{"dish_name": "Dorayaki", "dish_description": "Sweet pancakes filled with red bean paste.", "dish_price": "€6"}
+{"dish_name": "Ramune Soda", "dish_description": "Classic Japanese carbonated soft drink with a unique bottle design.", "dish_price": "€4"}
+{"dish_name": "Umeshu (Plum Wine)", "dish_description": "Sweet and fruity Japanese plum wine served chilled.", "dish_price": "€7"}
+{"dish_name": "Calpico", "dish_description": "Refreshing non-carbonated Japanese soft drink with a light, milky flavor.", "dish_price": "€4"}
