@@ -1,13 +1,25 @@
 import secrets
 import string
 
+import nest_asyncio
 import openai
 import orjson
 import streamlit as st
 import yaml
 
-from chatbot import get_next_ai_message, initialize_messages
-from tools import functions_by_name, tools_list
+from chatbot import initialize_messages
+
+nest_asyncio.apply()
+import asyncio
+import logging
+from contextlib import AsyncExitStack
+
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 with open("config.yaml") as fin:
     CONFIG = yaml.safe_load(fin)
@@ -86,11 +98,72 @@ def update_order() -> None:
     st.session_state.messages.append(
         {"role": "user", "content": CONFIG["update_order_user_msg"]}
     )
-    st.session_state.messages.append(
-        {"role": "assistant", "content": update_msg}
-    )
+    st.session_state.messages.append({"role": "assistant", "content": update_msg})
     with st.chat_message("assistant"):
         st.markdown(update_msg)
+
+
+def remove_titles_from_input_schema(schema: dict) -> dict:
+    # Remove 'title' from the root if present
+    schema = dict(schema)  # Make a shallow copy
+    schema.pop("title", None)
+    # Remove 'title' from all properties if present
+    if "properties" in schema:
+        for value in schema["properties"].values():
+            if isinstance(value, dict):
+                value.pop("title", None)
+    return schema
+
+
+async def run_mcp_tool(tool_name, tool_args):
+    exit_stack = AsyncExitStack()
+    server_params = StdioServerParameters(
+        command="python",
+        args=["src/mcp_server.py"],
+        env=None,
+    )
+    stdio_gen = stdio_client(server_params)
+    stdio_transport = await exit_stack.enter_async_context(stdio_gen)
+    mcp_session = await exit_stack.enter_async_context(
+        ClientSession(stdio_transport[0], stdio_transport[1])
+    )
+    await mcp_session.initialize()
+    result = await mcp_session.call_tool(tool_name, tool_args)
+    await exit_stack.aclose()
+    return result
+
+
+async def get_tools_list():
+    exit_stack = AsyncExitStack()
+    server_params = StdioServerParameters(
+        command="python",
+        args=["src/mcp_server.py"],
+        env=None,
+    )
+    stdio_gen = stdio_client(server_params)
+    stdio_transport = await exit_stack.enter_async_context(stdio_gen)
+    mcp_session = await exit_stack.enter_async_context(
+        ClientSession(stdio_transport[0], stdio_transport[1])
+    )
+    await mcp_session.initialize()
+    response = await mcp_session.list_tools()
+    tools_list = [
+        {
+            "type": "function",
+            "function": {
+                "name": tool.name,
+                "description": tool.description,
+                "parameters": dict(
+                    remove_titles_from_input_schema(tool.inputSchema),
+                    **{"additionalProperties": False},
+                ),
+                "strict": True,
+            },
+        }
+        for tool in response.tools
+    ]
+    await exit_stack.aclose()
+    return tools_list
 
 
 chatbot_model = st.secrets["launch_parameters"]["chatbot_model"]
@@ -105,19 +178,23 @@ analyzer_model_dict = {
     "api_base": st.secrets["api_bases"][analyzer_model],
     "api_key": st.secrets["api_keys"][analyzer_model],
 }
-
-chatbot_client = openai.OpenAI(
-    api_key=chatbot_model_dict["api_key"], base_url=chatbot_model_dict["api_base"]
-)
-analyzer_client = openai.OpenAI(
-    api_key=analyzer_model_dict["api_key"], base_url=analyzer_model_dict["api_base"]
-)
-
 azure_client = openai.AzureOpenAI(
     api_key=chatbot_model_dict["api_key"],
     azure_endpoint=chatbot_model_dict["api_base"],
-    api_version="2025-04-01-preview",
+    api_version="2024-02-01",
 )
+logger.info(chatbot_model_dict["api_base"])
+logger.info(chatbot_model)
+
+# Setup a persistent event loop for all async operations
+try:
+    loop = asyncio.get_running_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+if "tools_list" not in st.session_state:
+    st.session_state.tools_list = loop.run_until_complete(get_tools_list())
 
 if "is_finished" not in st.session_state or not st.session_state.is_finished:
     st.title("Food order chatbot")
@@ -142,66 +219,67 @@ if "is_finished" not in st.session_state or not st.session_state.is_finished:
             st.markdown(human_message)
         st.session_state.messages.append({"role": "user", "content": human_message})
         confirmation_requested = False
-        if not CONFIG["use_tools"]:
-            with st.spinner("Analyzing your response...", show_time=True):
-                ai_reply, confirmation_requested = get_next_ai_message(
-                    st.session_state.messages,
-                    chatbot_model_dict["model"],
-                    chatbot_client,
-                    analyzer_model_dict["model"],
-                    analyzer_client,
-                    stream=True,
-                )
-            response = output_ai_reply(ai_reply)
-            st.session_state.messages.append({"role": "assistant", "content": response})
 
+        logger.info(f"Tools list: {st.session_state.tools_list}")
+        logger.info(f"Chatbot model: {chatbot_model}")
+
+        with st.spinner("Analyzing your response...", show_time=True):
+            response = azure_client.chat.completions.create(
+                model=chatbot_model,
+                messages=st.session_state.messages,
+                tools=st.session_state.tools_list,
+                max_tokens=CONFIG["max_tokens"],
+                temperature=CONFIG["temperature"],
+            )
+        response_message = response.choices[0].message
+        tool_calls = response_message.tool_calls
+        logger.info(f"LLM reply token count: {response.usage.completion_tokens}")
+
+        if tool_calls:
+            st.session_state.messages.append(response_message)
+
+            for i in range(len(tool_calls)):
+                tool_call_id = tool_calls[i].id
+                tool_name = tool_calls[i].function.name
+                tool_args = orjson.loads(tool_calls[i].function.arguments)
+
+                logger.info(f"Tool call {i}: {tool_name} with args {tool_args}")
+
+                result_response = loop.run_until_complete(
+                    run_mcp_tool(tool_name, tool_args)
+                )
+
+                result = result_response.content[0].text
+                logger.info(f"Result from tool {tool_name}: {result}")
+
+                st.session_state.messages.append(
+                    {
+                        "role": "tool",
+                        "tool_call_id": tool_call_id,
+                        "name": tool_name,
+                        "content": result,
+                    }
+                )
+
+                if tool_name == "ask_for_order_confirmation":
+                    confirmation_requested = True
+
+            with st.spinner("Preparing final reply...", show_time=True):
+                model_response_with_function_call = (
+                    azure_client.chat.completions.create(
+                        model=chatbot_model,
+                        messages=st.session_state.messages,
+                        temperature=CONFIG["temperature"],
+                        max_tokens=CONFIG["max_tokens"],
+                    )
+                )
+            response = model_response_with_function_call.choices[0].message.content
         else:
-            with st.spinner("Analyzing your response...", show_time=True):
-                response = azure_client.chat.completions.create(
-                    model=chatbot_model,
-                    messages=st.session_state.messages,
-                    temperature=CONFIG["temperature"],
-                    tools=tools_list,
-                    tool_choice="auto",
-                )
-            response_message = response.choices[0].message
-            tool_calls = response_message.tool_calls
-            if tool_calls:
-                st.session_state.messages.append(response_message)
+            response = response_message.content
 
-                for i in range(len(tool_calls)):
-                    tool_call_id = tool_calls[i].id
-                    tool_function_name = tool_calls[i].function.name
-                    tool_arguments = orjson.loads(tool_calls[i].function.arguments)
-
-                    results = functions_by_name[tool_function_name](**tool_arguments)
-
-                    st.session_state.messages.append(
-                        {
-                            "role": "tool",
-                            "tool_call_id": tool_call_id,
-                            "name": tool_function_name,
-                            "content": results,
-                        }
-                    )
-
-                    if tool_function_name == "ask_for_order_confirmation":
-                        confirmation_requested = True
-                with st.spinner("Preparing final reply...", show_time=True):
-                    model_response_with_function_call = (
-                        azure_client.chat.completions.create(
-                            model=chatbot_model,
-                            messages=st.session_state.messages,
-                            temperature=CONFIG["temperature"],
-                        )
-                    )
-                response = model_response_with_function_call.choices[0].message.content
-            else:
-                response = response_message.content
-
-            with st.chat_message("assistant"):
-                st.markdown(response)
-            st.session_state.messages.append({"role": "assistant", "content": response})
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
         if confirmation_requested:
             left, right = st.columns(2)
